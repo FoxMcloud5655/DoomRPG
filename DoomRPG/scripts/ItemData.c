@@ -978,10 +978,16 @@ NamedScript void BuildItemData()
     {
         // Weapons
         ITEMDATA_CATEGORY(0, "\CgWeapons", CF_NONE);
-        ITEMDATA_DEF("SFFoxClass1Weapon",   "Fox's Blaster",                  250, 0, 0, "PLBTA0", 14, 17);
-        ITEMDATA_DEF("SFFalcoClass1Weapon", "Falco's Blaster",                250, 0, 0, "PLBTA0", 14, 17);
-        ITEMDATA_DEF("SFSlippyClass1Weapon", "Slippy's Blaster",              250, 0, 0, "LASRA0", 14, 17);
-        ITEMDATA_DEF("SFKrystalClass1Weapon", "Krystal's Staff - Purple Gem", 250, 0, 0, "KSTFA0", 14, 17);
+        ITEMDATA_DEF("SFClass1Box", "Class 1 Box", 250,    0, 0, "BOX1A0", 26, 30);
+        ITEMDATA_DEF("SFClass2Box", "Class 2 Box", 500,    0, 0, "BOX2A0", 26, 30);
+        ITEMDATA_DEF("SFClass3Box", "Class 3 Box", 1000,   0, 0, "BOX3A0", 26, 30);
+        ITEMDATA_DEF("SFClass4Box", "Class 4 Box", 2000,   0, 0, "BOX4A0", 26, 30);
+        ITEMDATA_DEF("SFClass5Box", "Class 5 Box", 4000,   1, 1, "BOX5A0", 26, 30);
+        ITEMDATA_DEF("SFClass6Box", "Class 6 Box", 8000,   1, 1, "BOX6A0", 26, 30);
+        ITEMDATA_DEF("SFClass7Box", "Class 7 Box", 16000,  1, 1, "BOX7A0", 26, 30);
+        ITEMDATA_DEF("SFClass8Box", "Class 8 Box", 32000,  2, 2, "BOX8A0", 26, 30);
+        ITEMDATA_DEF("SFClass9Box", "Class 9 Box", 64000,  2, 2, "BOX9A0", 26, 30);
+        ITEMDATA_DEF("SFClassXBox", "Class X Box", 128000, 3, 3, "BOXXA0", 26, 30);
         ITEMDATA_CATEGORY_END;
     }
 
