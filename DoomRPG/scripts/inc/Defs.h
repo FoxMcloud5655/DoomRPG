@@ -568,7 +568,8 @@ typedef enum
     COMPAT_EXTRAS,
     COMPAT_LEGENDOOM,
     COMPAT_DRLA,
-    COMPAT_CH
+    COMPAT_CH,
+    COMPAT_STARFOX
 } ECompatibilityMode;
 
 typedef enum

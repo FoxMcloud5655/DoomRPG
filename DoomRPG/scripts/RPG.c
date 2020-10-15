@@ -2305,6 +2305,18 @@ void CheckCompatibility()
         Thing_Remove(TID);
     }
 
+    // StarFox
+    Success = SpawnForced("SFClass1Box", 0, 0, 0, TID, 0);
+    if (Success)
+    {
+        if (DebugLog)
+            Log("\CdDEBUG: \CdStarFox\C- detected");
+
+        CompatMode = COMPAT_STARFOX;
+        Thing_Remove(TID);
+    }
+
+
     // DoomRL Arsenal
     Success = SpawnForced("RLPistolPickup", 0, 0, 0, TID, 0);
     if (Success)

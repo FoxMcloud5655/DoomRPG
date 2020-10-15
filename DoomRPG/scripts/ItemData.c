@@ -973,6 +973,18 @@ NamedScript void BuildItemData()
         ITEMDATA_CATEGORY_END;
     }
 
+    // Compatibility Handling - StarFox
+    if (CompatMode == COMPAT_STARFOX)
+    {
+        // Weapons
+        ITEMDATA_CATEGORY(0, "\CgWeapons", CF_NONE);
+        ITEMDATA_DEF("SFFoxClass1Weapon",   "Fox's Blaster",                  250, 0, 0, "PLBTA0", 14, 17);
+        ITEMDATA_DEF("SFFalcoClass1Weapon", "Falco's Blaster",                250, 0, 0, "PLBTA0", 14, 17);
+        ITEMDATA_DEF("SFSlippyClass1Weapon", "Slippy's Blaster",              250, 0, 0, "LASRA0", 14, 17);
+        ITEMDATA_DEF("SFKrystalClass1Weapon", "Krystal's Staff - Purple Gem", 250, 0, 0, "KSTFA0", 14, 17);
+        ITEMDATA_CATEGORY_END;
+    }
+
     // Compatibility Handling - LegenDoom
     if (CompatMode == COMPAT_LEGENDOOM)
     {
