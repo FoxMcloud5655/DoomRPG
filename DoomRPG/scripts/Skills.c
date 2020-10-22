@@ -620,12 +620,14 @@ Skill RPGGlobal SkillData[MAX_CATEGORIES][MAX_SKILLS] =
         },
         {
             .Name = "Magnetize",
-            .Cost = 100,
-            .MaxLevel = 1,
+            .Cost = 150,
+            .MaxLevel = 3,
             .Use = Magnetize,
             .Description =
             {
-                "Pulls dropped items to you"
+                "Picks up all dropped credits from monsters you've killed\nand all dropped items around you in a small radius",
+                "Picks up all dropped credits from monsters you've killed\nand all dropped items around you in a large radius\nAlso pulls in map items in a small radius, including secret items",
+                "Picks up all dropped credits from monsters you've killed\nand all dropped items around you in a very large radius\nAlso pulls in map items in a moderate radius, including secret items"
             }
         },
         {
@@ -2411,7 +2413,19 @@ NamedScript Console bool Recall(SkillLevelInfo *SkillLevel, void *Data)
 
 NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
 {
-    int *TID = (int *)Player.DropTID.Data;
+    // Refund - If we are in an arena or the main UAC Base
+    if (CurrentLevel->UACBase)
+    {
+        PrintError("You cannot use that skill here");
+        ActivatorSound("menu/error", 127);
+        return false;
+    }
+    int TID[64];
+    for (int i = 0; i < 64; i++)
+    {
+        TID[i] = -1;
+    }
+    int TIDPos = 0;
     fixed Angle = GetActorAngle(0);
     fixed X = GetActorX(0);
     fixed Y = GetActorY(0);
@@ -2419,35 +2433,65 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
     int AngleDivide;
     fixed AngleAdd;
     int CreditCount;
+    if (DebugLog)
+    {
+        HudMessage("\CfMagnetize Skill\n\CjDebug mode is on, so this skill is\n\Cjintentionally performing slowly.\n\n\CdInitializing...");
+        EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
+        Delay(35*2);
+    }
+    int *tmpTID = (int *)Player.DropTID.Data;
+
+    if (DebugLog)
+    {
+        HudMessage("\CfMagnetize Skill\n\n\CdStarting iteration on DropTIDs for credits...");
+        EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
+        Delay(35*2);
+    }
 
     // Count Credits
     for (int i = 0; i < Player.DropTID.Position; i++)
-        if (ThingCount(0, TID[i]) > 0 && StartsWith(GetActorClass(TID[i]), "DRPGCredits"))
+    {
+        if (DebugLog)
         {
-            if (GetActorClass(TID[i]) == "DRPGCredits1")
+            HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjIteration: \Cd%d \Cj/ \Cd%d", GetActorClass(tmpTID[i]), i, Player.DropTID.Position);
+            EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
+            Delay(5);
+        }
+        if (ThingCount(0, tmpTID[i]) > 0 && StartsWith(GetActorClass(tmpTID[i]), "DRPGCredits"))
+        {
+            if (GetActorClass(tmpTID[i]) == "DRPGCredits1")
                 CreditCount++;
-            if (GetActorClass(TID[i]) == "DRPGCredits5")
+            if (GetActorClass(tmpTID[i]) == "DRPGCredits5")
                 CreditCount += 5;
-            if (GetActorClass(TID[i]) == "DRPGCredits10")
+            if (GetActorClass(tmpTID[i]) == "DRPGCredits10")
                 CreditCount += 10;
-            if (GetActorClass(TID[i]) == "DRPGCredits20")
+            if (GetActorClass(tmpTID[i]) == "DRPGCredits20")
                 CreditCount += 20;
-            if (GetActorClass(TID[i]) == "DRPGCredits50")
+            if (GetActorClass(tmpTID[i]) == "DRPGCredits50")
                 CreditCount += 50;
-            if (GetActorClass(TID[i]) == "DRPGCredits100")
+            if (GetActorClass(tmpTID[i]) == "DRPGCredits100")
                 CreditCount += 100;
-            if (GetActorClass(TID[i]) == "DRPGCredits250")
+            if (GetActorClass(tmpTID[i]) == "DRPGCredits250")
                 CreditCount += 250;
-            if (GetActorClass(TID[i]) == "DRPGCredits500")
+            if (GetActorClass(tmpTID[i]) == "DRPGCredits500")
                 CreditCount += 500;
-            if (GetActorClass(TID[i]) == "DRPGCredits1000")
+            if (GetActorClass(tmpTID[i]) == "DRPGCredits1000")
                 CreditCount += 1000;
 
             int HolderTID = UniqueTID();
-            SpawnSpot("DRPGCreditsEmpty", TID[i], HolderTID, Random(0, 255));
+            SpawnSpot("DRPGCreditsEmpty", tmpTID[i], HolderTID, Random(0, 255));
             SetActorVelocity(HolderTID, RandomFixed(-8, 8), RandomFixed(-8, 8), RandomFixed(2, 8), false, false);
-            Thing_Remove(TID[i]);
+            Thing_Remove(tmpTID[i]);
         }
+    }
+
+
+    if (DebugLog)
+    {
+        HudMessage("\CfMagnetize Skill\n\CjDropTIDs were processed.\n\CjCredits found: \Cd%d", CreditCount);
+        EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
+        Delay(35*2);
+    }
 
     // Give calculated Credits
     if (CreditCount > 0)
@@ -2461,10 +2505,45 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
 
     CleanDropTIDArray();
 
-    AngleDivide = Player.DropTID.Position;
+    if (DebugLog)
+    {
+        HudMessage("\CfMagnetize Skill\n\CjCredits given and DropTIDs cleaned.\n\CjProcessing other items...");
+        EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
+        Delay(35*2);
+    }
+
+    if (ItemTIDsInitialized && TIDPos < 64)
+    {
+        int maxDist = Pow(SkillLevel->CurrentLevel+1, 3) * 48;
+        for (int i = 0; i < MAX_ITEMS; i++)
+        {
+            if (ItemTIDs[i] == -1) break;
+            if (ItemTIDs[i] == 0) continue;
+            if (ClassifyActor(ItemTIDs[i]) == ACTOR_NONE || ClassifyActor(ItemTIDs[i]) == ACTOR_WORLD) continue;
+            fixed Dist = Distance(ItemTIDs[i], Players(PlayerNumber()).TID);
+            if (Dist < (maxDist / (Min(1, CheckActorProperty(ItemTIDs[i], APROP_Dropped, false) * 48))))
+            {
+                TID[TIDPos++] = ItemTIDs[i];
+                if (TIDPos == 64) break;
+            }
+            if (DebugLog)
+            {
+                HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjIteration: \Cd%d \Cj/ \Cd%d\n\nDistance from player: \Cd%f \Cj/ \Cd%d\n\nItems found: \Cd%d \Cj/ \Cd64", GetActorClass(ItemTIDs[i]), i, MAX_ITEMS, Dist, maxDist, TIDPos);
+                EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
+                Delay(1);
+            }
+        }
+    }
+
+    if (DebugLog)
+    {
+        HudMessage("\CfMagnetize Skill\n\CjItemTIDs were processed.\n\CjItems found to magnetize: \Cd%d", TIDPos);
+        EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
+        Delay(35 * 2);
+    }
 
     // Refund - If there are no items in the array
-    if (Player.DropTID.Position == 0 && CreditCount == 0)
+    if (TIDPos == 0 && CreditCount == 0)
     {
         PrintError("No magnetizeable items detected");
         ActivatorSound("menu/error", 127);
@@ -2474,7 +2553,7 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
     // Overdrive - Pull the items on top of you and pick them all up
     if (Player.Overdrive)
     {
-        for (int i = 0; i < Player.DropTID.Position; i++)
+        for (int i = 0; i < TIDPos; i++)
         {
             SetActorPosition(TID[i], X, Y, Z, 0);
             SetActorVelocity(TID[i], 0, 0, 0, false, false);
@@ -2487,9 +2566,9 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
         return true;
     }
 
-    AngleAdd = 1.0 / AngleDivide;
+    AngleAdd = 1.0 / TIDPos;
 
-    for (int i = 0; i < Player.DropTID.Position; i++)
+    for (int i = 0; i < TIDPos; i++)
     {
         X = GetActorX(0) + Cos(Angle) * 64.0;
         Y = GetActorY(0) + Sin(Angle) * 64.0;
