@@ -99,7 +99,6 @@ NamedScript void InitMission()
             {
                 if (PotentialTargets.Position == PotentialTargets.Size)
                     ArrayResize(&PotentialTargets);
-
                 ((int *)PotentialTargets.Data)[PotentialTargets.Position++] = i;
             }
 
