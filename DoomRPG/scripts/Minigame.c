@@ -157,19 +157,19 @@ NamedScript void ItemRoulette(bool Rare)
             else
                 Spinning = false;
         }
-        if (CheckInput(BT_FORWARD, KEY_PRESSED, false, PlayerNumber()) && !Started)
+        if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()) && !Started)
         {
             ActivatorSound("menu/move", 127);
             ChipIndex--;
             if (ChipIndex < 0) ChipIndex = 3;
         }
-        if (CheckInput(BT_BACK, KEY_PRESSED, false, PlayerNumber()) && !Started)
+        if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()) && !Started)
         {
             ActivatorSound("menu/move", 127);
             ChipIndex++;
             if (ChipIndex > 3) ChipIndex = 0;
         }
-        if (CheckInput(BT_MOVELEFT, KEY_PRESSED, false, PlayerNumber()) && !Started)
+        if (CheckInput(BT_MOVELEFT, KEY_REPEAT, false, PlayerNumber()) && !Started)
         {
             switch (ChipIndex)
             {
@@ -210,7 +210,7 @@ NamedScript void ItemRoulette(bool Rare)
                 break;
             }
         }
-        if (CheckInput(BT_MOVERIGHT, KEY_PRESSED, false, PlayerNumber()) && !Started && ChipTotal < (Rare ? CheckInventory("DRPGChipPlatinum") : CheckInventory("DRPGChipGold")))
+        if (CheckInput(BT_MOVERIGHT, KEY_REPEAT, false, PlayerNumber()) && !Started && ChipTotal < (Rare ? CheckInventory("DRPGChipPlatinum") : CheckInventory("DRPGChipGold")))
         {
             switch (ChipIndex)
             {

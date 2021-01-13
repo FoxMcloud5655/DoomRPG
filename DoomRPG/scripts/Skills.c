@@ -736,7 +736,7 @@ Start:
             // Input
             if (!Close)
             {
-                if (CheckInput(BT_MOVELEFT, KEY_PRESSED, false, PlayerNumber()))
+                if (CheckInput(BT_MOVELEFT, KEY_REPEAT, false, PlayerNumber()))
                 {
                     ActivatorSound("menu/click", 127);
                     Player.WheelSelection--;
@@ -744,7 +744,7 @@ Start:
                     LerpPos = 0;
                     if (Player.WheelSelection < 0) Player.WheelSelection = MAX_SKILLKEYS - 1;
                 }
-                if (CheckInput(BT_MOVERIGHT, KEY_PRESSED, false, PlayerNumber()))
+                if (CheckInput(BT_MOVERIGHT, KEY_REPEAT, false, PlayerNumber()))
                 {
                     ActivatorSound("menu/click", 127);
                     Player.WheelSelection++;
@@ -757,14 +757,14 @@ Start:
                     SkillLevel = &Player.SkillLevel[Player.SkillCategory[Player.WheelSelection]][Player.SkillIndex[Player.WheelSelection]];
 
                     // Decrease selected skill level
-                    if (CheckInput(BT_BACK, KEY_PRESSED, false, PlayerNumber()) && SkillLevel->CurrentLevel > 1)
+                    if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()) && SkillLevel->CurrentLevel > 1)
                     {
                         SkillLevel->CurrentLevel--;
                         AmbientSound("menu/move", 127);
                     }
 
                     // Increase selected skill level
-                    if (CheckInput(BT_FORWARD, KEY_PRESSED, false, PlayerNumber()) && SkillLevel->CurrentLevel < SkillLevel->Level)
+                    if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()) && SkillLevel->CurrentLevel < SkillLevel->Level)
                     {
                         SkillLevel->CurrentLevel++;
                         AmbientSound("menu/move", 127);

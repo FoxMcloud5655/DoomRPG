@@ -894,25 +894,25 @@ void CrateInput()
             CrateTakeAll();
         }
     }
-    if (CheckInput(BT_FORWARD, KEY_PRESSED, false, PlayerNumber()))
+    if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()))
     {
         ActivatorSound("menu/move", 127);
         Player.CrateIndex -= 9;
         if (Player.CrateIndex < 0) Player.CrateIndex = 0;
     }
-    if (CheckInput(BT_BACK, KEY_PRESSED, false, PlayerNumber()))
+    if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()))
     {
         ActivatorSound("menu/move", 127);
         Player.CrateIndex += 9;
         if (Player.CrateIndex > CRATE_MAX_ITEMS - 1) Player.CrateIndex = CRATE_MAX_ITEMS - 1;
     }
-    if (CheckInput(BT_MOVELEFT, KEY_PRESSED, false, PlayerNumber()))
+    if (CheckInput(BT_MOVELEFT, KEY_REPEAT, false, PlayerNumber()))
     {
         ActivatorSound("menu/move", 127);
         Player.CrateIndex--;
         if (Player.CrateIndex < 0) Player.CrateIndex = 0;
     }
-    if (CheckInput(BT_MOVERIGHT, KEY_PRESSED, false, PlayerNumber()))
+    if (CheckInput(BT_MOVERIGHT, KEY_REPEAT, false, PlayerNumber()))
     {
         ActivatorSound("menu/move", 127);
         Player.CrateIndex++;

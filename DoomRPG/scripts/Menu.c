@@ -2020,13 +2020,13 @@ void MenuInput()
     // Main Menu
     if (Player.Menu == MENUPAGE_MAIN)
     {
-        if (CheckInput(BT_FORWARD, KEY_PRESSED, false, PlayerNumber()))
+        if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()))
         {
             ActivatorSound("menu/move", 127);
             Player.MenuIndex--;
             if (Player.MenuIndex < 0) Player.MenuIndex = MAX_MENU - 1;
         }
-        if (CheckInput(BT_BACK, KEY_PRESSED, false, PlayerNumber()))
+        if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()))
         {
             ActivatorSound("menu/move", 127);
             Player.MenuIndex++;

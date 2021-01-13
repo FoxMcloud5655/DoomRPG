@@ -973,7 +973,7 @@ bool IsTimeFrozen()
     for (int i = 0; i < MAX_PLAYERS; i++)
         if (CheckActorInventory(Players(i).TID, "PowerTimeFreezer") ||
                 CheckActorInventory(Players(i).TID, "PowerShieldTimeFreezer") ||
-                CheckActorInventory(Players(i).TID, "PowerRLChronotrooperFreeze")) // DoomRL
+                (CompatMode == COMPAT_DRLA && CheckActorInventory(Players(i).TID, "PowerRLChronotrooperFreeze"))) // DoomRL
             return true;
 
     return false;
@@ -2689,8 +2689,8 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNumber)
         InputOld = MODINPUT_OLDBUTTONS;
     }
 
-    Buttons = GetPlayerInput(PlayerNumber, Input);
-    OldButtons = GetPlayerInput(PlayerNumber, InputOld);
+    Buttons = GetPlayerInput(-1, Input);
+    OldButtons = GetPlayerInput(-1, InputOld);
 
     // Proper navigation support for joystick, binding movement keys no longer necessary
     if (Key & BT_FORWARD || Key & BT_BACK || Key & BT_MOVELEFT || Key & BT_MOVERIGHT)

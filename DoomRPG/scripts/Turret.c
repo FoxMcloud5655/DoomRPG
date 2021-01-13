@@ -854,7 +854,7 @@ Start:
                 TurretCommand(CurrentCommands[Player.Turret.WheelCommand]);
             if (CheckInput(BT_SPEED, KEY_PRESSED, false, PlayerNumber()))
                 TurretMaintenance();
-            if (CheckInput(BT_MOVELEFT, KEY_PRESSED, false, PlayerNumber()))
+            if (CheckInput(BT_MOVELEFT, KEY_REPEAT, false, PlayerNumber()))
             {
                 ActivatorSound("menu/click", 127);
                 Player.Turret.WheelCommand--;
@@ -862,7 +862,7 @@ Start:
                 LerpPos = 0;
                 if (Player.Turret.WheelCommand < 0) Player.Turret.WheelCommand = CurrentCommandsCount - 1;
             }
-            if (CheckInput(BT_MOVERIGHT, KEY_PRESSED, false, PlayerNumber()))
+            if (CheckInput(BT_MOVERIGHT, KEY_REPEAT, false, PlayerNumber()))
             {
                 ActivatorSound("menu/click", 127);
                 Player.Turret.WheelCommand++;
