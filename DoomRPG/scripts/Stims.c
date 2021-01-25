@@ -178,30 +178,6 @@ NamedScript KeyBind void ThrowAwayStim()
         return;
     }
 
-    if (Player.Stim.Amount == 0)
-    {
-        switch (Player.Stim.Size)
-        {
-        case 1:
-            GiveInventory("DRPGStimSmall", 1);
-            break;
-        case 2:
-            GiveInventory("DRPGStimMedium", 1);
-            break;
-        case 3:
-            GiveInventory("DRPGStimLarge", 1);
-            break;
-        case 4:
-            GiveInventory("DRPGStimXL", 1);
-            break;
-        }
-
-        Player.Stim.Size = 0;
-        PrintMessage("Stored away the empty injector for later use");
-        ActivatorSound("menu/leave", 127);
-        return;
-    }
-
     // [KS] I'm witty.
     if (Player.Stim.Toxicity >= 200)
     {
@@ -220,7 +196,7 @@ NamedScript KeyBind void ThrowAwayStim()
             PrintMessage("That stim would've turned you more demon than the demons");
             break;
         case 5:
-            PrintMessage("Threw away the entirely unusable stim");
+            PrintMessage("Recycled the entirely unusable stim");
             break;
         }
     }
@@ -241,7 +217,7 @@ NamedScript KeyBind void ThrowAwayStim()
             PrintMessage("You consider throwing it at the enemies instead\nNah, it'd just make them angrier");
             break;
         case 5:
-            PrintMessage("Threw away the unusable stim");
+            PrintMessage("Recycled the unusable stim");
             break;
         }
     }
@@ -262,7 +238,7 @@ NamedScript KeyBind void ThrowAwayStim()
             PrintMessage("Well that stim's no good now");
             break;
         case 5:
-            PrintMessage("Threw away the toxic stim");
+            PrintMessage("Recycled the toxic stim");
             break;
         }
     }
@@ -277,27 +253,43 @@ NamedScript KeyBind void ThrowAwayStim()
             PrintMessage("You decide now is not the time for injections");
             break;
         case 3:
-            PrintMessage("You decide you don't need the stim now");
+            PrintMessage("You decide you don't need the stim... For now");
             break;
         case 4:
-            PrintMessage("You chuck away the stim, having no need for it");
+            PrintMessage("You recycle the stim, having no need for it now");
             break;
         case 5:
-            PrintMessage("Threw away the stim");
+            PrintMessage("Recycled the stim");
             break;
         }
     }
 
-    // Clear the Stim
+    // Recycle the Stim
+    switch (Player.Stim.Size)
+    {
+    case 1:
+        GiveInventory("DRPGStimSmall", 1);
+        break;
+    case 2:
+        GiveInventory("DRPGStimMedium", 1);
+        break;
+    case 3:
+        GiveInventory("DRPGStimLarge", 1);
+        break;
+    case 4:
+        GiveInventory("DRPGStimXL", 1);
+        break;
+    }
     Player.Stim.Size = 0;
     Player.Stim.Amount = 0;
     for (int i = 0; i < STIM_MAX; i++)
+    {
+        AddCompound(i, Player.Stim.Current[i]);
         Player.Stim.Current[i] = 0;
+    }
 
     // FX
     ClearToxicityMeter();
-    TossStim();
-
     ActivatorSound("menu/leave", 127);
 }
 

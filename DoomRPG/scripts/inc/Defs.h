@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdfix.h>
 #include <limits.h>
+#include <math.h>
 
 // Aliases
 #define EndHudMessage2      EndHudMessageX

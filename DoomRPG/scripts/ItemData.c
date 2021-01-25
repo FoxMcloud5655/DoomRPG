@@ -423,51 +423,51 @@ NamedScript void BuildItemData()
         //ITEMDATA_DEF("SFFoxClass1DualWeapon",    "Fox's Blasters",   1000, 0, 0, "BOX1A0", 26, 30);
         //ITEMDATA_DEF("SFFalcoClass1DualWeapon",  "Falco's Blasters", 1000, 0, 0, "BOX1A0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxFalcoClass2Weapon", "Laser Rifle",                          750, 0, 0, "BOX2A0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass2Weapon",   "Starfox Labs Prototype Blaster Rifle", 750, 0, 0, "BOX2A0", 26, 30);
+        ITEMDATA_DEF("SFFoxFalcoClass2Weapon", "Laser Rifle",                          1000, 0, 0, "BOX2A0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass2Weapon",   "Starfox Labs Prototype Blaster Rifle", 1000, 0, 0, "BOX2A0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClass3Weapon",    "Starfox Labs SR-33 Laser Carbine",          1000, 1, 1, "BOX3A0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass3Weapon",  "Falco's Dual Laser Rifles",                 1000, 1, 1, "BOX3A0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass3Weapon", "Starfox Labs SR-73 Saturated Plasma Rifle", 1000, 1, 1, "BOX3A0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass3Weapon",    "Starfox Labs SR-33 Laser Carbine",       2000, 1, 1, "BOX3A0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass3Weapon",  "Falco's Dual Laser Rifles",              2000, 1, 1, "BOX3A0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass3Weapon", "Starfox Labs SR-73 SP Rifle",            2000, 1, 1, "BOX3A0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClass4Weapon",    "Starfox Labs LR-42 Heavy Laser Rifle",         1500, 1, 1, "BOX4A0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass4Weapon",  "Dual Laser SMG's",                             1500, 1, 1, "BOX4A0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass4Weapon", "Starfox Labs High-Output Plasma Rifle (HOPR)", 1500, 1, 1, "BOX4A0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass4Weapon",    "Starfox Labs LR-42 HL Rifle",            4000, 2, 2, "BOX4A0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass4Weapon",  "Dual Laser SMG's",                       4000, 2, 2, "BOX4A0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass4Weapon", "Starfox Labs HOPR",                      4000, 2, 2, "BOX4A0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClass5Weapon",    "Phasic Plasma Torpedo Launcher",                2000, 2, 2, "BOX5A0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass5Weapon",  "Plasma Cannon",                                 2000, 2, 2, "BOX5A0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass5Weapon", "Starfox Labs C-117 Corrosive Discharge Weapon", 2000, 2, 2, "BOX5A0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass5Weapon",    "Phasic Plasma Torpedo Launcher",         8000, 3, 3, "BOX5A0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass5Weapon",  "Plasma Cannon",                          8000, 3, 3, "BOX5A0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass5Weapon", "Starfox Labs C-117 CD Weapon",           8000, 3, 3, "BOX5A0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClass6Weapon",    "Vulcan Cannon",                             3000, 2, 2, "BOX6A0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass6Weapon",  "Gattling Laser",                            3000, 2, 2, "BOX6A0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass6Weapon", "Starfox Labs T-504 Plasma Gattling Cannon", 3000, 2, 2, "BOX6A0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass6Weapon",    "Vulcan Cannon",                         16000, 4, 4, "BOX6A0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass6Weapon",  "Gattling Laser",                        16000, 4, 4, "BOX6A0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass6Weapon", "Starfox Labs T-504 PG Cannon",          16000, 4, 4, "BOX6A0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClass7Weapon",    "Devastator",                                          5000, 3, 3, "BOX7A0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass7Weapon",  "StarFox Labs R-58 Experimental Triple Rotary Cannon", 5000, 3, 3, "BOX7A0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass7Weapon", "Starfox Labs Experimental Uranium Antimatter Cannon", 5000, 3, 3, "BOX7A0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass7Weapon",    "Devastator",                            32000, 5, 5, "BOX7A0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass7Weapon",  "StarFox Labs R-58 Experimental TRC",    32000, 5, 5, "BOX7A0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass7Weapon", "Starfox Labs Experimental UAC",         32000, 5, 5, "BOX7A0", 26, 30);
 
-        ITEMDATA_DEF("SFFalcoClass8Weapon", "StarFox Labs Experimental High-Density Laser Oscillation Cannon", 10000, 4, 4, "BOX8A0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass8Weapon", "StarFox Labs Experimental HD-LOC",       64000, 6, 6, "BOX8A0", 26, 30);
 
-        ITEMDATA_DEF("SFFalcoClass9Weapon", "Falco's Zero Laser Cannon", 20000, 5, 5, "BOX9A0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass9Weapon", "Falco's Zero Laser Cannon",             128000, 6, 6, "BOX9A0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClassXWeapon",    "Yamato Cannon", 50000, 6, 6, "BOXXA0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClassXWeapon",  "Blue Wave Cannon", 50000, 6, 6, "BOXXA0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClassXWeapon", "StarFox Labs Experimental Neutron Discharge Gamma Acceleration Matter Eradication Cannon", 50000, 6, 6, "BOXXA0", 26, 30);
+        ITEMDATA_DEF("SFFoxClassXWeapon",    "Yamato Cannon",                        256000, 7, 7, "BOXXA0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClassXWeapon",  "Blue Wave Cannon",                     256000, 7, 7, "BOXXA0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClassXWeapon", "StarFox Labs END-GAME Cannon",         256000, 7, 7, "BOXXA0", 26, 30);
 
         ITEMDATA_CATEGORY_END;
 
         // Weapon Boxes
         ITEMDATA_CATEGORY(8, "\CgWeapon Boxes", CF_NONE);
-        ITEMDATA_DEF("SFClass1Box", "Class 1 Box", 500,   0, 0, "BOX1A0", 26, 30);
-        ITEMDATA_DEF("SFClass2Box", "Class 2 Box", 750,   0, 0, "BOX2A0", 26, 30);
-        ITEMDATA_DEF("SFClass3Box", "Class 3 Box", 1000,  1, 1, "BOX3A0", 26, 30);
-        ITEMDATA_DEF("SFClass4Box", "Class 4 Box", 1500,  1, 1, "BOX4A0", 26, 30);
-        ITEMDATA_DEF("SFClass5Box", "Class 5 Box", 2000,  2, 2, "BOX5A0", 26, 30);
-        ITEMDATA_DEF("SFClass6Box", "Class 6 Box", 3000,  2, 2, "BOX6A0", 26, 30);
-        ITEMDATA_DEF("SFClass7Box", "Class 7 Box", 5000,  3, 3, "BOX7A0", 26, 30);
-        ITEMDATA_DEF("SFClass8Box", "Class 8 Box", 10000, 4, 4, "BOX8A0", 26, 30);
-        ITEMDATA_DEF("SFClass9Box", "Class 9 Box", 20000, 5, 5, "BOX9A0", 26, 30);
-        ITEMDATA_DEF("SFClassXBox", "Class X Box", 50000, 6, 6, "BOXXA0", 26, 30);
+        ITEMDATA_DEF("SFClass1Box", "Class 1 Box", 500,    0, 0, "BOX1A0", 26, 30);
+        ITEMDATA_DEF("SFClass2Box", "Class 2 Box", 1000,   0, 0, "BOX2A0", 26, 30);
+        ITEMDATA_DEF("SFClass3Box", "Class 3 Box", 2000,   1, 1, "BOX3A0", 26, 30);
+        ITEMDATA_DEF("SFClass4Box", "Class 4 Box", 4000,   2, 2, "BOX4A0", 26, 30);
+        ITEMDATA_DEF("SFClass5Box", "Class 5 Box", 8000,   3, 3, "BOX5A0", 26, 30);
+        ITEMDATA_DEF("SFClass6Box", "Class 6 Box", 16000,  4, 4, "BOX6A0", 26, 30);
+        ITEMDATA_DEF("SFClass7Box", "Class 7 Box", 32000,  5, 5, "BOX7A0", 26, 30);
+        ITEMDATA_DEF("SFClass8Box", "Class 8 Box", 64000,  6, 6, "BOX8A0", 26, 30);
+        ITEMDATA_DEF("SFClass9Box", "Class 9 Box", 128000, 6, 6, "BOX9A0", 26, 30);
+        ITEMDATA_DEF("SFClassXBox", "Class X Box", 256000, 7, 7, "BOXXA0", 26, 30);
         ITEMDATA_CATEGORY_END;
     }
 

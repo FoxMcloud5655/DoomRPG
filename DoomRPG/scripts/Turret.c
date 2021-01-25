@@ -1927,11 +1927,17 @@ void TurretSpawn()
 
         Player.Turret.Active = true;
     }
-    else
+    else if (Spawned && !CanSee)
     {
         Thing_Remove(TID);
         ActivatorSound("menu/error", 127);
         PrintError("The turret has no room to spawn here");
+    }
+    else
+    {
+        Thing_Remove(TID);
+        ActivatorSound("menu/error", 127);
+        PrintError("The turret cannot be summoned here");
     }
 }
 

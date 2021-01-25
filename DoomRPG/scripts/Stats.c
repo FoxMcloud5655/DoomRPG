@@ -396,14 +396,14 @@ void CheckStats()
     Player.EPMax = Player.EnergyTotal * 10;
     Player.Aura.Range = Player.EnergyTotal * 16;
     Player.ToxicityRegenBonus = Player.RegenerationTotal / 10;
-    Player.Speed = 1.0 + 0.25 * ((fixed)Player.AgilityTotal / 100);
-    Player.JumpHeight = 8.0 + (8.0 * ((fixed)Player.AgilityTotal / 100));
+    Player.Speed = 1.0 + 0.25 * ((fixed)Player.AgilityTotal / 150);
+    Player.JumpHeight = 8.0 + (8.0 * ((fixed)Player.AgilityTotal / 150));
     Player.WeaponSpeed = Player.AgilityTotal;
     SetAmmoCapacity("Clip", Player.CapacityTotal * 20);
     SetAmmoCapacity("Shell", Player.CapacityTotal * 5);
     SetAmmoCapacity("RocketAmmo", Player.CapacityTotal * 5);
     SetAmmoCapacity("Cell", Player.CapacityTotal * 30);
-    Player.Stim.VialMax = Player.CapacityTotal * 10;
+    Player.Stim.VialMax = Player.CapacityTotal * 1;
     Player.SurvivalBonus = (fixed)Player.AgilityTotal / 10.0;
     if (CompatMode == COMPAT_DRLA) // DRLA - Total Armors/Boots, Skulls
     {
@@ -486,9 +486,9 @@ void CheckStats()
                     if (GetActivatorCVar("drpg_character_spec") == 5)
                         Scale *= 2;
                 }
-                fixed Factor = 2.0 - AbsFixed(((Player.ActualHealth <= Player.HealthMax ? ((fixed)Player.ActualHealth / (fixed)Player.HealthMax) : 1.0) + (Player.EP < Player.EPMax && Player.EPMax > 0 ? ((fixed)Player.EP / Player.EPMax) : 0)));
+                fixed Factor = (Player.ActualHealth < Player.HealthMax ? fmin(((fixed)Player.HealthMax / (fixed)Player.ActualHealth) / 2, 4.0) : 0.0) + (Player.EP < Player.EPMax && Player.EPMax > 0 ? fmin(((fixed)Player.EPMax / AbsFixed((fixed)Player.EP)) / 2, 2.0) : 0.0);
                 Factor += Player.Focusing ? 1 : 0;
-                Player.RegenerationXP += (int)(Factor * (8.25 * Scale));
+                Player.RegenerationXP += (int)(Factor * (7.25 * Scale));
             }
         }
 

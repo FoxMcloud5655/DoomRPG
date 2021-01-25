@@ -721,8 +721,8 @@ NamedScript void GiveTip()
         // Stats
         { "\CgStrength",                        "Your Strength stat determines the extra damage you deal with all types of attacks.", },
         { "\CdDefense",                         "Your Defense stat determines your resistance to all forms of damage.", },
-        { "\CaVitality",                        "Your Vitality stat determines your max health and health regeneration rate.", },
-        { "\CnEnergy",                          "Your Energy stat determines your max EP and EP regeneration rate.", },
+        { "\CaVitality",                        "Your Vitality stat determines your max health, health regeneration amount, and status effect resist chance.", },
+        { "\CnEnergy",                          "Your Energy stat determines your max EP and EP regeneration amount.", },
         { "\CtRegeneration",                    "Your Regeneration stat determines your regeneration rate and the time that Regeneration Spheres last.", },
         { "\CiAgility",                         "Your Agility stat governs your movement, jumping and fire speeds as well as your survival bonus.", },
         { "\ChCapacity",                        "Your Capacity stat determines your ammo carrying capacity, how many compounds of each type you can carry for Stims as well as how many inventory items you can hold", },
@@ -736,12 +736,12 @@ NamedScript void GiveTip()
         // Skills
         { "\CnEP",                              "Energy Points are needed in order to use skills. They can also be used to charge your Shield and to deposit and withdraw items from your personal locker while not in the Outpost.", },
         { "\CnOverdrive",                       StrParam("You can Overdrive a skill by holding the \Cd%jS\C- button. Doing this will always use the skill, regardless of it's EP cost. However, this will bring your current EP into the negatives. When negative, you will suffer stat penalties and not be able to use any skills until your EP is restored past 0.", "+speed"), },
-        { "\CnAuras",                           "Auras are special passive abilities you can activate to give you temporary boosts to your stats. Auras will also affect teammates within it's radius, determined by your Energy stat", },
+        { "\CnAuras",                           "Auras are special passive abilities you can activate to give you temporary boosts to your stats. Auras will also affect teammates within it's radius, determined by your Energy stat.", },
 
         // Augmentations
         { "\CkAugmentations",                   "Augmentations give you permanent bonuses to your stats while they are active.", },
         { "\CkAugmentation Battery",            "Augmentations can only work while your augmentation battery has a charge. Your battery can be recharged by using augmentation batteries from your inventory or by receiving certain types of damage. Battery drain is determined by how many augmentations you have active and how high their levels are. The more augmentation active and the higher their levels, the quicker the battery will drain.", },
-        { "\CkAugmentation Slots",              "You can only activate as many augmentations as you have available slots for. To increase the number of slots you have, you must find an augmentation slot upgrade. Augmentation slot upgrades can be bought from the shop, found as rare drops from enemies or found in the world.", },
+        { "\CkAugmentation Slots",              "You can only activate as many augmentations as you have available slots for. To increase the number of slots you have, you must find an augmentation slot upgrade. Augmentation slot upgrades can be bought from the shop, found as rare drops from enemies, or rarely found in the world.", },
 
         // Shield
         { "\CvShields",                         "Shields will protect you from taking direct damage by absorbing the damage into their own charge pool. When a shield takes damage, it's charge is directly affected and will be reduced by the damage's amount. When a shield's charge reaches 0, you will begin taking normal damage again.", },
