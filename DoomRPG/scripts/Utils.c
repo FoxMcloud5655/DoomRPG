@@ -2692,6 +2692,17 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNumber)
     Buttons = GetPlayerInput(-1, Input);
     OldButtons = GetPlayerInput(-1, InputOld);
 
+    // Hacky workaround for the new buttons (specifically auto-run) introduced in GZDoom 4.5.0
+    if (Buttons & 33554432)
+    {
+        Buttons = Buttons - 33554432;
+    }
+
+    if (OldButtons & 33554432)
+    {
+        OldButtons = OldButtons - 33554432;
+    }
+
     // Proper navigation support for joystick, binding movement keys no longer necessary
     if (Key & BT_FORWARD || Key & BT_BACK || Key & BT_MOVELEFT || Key & BT_MOVERIGHT)
     {
