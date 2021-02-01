@@ -648,10 +648,9 @@ void DoRegen()
         fixed Z = GetActorZ(0);
         int Angle = GetActorAngle(0) * 256;
         SpawnForced("DRPGRegenSphereEffect", X, Y, Z + 32.0, AuraTID, Angle);
-
-        Player.HPRate += Player.RegenBoostTimer / (GameSkill() * GameSkill());
-        Player.EPRate += Player.RegenBoostTimer / (GameSkill() * GameSkill());
-        Player.RegenBoostTimer--;
+        int RegenRate = (Min(Player.RegenBoostTimer--, 10 * 35)) / GameSkill();
+        Player.HPRate += RegenRate;
+        Player.EPRate += RegenRate;
 
         // Pass Radius and Height to the Auras for DECORATE usage
         SetUserVariable(AuraTID, "user_radius", (int)GetActorPropertyFixed(Player.TID, APROP_Radius));
