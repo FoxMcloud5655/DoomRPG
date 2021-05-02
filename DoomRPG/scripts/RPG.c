@@ -300,7 +300,7 @@ NamedScript Type_ENTER void Init()
     Delay(4);
 
     // Reassignment is necessary for some mods
-    if (CompatMode == COMPAT_DRLA)
+    if (CompatMode == COMPAT_DRLA || CompatMode == COMPAT_STARFOX)
         AssignTIDs();
 
     // Execute Game Loops
