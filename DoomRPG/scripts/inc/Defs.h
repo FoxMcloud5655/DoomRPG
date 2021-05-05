@@ -637,7 +637,7 @@ typedef enum
 // Shop
 //
 
-#define LOCKER_EPRATE           (Player.EPMax * 100 / 10000)
+#define LOCKER_EPRATE           5
 
 typedef enum
 {
