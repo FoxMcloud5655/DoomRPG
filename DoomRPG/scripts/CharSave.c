@@ -603,6 +603,15 @@ NamedScript MenuEntry void LoadCharacter()
 
     // ----- COMPATIBILITY EXTENSIONS -----
 
+    // Starfox Stored Parts
+    if (CompatMode == COMPAT_STARFOX)
+    {
+        for (int i = 0; i < ItemMax[ItemCategories - 1]; i++)
+            while (Player.Locker[ItemCategories - 1][i] > 0)
+                if (WithdrawItem(ItemCategories - 1, i) == 0)
+                    break;
+    }
+
     // DRLA Tokens
     if (CompatMode == COMPAT_DRLA)
         for (int i = 0; i < DRLA_MAX_TOKENS; i++)

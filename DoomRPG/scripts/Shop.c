@@ -243,7 +243,7 @@ void ShopLoop()
     if (Player.LockerMode)
     {
         // Title and Page
-        HudMessage("\ChLocker \C-- %S\C- \Cd(%d/%d)", ItemCategoryNames[Player.ShopPage], Player.ShopPage + 1, ItemCategories);
+        HudMessage("\ChLocker \C-- %S\C- \Cd(%d/%d)", ItemCategoryNames[Player.ShopPage], Player.ShopPage + 1, CompatMode == COMPAT_STARFOX ? ItemCategories - 1 : ItemCategories);
         EndHudMessage(HUDMSG_PLAIN, 0, "White", 24.1, 24.0, 0.05);
 
         // EP Cost/Inventory Count
@@ -261,7 +261,7 @@ void ShopLoop()
     else
     {
         // Title and Page
-        HudMessage("\CfShop \C-- %S\C- \Cd(%d/%d)", ItemCategoryNames[Player.ShopPage], Player.ShopPage + 1, ItemCategories);
+        HudMessage("\CfShop \C-- %S\C- \Cd(%d/%d)", ItemCategoryNames[Player.ShopPage], Player.ShopPage + 1, CompatMode == COMPAT_STARFOX ? ItemCategories - 1 : ItemCategories);
         EndHudMessage(HUDMSG_PLAIN, 0, "White", 24.1, 24.0, 0.05);
 
         // Price
@@ -355,7 +355,11 @@ void ShopLoop()
             ActivatorSound("menu/move", 127);
             Player.ShopPage--;
             Player.ShopIndex = 0;
-            if (Player.ShopPage < 0) Player.ShopPage = (DebugLog ? ItemCategories : ItemCategories - 1);
+            if (Player.ShopPage < 0)
+                if (CompatMode == COMPAT_STARFOX)
+                    Player.ShopPage = (DebugLog ? ItemCategories : ItemCategories - 2);
+                else
+                    Player.ShopPage = (DebugLog ? ItemCategories : ItemCategories - 1);
         }
         else
         {
@@ -369,7 +373,7 @@ void ShopLoop()
             ActivatorSound("menu/move", 127);
             Player.ShopPage++;
             Player.ShopIndex = 0;
-            if (Player.ShopPage > (DebugLog ? ItemCategories : ItemCategories - 1)) Player.ShopPage = 0;
+            if (Player.ShopPage > (DebugLog ? ItemCategories : CompatMode == COMPAT_STARFOX ? ItemCategories - 2 : ItemCategories - 1)) Player.ShopPage = 0;
         }
         else
         {
