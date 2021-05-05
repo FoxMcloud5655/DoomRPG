@@ -115,6 +115,9 @@ struct CharSaveInfo_S
     // DRLA Tokens
     bool DRLATokens[DRLA_MAX_TOKENS];
 
+    // StarFox Stored Parts
+    int SFParts[STARFOX_MAX_PARTS];
+
     // ------------------------------------
 
     // Checksum

@@ -606,6 +606,13 @@ NamedScript MenuEntry void LoadCharacter()
     // Starfox Stored Parts
     if (CompatMode == COMPAT_STARFOX)
     {
+        for (int i = 0; i < STARFOX_MAX_PARTS; i++)
+        {
+            int parts = Info.SFParts[i];
+            ACS_NamedExecuteAlways("SFSetParts", 0, PlayerNumber(), i+1, parts);
+            if (DebugLog)
+                Log("Instructed Starfox to set parts%d = %d", i+1, parts);
+        }
         for (int i = 0; i < ItemMax[ItemCategories - 1]; i++)
             while (Player.Locker[ItemCategories - 1][i] > 0)
                 if (WithdrawItem(ItemCategories - 1, i) == 0)
@@ -843,6 +850,16 @@ NamedScript void PopulateCharData(CharSaveInfo *Info)
 
     // ----- COMPATIBILITY EXTENSIONS -----
 
+    // Starfox Stored Parts
+    if (CompatMode == COMPAT_STARFOX)
+        for (int i = 0; i < STARFOX_MAX_PARTS; i++)
+        {
+            int parts = ACS_NamedExecuteWithResult("SFGetParts", PlayerNumber(), i+1);
+            Info->SFParts[i] = parts;
+            if (DebugLog)
+                Log("Starfox reports that parts%d = %d", i+1, parts);
+        }
+
     // DRLA Tokens
     if (CompatMode == COMPAT_DRLA)
         for (int i = 0; i < DRLA_MAX_TOKENS; i++)
@@ -989,6 +1006,13 @@ NamedScript void LoadCharDataFromString(CharSaveInfo *Info, char const *String)
         }
 
     // ----- COMPATIBILITY EXTENSIONS -----
+
+    // Starfox Stored Parts
+    for (int i = 0; i < STARFOX_MAX_PARTS; i++)
+    {
+        Info->SFParts[i] = HexToInteger(String + StringPos, 4);
+        StringPos += 4;
+    }
 
     // DRLA Tokens
     for (int i = 0; i < DRLA_MAX_TOKENS; i++)
@@ -1202,6 +1226,16 @@ NamedScript char const *MakeSaveString(CharSaveInfo *Info)
         }
 
     // ----- COMPATIBILITY EXTENSIONS -----
+
+    // Starfox Stored Parts
+    for (int i = 0; i < STARFOX_MAX_PARTS; i++)
+    {
+        SaveString[pos + 3] = ToHexChar(Info->SFParts[i]);
+        SaveString[pos + 2] = ToHexChar(Info->SFParts[i] >> 4);
+        SaveString[pos + 1] = ToHexChar(Info->SFParts[i] >> 8);
+        SaveString[pos + 0] = ToHexChar(Info->SFParts[i] >> 12);
+        pos += 4;
+    }
 
     // DRLA Tokens
     for (int i = 0; i < DRLA_MAX_TOKENS; i++)

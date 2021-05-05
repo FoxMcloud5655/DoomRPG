@@ -234,6 +234,7 @@ typedef enum
 #define CHARSAVE_MAXCVARS       16
 #define DRLA_MODPACK_SIZE       9
 #define DRLA_MAX_TOKENS         176
+#define STARFOX_MAX_PARTS       4
 #define DEPOSIT_ID              MAKE_ID('D', 'P', 'S', 'T')
 
 // --------------------------------------------------
