@@ -1225,8 +1225,8 @@ NamedScript DECORATE void ItemInit()
     for (int i = 0; i < MAX_ITEMS; i++)
         if (ItemTIDs[i] == -1)
         {
-            //if (DebugLog)
-            //    Log("\CdDEBUG: \C-Item \Cd%S\C- added (Index \Cd%d\C-)", GetActorClass(0), i);
+            if (DebugLog)
+                Log("\CdDEBUG: \C-Item \Cd%S\C- added (Index \Cd%d\C-)", GetActorClass(0), i);
 
             // Doesn't have a TID, so assign it one
             if (ActivatorTID() == 0)

@@ -2518,19 +2518,29 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
         for (int i = 0; i < MAX_ITEMS; i++)
         {
             if (ItemTIDs[i] == -1) break;
-            if (ItemTIDs[i] == 0) continue;
-            if (ClassifyActor(ItemTIDs[i]) == ACTOR_NONE || ClassifyActor(ItemTIDs[i]) == ACTOR_WORLD) continue;
-            fixed Dist = Distance(ItemTIDs[i], Players(PlayerNumber()).TID);
-            if (Dist < (maxDist / (Min(1, CheckActorProperty(ItemTIDs[i], APROP_Dropped, false) * 48))))
+            if (ItemTIDs[i] == 0 || ClassifyActor(ItemTIDs[i]) == ACTOR_NONE || ClassifyActor(ItemTIDs[i]) == ACTOR_WORLD)
+            {
+                if (DebugLog)
+                {
+                    HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjTID: \Cd%d\n\nDistance from player: \CdN/A \Cj/ \CdN/A\n\nCan Magnetize: \Cd0\n\nItems found: \Cd%d \Cj/ \Cd64", GetActorClass(ItemTIDs[i]), i, TIDPos);
+                    EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
+                    Delay(1);
+                }
+                continue;
+            }
+            int realDist = Distance(ItemTIDs[i], Players(PlayerNumber()).TID);
+            int magDist = maxDist / (Min(1, CheckActorProperty(ItemTIDs[i], APROP_Dropped, false) * 48));
+            bool canMagnetize = realDist < magDist;
+            if (DebugLog)
+            {
+                HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjTID: \Cd%d\n\nDistance from player: \Cd%d \Cj/ \Cd%d\n\nCan Magnetize: \Cd%d\n\nItems found: \Cd%d \Cj/ \Cd64", GetActorClass(ItemTIDs[i]), i, realDist, maxDist, canMagnetize, TIDPos);
+                EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
+                Delay(10);
+            }
+            if (canMagnetize)
             {
                 TID[TIDPos++] = ItemTIDs[i];
                 if (TIDPos == 64) break;
-            }
-            if (DebugLog)
-            {
-                HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjIteration: \Cd%d \Cj/ \Cd%d\n\nDistance from player: \Cd%f \Cj/ \Cd%d\n\nItems found: \Cd%d \Cj/ \Cd64", GetActorClass(ItemTIDs[i]), i, MAX_ITEMS, Dist, maxDist, TIDPos);
-                EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
-                Delay(1);
             }
         }
     }
