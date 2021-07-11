@@ -309,6 +309,21 @@ NamedScript DECORATE int CheckCapacity()
                 Items += CheckInventory(ItemListRL[i]);
     };
 
+    if (CompatMode == COMPAT_STARFOX)
+    {
+        str const ItemListSF[] =
+        {
+            // Starfox - Armors
+            "SFArmorGiver",
+            "SFArmorGiver2",
+            NULL
+        };
+
+        for (int i = 0; ItemListSF[i] != NULL; i++)
+            if (CheckInventory(ItemListSF[i]) > 0)
+                Items += CheckInventory(ItemListSF[i]);
+    };
+
     Player.InvItems = Items;
 
     if (Items >= MaxItems)
