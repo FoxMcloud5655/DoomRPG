@@ -411,7 +411,7 @@ void CheckStats()
         SetAmmoCapacity("RLSkullLimit", DRLA_SKULL_MAX);
         SetAmmoCapacity("RLPhaseDeviceLimit", DRLA_DEVICE_MAX);
     }
-    Player.MedkitMax = Player.CapacityTotal * 10;
+    Player.MedkitMax = (Player.CapacityTotal * 10) + (Player.VitalityTotal * 10);
 
     // Determine current stat cap
     Player.StatCap = SoftStatCap + Player.Level * GetCVar("drpg_soft_stat_cap_mult");
