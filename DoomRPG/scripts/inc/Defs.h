@@ -137,6 +137,7 @@
 
 // Constants
 #define MAX_PLAYERS             8
+#define MAX_MAGNET_ITEM_SCAN	1024
 #define PLAYER_TID              31337
 #define PI                      3.14159265359
 

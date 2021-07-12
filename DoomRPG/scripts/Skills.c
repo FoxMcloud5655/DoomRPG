@@ -2420,12 +2420,29 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
         ActivatorSound("menu/error", 127);
         return false;
     }
+    if (DebugLog)
+    {
+        HudMessage("\CfMagnetize Skill\n\CjDebug mode is on, so this skill is\n\Cjintentionally performing slowly.\n\n\CdInitializing...");
+        EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
+        Delay(35*2);
+    }
+    // Temp Item TID Holder with Distance
+    int tmpTID[MAX_MAGNET_ITEM_SCAN];
+    int tmpTIDDist[MAX_MAGNET_ITEM_SCAN];
+    for (int i = 0; i < MAX_MAGNET_ITEM_SCAN; i++)
+    {
+        tmpTID[i] = -1;
+    }
+    int tmpTIDPos = 0;
+
+    // Items that will actually be magnetized
     int TID[64];
     for (int i = 0; i < 64; i++)
     {
         TID[i] = -1;
     }
     int TIDPos = 0;
+    int itemsToMagnetize = (SkillLevel->CurrentLevel+1) * 16;
     fixed Angle = GetActorAngle(0);
     fixed X = GetActorX(0);
     fixed Y = GetActorY(0);
@@ -2433,13 +2450,7 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
     int AngleDivide;
     fixed AngleAdd;
     int CreditCount;
-    if (DebugLog)
-    {
-        HudMessage("\CfMagnetize Skill\n\CjDebug mode is on, so this skill is\n\Cjintentionally performing slowly.\n\n\CdInitializing...");
-        EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
-        Delay(35*2);
-    }
-    int *tmpTID = (int *)Player.DropTID.Data;
+    int *tmpTIDs = (int *)Player.DropTID.Data;
 
     if (DebugLog)
     {
@@ -2453,35 +2464,35 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
     {
         if (DebugLog)
         {
-            HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjIteration: \Cd%d \Cj/ \Cd%d", GetActorClass(tmpTID[i]), i, Player.DropTID.Position);
+            HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjIteration: \Cd%d \Cj/ \Cd%d", GetActorClass(tmpTIDs[i]), i, Player.DropTID.Position);
             EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
             Delay(5);
         }
-        if (ThingCount(0, tmpTID[i]) > 0 && StartsWith(GetActorClass(tmpTID[i]), "DRPGCredits"))
+        if (ThingCount(0, tmpTIDs[i]) > 0 && StartsWith(GetActorClass(tmpTIDs[i]), "DRPGCredits"))
         {
-            if (GetActorClass(tmpTID[i]) == "DRPGCredits1")
+            if (GetActorClass(tmpTIDs[i]) == "DRPGCredits1")
                 CreditCount++;
-            if (GetActorClass(tmpTID[i]) == "DRPGCredits5")
+            if (GetActorClass(tmpTIDs[i]) == "DRPGCredits5")
                 CreditCount += 5;
-            if (GetActorClass(tmpTID[i]) == "DRPGCredits10")
+            if (GetActorClass(tmpTIDs[i]) == "DRPGCredits10")
                 CreditCount += 10;
-            if (GetActorClass(tmpTID[i]) == "DRPGCredits20")
+            if (GetActorClass(tmpTIDs[i]) == "DRPGCredits20")
                 CreditCount += 20;
-            if (GetActorClass(tmpTID[i]) == "DRPGCredits50")
+            if (GetActorClass(tmpTIDs[i]) == "DRPGCredits50")
                 CreditCount += 50;
-            if (GetActorClass(tmpTID[i]) == "DRPGCredits100")
+            if (GetActorClass(tmpTIDs[i]) == "DRPGCredits100")
                 CreditCount += 100;
-            if (GetActorClass(tmpTID[i]) == "DRPGCredits250")
+            if (GetActorClass(tmpTIDs[i]) == "DRPGCredits250")
                 CreditCount += 250;
-            if (GetActorClass(tmpTID[i]) == "DRPGCredits500")
+            if (GetActorClass(tmpTIDs[i]) == "DRPGCredits500")
                 CreditCount += 500;
-            if (GetActorClass(tmpTID[i]) == "DRPGCredits1000")
+            if (GetActorClass(tmpTIDs[i]) == "DRPGCredits1000")
                 CreditCount += 1000;
 
             int HolderTID = UniqueTID();
-            SpawnSpot("DRPGCreditsEmpty", tmpTID[i], HolderTID, Random(0, 255));
+            SpawnSpot("DRPGCreditsEmpty", tmpTIDs[i], HolderTID, Random(0, 255));
             SetActorVelocity(HolderTID, RandomFixed(-8, 8), RandomFixed(-8, 8), RandomFixed(2, 8), false, false);
-            Thing_Remove(tmpTID[i]);
+            Thing_Remove(tmpTIDs[i]);
         }
     }
 
@@ -2512,7 +2523,7 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
         Delay(35*2);
     }
 
-    if (ItemTIDsInitialized && TIDPos < 64)
+    if (ItemTIDsInitialized && tmpTIDPos < MAX_MAGNET_ITEM_SCAN)
     {
         int maxDist = Pow(SkillLevel->CurrentLevel+1, 3) * 48;
         for (int i = 0; i < MAX_ITEMS; i++)
@@ -2522,7 +2533,7 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
             {
                 if (DebugLog)
                 {
-                    HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjTID: \Cd%d\n\nDistance from player: \CdN/A \Cj/ \CdN/A\n\nCan Magnetize: \Cd0\n\nItems found: \Cd%d \Cj/ \Cd64", GetActorClass(ItemTIDs[i]), i, TIDPos);
+                    HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjTID: \Cd%d\n\nDistance from player: \CdN/A \Cj/ \CdN/A\n\nCan Magnetize: \Cd0\n\nItems found: \Cd%d \Cj/ \Cd%d", GetActorClass(ItemTIDs[i]), i, tmpTIDPos, MAX_MAGNET_ITEM_SCAN);
                     EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
                     Delay(1);
                 }
@@ -2533,34 +2544,63 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
             bool canMagnetize = realDist < magDist;
             if (DebugLog)
             {
-                HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjTID: \Cd%d\n\nDistance from player: \Cd%d \Cj/ \Cd%d\n\nCan Magnetize: \Cd%d\n\nItems found: \Cd%d \Cj/ \Cd64", GetActorClass(ItemTIDs[i]), i, realDist, maxDist, canMagnetize, TIDPos);
+                HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjTID: \Cd%d\n\nDistance from player: \Cd%d \Cj/ \Cd%d\n\nCan Magnetize: \Cd%d\n\nItems found: \Cd%d \Cj/ \Cd%d", GetActorClass(ItemTIDs[i]), i, realDist, maxDist, canMagnetize, tmpTIDPos, MAX_MAGNET_ITEM_SCAN);
                 EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
                 Delay(10);
             }
             if (canMagnetize)
             {
-                TID[TIDPos++] = ItemTIDs[i];
-                if (TIDPos == 64) break;
+                tmpTID[tmpTIDPos] = ItemTIDs[i];
+                tmpTIDDist[tmpTIDPos++] = realDist;
+                if (tmpTIDPos == MAX_MAGNET_ITEM_SCAN) break;
             }
         }
     }
 
     if (DebugLog)
     {
-        HudMessage("\CfMagnetize Skill\n\CjItemTIDs were processed.\n\CjItems found to magnetize: \Cd%d", TIDPos);
+        HudMessage("\CfMagnetize Skill\n\CjItemTIDs were processed.\n\CjItems found to magnetize: \Cd%d\n\CjIf over 0, sorting items based on distance...", tmpTIDPos);
         EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
         Delay(35 * 2);
     }
 
     // Refund - If there are no items in the array
-    if (TIDPos == 0 && CreditCount == 0)
+    if (tmpTIDPos == 0 && CreditCount == 0)
     {
         PrintError("No magnetizeable items detected");
         ActivatorSound("menu/error", 127);
         return false;
     }
 
-    // Overdrive - Pull the items on top of you and pick them all up
+    for (int i = 1; i < tmpTIDPos; i++)
+    {
+        int ii = i;
+        while (ii > 0 && tmpTIDDist[ii] < tmpTIDDist[ii-1])
+        {
+            int temp = tmpTIDDist[ii];
+            tmpTIDDist[ii] = tmpTIDDist[ii-1];
+            tmpTIDDist[ii-1] = temp;
+            temp = tmpTID[ii];
+            tmpTID[ii] = tmpTID[ii-1];
+            tmpTID[ii-1] = temp;
+            ii--;
+        }
+    }
+
+    for (TIDPos = 0; TIDPos < itemsToMagnetize; TIDPos++)
+    {
+        if (TIDPos >= tmpTIDPos) break;
+        TID[TIDPos] = tmpTID[TIDPos];
+    }
+
+    if (DebugLog)
+    {
+        HudMessage("\CfMagnetize Skill\n\Cd%d\Cj ItemTIDs were sorted.\n\CjMagnetizing \Cd%d items...", tmpTIDPos, TIDPos);
+        EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
+        Delay(35 * 2);
+    }
+
+    // Overdrive - Pull the items on top of you
     if (Player.Overdrive)
     {
         for (int i = 0; i < TIDPos; i++)
@@ -2568,26 +2608,20 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
             SetActorPosition(TID[i], X, Y, Z, 0);
             SetActorVelocity(TID[i], 0, 0, 0, false, false);
         }
-
-        SetActorVelocity(0, 0.01, 0.01, 0, true, false);
-
-        FadeRange(0, 0, 0, 0.5, 0, 0, 0, 0.0, 1.0);
-        ActivatorSound("skills/magnet", 127);
-        return true;
     }
-
-    AngleAdd = 1.0 / TIDPos;
-
-    for (int i = 0; i < TIDPos; i++)
+    else
     {
-        X = GetActorX(0) + Cos(Angle) * 64.0;
-        Y = GetActorY(0) + Sin(Angle) * 64.0;
-        SetActorPosition(TID[i], X, Y, Z, 0);
-        SetActorVelocity(TID[i], 0, 0, 0, false, false);
-        Angle += AngleAdd;
+        AngleAdd = 1.0 / TIDPos;
+        for (int i = 0; i < TIDPos; i++)
+        {
+            X = GetActorX(0) + Cos(Angle) * 64.0;
+            Y = GetActorY(0) + Sin(Angle) * 64.0;
+            SetActorPosition(TID[i], X, Y, Z, 0);
+            SetActorVelocity(TID[i], 0, 0, 0, false, false);
+            Angle += AngleAdd;
+        }
     }
-
-    FadeRange(0, 0, 0, 0.5, 0, 0, 0, 0.0, 1.0);
+    FadeRange(0, 0, 0, 0.25 * SkillLevel->CurrentLevel, 0, 0, 0, 0.0, 1.0);
     ActivatorSound("skills/magnet", 127);
     return true;
 }
