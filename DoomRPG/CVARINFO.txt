@@ -3,10 +3,10 @@
 // XP System
 server  float   drpg_scalexp = 1.0;
 server  float   drpg_scalecomboxp = 1.0;
-server  int     drpg_xp_curve = 300;
+server  int     drpg_xp_curve = 150;
 //server  int     drpg_max_player_level = 100;
 server  float   drpg_xp_health_awareness = 0.0;
-server  int     drpg_xp_summon_percent = 50;
+server  int     drpg_xp_summon_percent = 100;
 
 // Monster Difficulty
 server  int     drpg_monster_level_cap = 1000;
@@ -56,13 +56,13 @@ server  float   drpg_skill_costscale = 1.0;
 server  bool    drpg_skill_keepauras = false;
 server  int     drpg_skill_costcooldown = 10;
 server  bool    drpg_shield_reset = true;
-server  bool    drpg_levelup_heal = false;
+server  bool    drpg_levelup_heal = true;
 server  bool    drpg_toxicity_penalties = true;
 server  bool    drpg_mission_monsterkillscount = false;
 server  bool    drpg_invulnerability_plus = false;
 server  bool    drpg_combo_damage = false;
 server  int     drpg_monster_mapweight = 1;
-server  int     drpg_monster_population = 100;
+server  int     drpg_monster_population = 200;
 server  int     drpg_monster_limit = 0;
 server  bool    drpg_monster_adaptive_spawns = true;
 server  int     drpg_aurasteal_rate = 70;
@@ -75,11 +75,11 @@ server  int     drpg_reinforcements = 1;
 server  bool    drpg_loot_system = true;
 server  float   drpg_lootgen_factor = 1.0;
 server  bool    drpg_loot_rcm = true; // Rarity Chance Modifier
-server  float   drpg_loot_crate_spc = 35.0; // Shield Part Chance
+server  float   drpg_loot_crate_spc = 25.0; // Shield Part Chance
 server  bool    drpg_uac_premium = false;
 
 // Map Events
-server  float   drpg_mapevent_chance = 20.0;
+server  float   drpg_mapevent_chance = 10.0;
 server  int     drpg_mapevent_eventtime = 10;
 server  int     drpg_default_par_seconds = 180;
 server  bool    drpg_mapevent_megaboss = true;
@@ -103,9 +103,9 @@ server  bool    drpg_mapevent_sinstorm = true;
 
 // Stat System
 server  float   drpg_module_spawnfactor = 1.0;
-server  float   drpg_module_levelfactor = 1.0;
-server  float   drpg_module_statfactor = 1.0;
-server  float   drpg_module_skillfactor = 1.0;
+server  float   drpg_module_levelfactor = 0.75;
+server  float   drpg_module_statfactor = 0.5;
+server  float   drpg_module_skillfactor = 2.0;
 server  int     drpg_hard_stat_cap = 1000;
 server  int     drpg_soft_stat_cap_mult = 1;
 user    bool    drpg_auto_spend = false;
@@ -118,19 +118,19 @@ server  int     drpg_overdrive_limit = 1000;
 
 // Natural Stat Leveling
 server  bool    drpg_levelup_natural = true;
-server  bool    drpg_allow_spec = false;
+server  bool    drpg_allow_spec = true;
 user    int     drpg_character_spec = 0;
-server  float   drpg_strength_scalexp = 0.5;
-server  float   drpg_defense_scalexp = 0.5;
-server  float   drpg_vitality_scalexp = 0.5;
-server  float   drpg_energy_scalexp = 0.5;
-server  float   drpg_regeneration_scalexp = 0.5;
-server  float   drpg_agility_scalexp = 0.5;
-server  float   drpg_capacity_scalexp = 0.5;
-server  float   drpg_luck_scalexp = 0.5;
+server  float   drpg_strength_scalexp = 1.0;
+server  float   drpg_defense_scalexp = 1.0;
+server  float   drpg_vitality_scalexp = 1.0;
+server  float   drpg_energy_scalexp = 1.0;
+server  float   drpg_regeneration_scalexp = 1.0;
+server  float   drpg_agility_scalexp = 1.0;
+server  float   drpg_capacity_scalexp = 1.0;
+server  float   drpg_luck_scalexp = 1.0;
 
 // Auto Healing
-user    bool    drpg_auto_heal = false;
+user    bool    drpg_auto_heal = true;
 user    int     drpg_auto_heal_percent = 2;
 user    int     drpg_auto_heal_order = 1;
 
@@ -154,24 +154,24 @@ server  int     drpg_stim_time_multiplier = 15;
 // Multiplayer
 server  bool    drpg_multi_takexp = true;
 server  int     drpg_multi_takexp_percent = 10;
-server  bool    drpg_multi_dropcredits = false;
+server  bool    drpg_multi_dropcredits = true;
 server  int     drpg_multi_dropcredits_percent = 10;
 server  bool    drpg_multi_dropinv = false;
-server  bool    drpg_multi_restoreep = false;
+server  bool    drpg_multi_restoreep = true;
 server  bool    drpg_multi_restoreammo = false;
-server  bool    drpg_multi_sharecredits = false;
+server  bool    drpg_multi_sharecredits = true;
 server  bool    drpg_multi_revives = false;
 
 // Shop
-server  int     drpg_shoptype = 0;
+server  int     drpg_shoptype = 2;
 server  int     drpg_shopspecial_type = 0;
 server  int     drpg_shopspecial_category = -1;
 server  int     drpg_shopspecial_time = 10;
-server  int     drpg_shopspecial_min = 0;
+server  int     drpg_shopspecial_min = 1000;
 server  int     drpg_shopspecial_max = 1000000;
 server  int     drpg_shopspecial_discount = 25;
-user    int     drpg_pickup_behavior = 0;
-user    bool    drpg_autosell_lockerfallback = false;
+user    int     drpg_pickup_behavior = 2;
+user    bool    drpg_autosell_lockerfallback = true;
 
 // Turret
 user    int     drpg_turret_aggression = 0;
@@ -222,7 +222,7 @@ user    int     drpg_ld_x = 220;
 user    int     drpg_ld_y = 18;
 user    int     drpg_coopview_x = 0;
 user    int     drpg_coopview_y = 0;
-user    bool    drpg_multiplayer_hud = false;
+user    bool    drpg_multiplayer_hud = true;
 user    int     drpg_multiplayer_x = 80;
 user    int     drpg_multiplayer_y = 8;
 user    int     drpg_turret_x = 22;
@@ -236,14 +236,14 @@ user	bool	drpg_drla_hud_staminabar = true;
 server  bool    drpg_debug = false;
 server  bool    drpg_debug_gui = false;
 server  int     drpg_debug_drla = 0;
-user    bool    drpg_tips = true;
+user    bool    drpg_tips = false;
 server  bool    drpg_regen_movement = true;
 server  int     drpg_move_aug_battery_regen = 0;
-server  int     drpg_autosave = 5;
-server  float   drpg_monster_dropdist = 4.0;
+server  int     drpg_autosave = 2;
+server  float   drpg_monster_dropdist = 2.0;
 server  bool    drpg_transport_on_new_map = false;
 server  bool    drpg_shotguns = false;
-user    bool    drpg_augs_autoreactivate = false;
+user    bool    drpg_augs_autoreactivate = true;
 user    bool    drpg_give_quickinventory = false;
 
 // Performance
@@ -251,7 +251,7 @@ user    bool    drpg_toaster = false;
 server  int     drpg_simple_auras = 0;
 server  int     drpg_auras_drawdistance = 1650;
 server  int     drpg_popoffs_drawdistance = 1650;
-server  bool    drpg_virtual_credits = false;
+server  bool    drpg_virtual_credits = true;
 
 // Stored Character
 user    int     drpg_char_data_len = 0;
@@ -282,8 +282,8 @@ server  bool    drpg_addstartmap = false;
 
 // Funds
 user    int     drpg_start_credits = 100;
-user    int     drpg_start_modules = 250;
-user    int     drpg_start_turretparts = 0;
+user    int     drpg_start_modules = 2500;
+user    int     drpg_start_turretparts = 100;
 
 // Level/Rank
 user    int     drpg_start_level = 0;
@@ -292,11 +292,11 @@ user    int     drpg_start_rank = 0;
 // Stats
 user    int     drpg_start_strength = 0;
 user    int     drpg_start_defense = 0;
-user    int     drpg_start_vitality = 10;
-user    int     drpg_start_energy = 10;
+user    int     drpg_start_vitality = 5;
+user    int     drpg_start_energy = 0;
 user    int     drpg_start_regeneration = 0;
 user    int     drpg_start_agility = 0;
-user    int     drpg_start_capacity = 10;
+user    int     drpg_start_capacity = 5;
 user    int     drpg_start_luck = 0;
 
 // Weapons/Ammo/Armor
@@ -313,7 +313,7 @@ user    int     drpg_start_ammo_shell = 0;
 user    int     drpg_start_ammo_rocket = 0;
 user    int     drpg_start_ammo_cell = 0;
 user    int     drpg_start_armor = -1;
-user    int     drpg_start_medkit = 0;
+user    int     drpg_start_medkit = 100;
 
 // Augs
 user    int     drpg_start_aug_amount = 0;
@@ -330,10 +330,10 @@ user    int     drpg_start_shield_amount_capacitor = 0;
 user    int     drpg_start_shield_amount_acc = 0;
 
 // Stims
-user    int     drpg_start_stim_injectors = 0;
-user    int     drpg_start_stim_vials = 0;
-user    bool    drpg_start_stim_boosters = false;
-user    bool    drpg_start_stim_powerups = false;
+user    int     drpg_start_stim_injectors = 1;
+user    int     drpg_start_stim_vials = 2;
+user    bool    drpg_start_stim_boosters = true;
+user    bool    drpg_start_stim_powerups = true;
 
 // Bonuses
 user    int     drpg_start_bonus_goldchips = 0;
@@ -352,19 +352,19 @@ user    int     drpg_start_drla_modpacks_amount = 0;
 // Skill Wheel
 //
 
-user    int     drpg_skillwheel_category_1 = -1;
-user    int     drpg_skillwheel_index_1 = -1;
-user    int     drpg_skillwheel_category_2 = -1;
-user    int     drpg_skillwheel_index_2 = -1;
-user    int     drpg_skillwheel_category_3 = -1;
-user    int     drpg_skillwheel_index_3 = -1;
-user    int     drpg_skillwheel_category_4 = -1;
-user    int     drpg_skillwheel_index_4 = -1;
-user    int     drpg_skillwheel_category_5 = -1;
-user    int     drpg_skillwheel_index_5 = -1;
-user    int     drpg_skillwheel_category_6 = -1;
-user    int     drpg_skillwheel_index_6 = -1;
-user    int     drpg_skillwheel_category_7 = -1;
-user    int     drpg_skillwheel_index_7 = -1;
-user    int     drpg_skillwheel_category_8 = -1;
-user    int     drpg_skillwheel_index_8 = -1;
+user    int     drpg_skillwheel_category_1 = 5;
+user    int     drpg_skillwheel_index_1 = 6;
+user    int     drpg_skillwheel_category_2 = 0;
+user    int     drpg_skillwheel_index_2 = 0;
+user    int     drpg_skillwheel_category_3 = 0;
+user    int     drpg_skillwheel_index_3 = 3;
+user    int     drpg_skillwheel_category_4 = 2;
+user    int     drpg_skillwheel_index_4 = 3;
+user    int     drpg_skillwheel_category_5 = 5;
+user    int     drpg_skillwheel_index_5 = 5;
+user    int     drpg_skillwheel_category_6 = 3;
+user    int     drpg_skillwheel_index_6 = 6;
+user    int     drpg_skillwheel_category_7 = 1;
+user    int     drpg_skillwheel_index_7 = 0;
+user    int     drpg_skillwheel_category_8 = 5;
+user    int     drpg_skillwheel_index_8 = 4;
