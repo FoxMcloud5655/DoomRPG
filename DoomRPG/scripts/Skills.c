@@ -2572,6 +2572,10 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
         return false;
     }
 
+    // At this point, we know there's no need to refund the skill, so delay to
+    // ensure that the script doesn't get terminated for taking too long to sort.
+    Delay(1);
+
     for (int i = 1; i < tmpTIDPos; i++)
     {
         int ii = i;
@@ -2586,6 +2590,9 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
             ii--;
         }
     }
+
+    // Just to be safe, delay yet again to ensure it's not terminated.
+    Delay(1);
 
     for (TIDPos = 0; TIDPos < itemsToMagnetize; TIDPos++)
     {
