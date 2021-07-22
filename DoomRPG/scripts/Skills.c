@@ -2540,7 +2540,7 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
                 continue;
             }
             int realDist = Distance(ItemTIDs[i], Players(PlayerNumber()).TID);
-            int magDist = maxDist / (Min(1, CheckActorProperty(ItemTIDs[i], APROP_Dropped, false) * 48));
+            int magDist = maxDist / (Min(1, CheckActorProperty(ItemTIDs[i], APROP_Dropped, false) * 32));
             bool canMagnetize = realDist < magDist;
             if (DebugLog)
             {
