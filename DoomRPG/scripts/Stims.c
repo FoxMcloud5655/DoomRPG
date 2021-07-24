@@ -113,7 +113,7 @@ NamedScript KeyBind void UseStim(bool Force)
 
     // Apply Multiplier and Potency
     for (int i = StimStatsStart; i < StimStatsEnd; i++)
-        Player.Stim.Current[i] = (Player.Stim.Current[i] * 3) + (Player.Stim.Current[STIM_POTENCY] * 3);
+        Player.Stim.Current[i] = (Player.Stim.Current[i] * 3) + (Player.Stim.Current[STIM_POTENCY] * 5);
 
     // Apply Stat Bonuses
     Player.StrengthBonus += Player.Stim.Current[STIM_STRENGTH];
@@ -147,7 +147,7 @@ NamedScript KeyBind void UseStim(bool Force)
     Player.Toxicity += Player.Stim.Toxicity;
 
     // Add Immunity
-    Player.StimImmunity += Player.Stim.Toxicity * 5;
+    Player.StimImmunity += Player.Stim.Toxicity * 2;
     if (Player.StimImmunity > 100)
         Player.StimImmunity = 100;
 
@@ -397,7 +397,7 @@ void CheckStim()
     Player.Stim.Toxicity += (Player.Stim.Amount * StimToxicityMultiplier) / 5;
 
     // Toxicity added Based on Skill
-    Player.Stim.Toxicity += GameSkill() * StimToxicityMultiplier;
+    Player.Stim.Toxicity += 3 * StimToxicityMultiplier; //GameSkill() * StimToxicityMultiplier;
 
     // Calculate the current Stim amount
     Player.Stim.Amount = 0;
