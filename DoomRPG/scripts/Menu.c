@@ -687,7 +687,18 @@ void DrawStatsMenu()
             EndHudMessage(HUDMSG_PLAIN, 0, "Orange",             30.1,   266.0,  0.05);
             HudMessage("Phase Devices: %d/%d", CheckInventory("RLPhaseDeviceLimit"), DRLA_DEVICE_MAX);
             EndHudMessage(HUDMSG_PLAIN, 0, "Gray",               30.1,   274.0,  0.05);
-        };
+        }
+        else if (CompatMode == COMPAT_STARFOX)
+        {
+            HudMessage("Blaster: %d/%d", CheckInventory("SFAmmoBlaster"), GetAmmoCapacity("SFAmmoBlaster"));
+            EndHudMessage(HUDMSG_PLAIN, 0, "Gray",    30.1,   250.0,  0.05);
+            HudMessage("Primary: %d/%d", CheckInventory("SFAmmo"), GetAmmoCapacity("SFAmmo"));
+            EndHudMessage(HUDMSG_PLAIN, 0, "Green",   30.1,   258.0,  0.05);
+            HudMessage("PWNE: %d/%d", CheckInventory("SFAmmoBFG"), GetAmmoCapacity("SFAmmoBFG"));
+            EndHudMessage(HUDMSG_PLAIN, 0, "Orange",  30.1,   266.0,  0.05);
+            HudMessage("APE: %d/%d", CheckInventory("SFAmmoUlt"), GetAmmoCapacity("SFAmmoUlt"));
+            EndHudMessage(HUDMSG_PLAIN, 0, "Brick",   30.1,   274.0,  0.05);
+        }
 
         // Luck
         SetFont("BIGFONT");

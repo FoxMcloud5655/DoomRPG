@@ -403,7 +403,14 @@ void CheckStats()
     SetAmmoCapacity("Shell", Player.CapacityTotal * 5);
     SetAmmoCapacity("RocketAmmo", Player.CapacityTotal * 5);
     SetAmmoCapacity("Cell", Player.CapacityTotal * 30);
-    Player.Stim.VialMax = Player.CapacityTotal * 1;
+    if (CompatMode == COMPAT_STARFOX) // Starfox - Ammo Capacity
+    {
+        SetAmmoCapacity("SFAmmoBlaster", SF_AMMO_BLASTER_MAX + (CheckActorInventory(Player.TID, "SFAmmoBlasterMAX") * 50));
+        SetAmmoCapacity("SFAmmo", SF_AMMO_MAX + (CheckActorInventory(Player.TID, "SFAmmoMAX") * 100));
+        SetAmmoCapacity("SFAmmoBFG", SF_AMMO_BFG_MAX + (CheckActorInventory(Player.TID, "SFAmmoBFGMAX") * 250));
+        SetAmmoCapacity("SFAmmoUlt", SF_AMMO_ULT_MAX + (CheckActorInventory(Player.TID, "SFAmmoUltMAX") * 500));
+    }
+    Player.Stim.VialMax = 10 + Player.CapacityTotal;
     Player.SurvivalBonus = (fixed)Player.AgilityTotal / 10.0;
     if (CompatMode == COMPAT_DRLA) // DRLA - Total Armors/Boots, Skulls
     {

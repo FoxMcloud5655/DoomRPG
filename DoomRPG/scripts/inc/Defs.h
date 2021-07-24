@@ -748,6 +748,10 @@ typedef enum
 #define DRLA_ARMOR_MAX          2 + (Player.CapacityTotal / 25)
 #define DRLA_SKULL_MAX          DRLA_ARMOR_MAX
 #define DRLA_DEVICE_MAX         4 + (Player.CapacityTotal / 50)
+#define SF_AMMO_BLASTER_MAX     Player.CapacityTotal * 5
+#define SF_AMMO_MAX             400 + (Player.CapacityTotal * 10)
+#define SF_AMMO_BFG_MAX         1800 + (Player.CapacityTotal * 20)
+#define SF_AMMO_ULT_MAX         9750 + (Player.CapacityTotal * 25)
 
 #define NATURALCAP              100
 
