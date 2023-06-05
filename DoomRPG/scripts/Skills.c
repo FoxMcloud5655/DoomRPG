@@ -2488,14 +2488,12 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
                 CreditCount += 500;
             if (GetActorClass(tmpTIDs[i]) == "DRPGCredits1000")
                 CreditCount += 1000;
-
             int HolderTID = UniqueTID();
             SpawnSpot("DRPGCreditsEmpty", tmpTIDs[i], HolderTID, Random(0, 255));
             SetActorVelocity(HolderTID, RandomFixed(-8, 8), RandomFixed(-8, 8), RandomFixed(2, 8), false, false);
             Thing_Remove(tmpTIDs[i]);
         }
     }
-
 
     if (DebugLog)
     {
@@ -2509,7 +2507,6 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
     {
         if (Player.Shield.Accessory && Player.Shield.Accessory->PassiveEffect == SHIELD_PASS_DOSHMAGNET)
             CreditCount *= 3;
-
         GiveInventory("DRPGCredits", CreditCount);
         ActivatorSound("credits/pickup", 127);
     }
@@ -2525,7 +2522,8 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
 
     if (ItemTIDsInitialized && tmpTIDPos < MAX_MAGNET_ITEM_SCAN)
     {
-        int maxDist = Pow(SkillLevel->CurrentLevel+1, 3) * 48;
+        bool cannotRefund = CreditCount > 0;
+        int maxDist = Pow(SkillLevel->CurrentLevel+1, 3) * 24;
         for (int i = 0; i < MAX_ITEMS; i++)
         {
             if (ItemTIDs[i] == -1) break;
@@ -2546,13 +2544,18 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
             {
                 HudMessage("\CfMagnetize Skill\n\n\CdActor: \C-%S\n\n\CjTID: \Cd%d\n\nDistance from player: \Cd%d \Cj/ \Cd%d\n\nCan Magnetize: \Cd%d\n\nItems found: \Cd%d \Cj/ \Cd%d", GetActorClass(ItemTIDs[i]), i, realDist, maxDist, canMagnetize, tmpTIDPos, MAX_MAGNET_ITEM_SCAN);
                 EndHudMessage(HUDMSG_FADEOUT, MAKE_ID('M', 'A', 'G', 'N'), "White", 1.5, 0.8, 1.5, 0.5);
-                Delay(10);
+                Delay(1);
             }
             if (canMagnetize)
             {
+                cannotRefund = true;
                 tmpTID[tmpTIDPos] = ItemTIDs[i];
                 tmpTIDDist[tmpTIDPos++] = realDist;
                 if (tmpTIDPos == MAX_MAGNET_ITEM_SCAN) break;
+            }
+            if (cannotRefund && (i % 5000 == 0))
+            {
+                Delay(1);
             }
         }
     }
@@ -2572,10 +2575,9 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
         return false;
     }
 
-    // At this point, we know there's no need to refund the skill, so delay to
-    // ensure that the script doesn't get terminated for taking too long to sort.
+    // Delay to ensure that the script doesn't get terminated for taking too long to sort.
     Delay(1);
-
+    int loopCount = 0;
     for (int i = 1; i < tmpTIDPos; i++)
     {
         int ii = i;
@@ -2588,6 +2590,12 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
             tmpTID[ii] = tmpTID[ii-1];
             tmpTID[ii-1] = temp;
             ii--;
+            loopCount++;
+        }
+        if (loopCount >= 20000)
+        {
+            Delay(1);
+            loopCount = 0;
         }
     }
 
@@ -2607,26 +2615,14 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
         Delay(35 * 2);
     }
 
-    // Overdrive - Pull the items on top of you
-    if (Player.Overdrive)
+    AngleAdd = 1.0 / TIDPos;
+    for (int i = 0; i < TIDPos; i++)
     {
-        for (int i = 0; i < TIDPos; i++)
-        {
-            SetActorPosition(TID[i], X, Y, Z, 0);
-            SetActorVelocity(TID[i], 0, 0, 0, false, false);
-        }
-    }
-    else
-    {
-        AngleAdd = 1.0 / TIDPos;
-        for (int i = 0; i < TIDPos; i++)
-        {
-            X = GetActorX(0) + Cos(Angle) * 64.0;
-            Y = GetActorY(0) + Sin(Angle) * 64.0;
-            SetActorPosition(TID[i], X, Y, Z, 0);
-            SetActorVelocity(TID[i], 0, 0, 0, false, false);
-            Angle += AngleAdd;
-        }
+        X = GetActorX(0) + Cos(Angle) * 64.0;
+        Y = GetActorY(0) + Sin(Angle) * 64.0;
+        SetActorPosition(TID[i], X, Y, Z, 0);
+        SetActorVelocity(TID[i], 0, 0, 0, false, false);
+        Angle += AngleAdd;
     }
     FadeRange(0, 0, 0, 0.25 * SkillLevel->CurrentLevel, 0, 0, 0, 0.0, 1.0);
     ActivatorSound("skills/magnet", 127);
