@@ -245,8 +245,7 @@ NamedScript void BuildItemData()
             ItemData[5][ItemIndex].Rank = j / 1.5;
 
             //Rarity
-            int rarity = 1;
-            if (ShieldPartCost < 999999) rarity = 8;
+            int rarity = 8;
             if (ShieldPartCost < 200000) rarity = 7;
             if (ShieldPartCost < 120000) rarity = 6;
             if (ShieldPartCost < 90000) rarity = 5;
@@ -284,8 +283,7 @@ NamedScript void BuildItemData()
         ItemData[5][ItemIndex].Rank = i * (MAX_RANK / 2) / MAX_ACCESSORIES; // This makes all accessories available by SSgt +
 
         //Rarity
-        int rarity = 1;
-        if (Accessory->Price < 999999) rarity = 8;
+        int rarity = 8;
         if (Accessory->Price < 200000) rarity = 7;
         if (Accessory->Price < 120000) rarity = 6;
         if (Accessory->Price < 90000) rarity = 5;
@@ -423,7 +421,7 @@ NamedScript void BuildItemData()
         //ITEMDATA_DEF("SFFoxClass1DualWeapon",    "Fox's Blasters",   1000, 0, 0, "BOX1A0", 26, 30);
         //ITEMDATA_DEF("SFFalcoClass1DualWeapon",  "Falco's Blasters", 1000, 0, 0, "BOX1A0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxFalcoClass2Weapon", "Laser Rifle",                          1000, 1, 1, "BOX2A0", 26, 30);
+        ITEMDATA_DEF("SFFoxFalcoClass2Weapon", "Laser Rifle",                          1000, 1, 1, "ZXASA0", 26, 30);
         ITEMDATA_DEF("SFSlippyClass2Weapon",   "Starfox Labs Prototype Blaster Rifle", 1000, 1, 1, "BOX2A0", 26, 30);
 
         ITEMDATA_DEF("SFFoxClass3Weapon",    "Starfox Labs SR-33 Laser Carbine",       2000, 2, 2, "BOX3A0", 26, 30);
@@ -473,19 +471,25 @@ NamedScript void BuildItemData()
 
         // Equipment & Weapon Upgrades
         ITEMDATA_CATEGORY(ItemCategories - 1, "Equipment & Weapon Upgrades", CF_NOBUY | CF_NOSELL | CF_NODROP);
-        ITEMDATA_DEF("SFFoxUpgrade1Altfire",       "Overdrive Module",                  0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("SFFalcoUpgrade1Altfire",     "Overcharge Generator",              0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("SFFalcoUpgrade1Ripper",      "Hardened Plasma Casing",            0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFFoxUpgrade2Altfire",       "Overdrive Module",                  0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("FLUX",                       "Flux Plasma Modification",          0, -1, -1, "SprNone", 0, 0);
-        ITEMDATA_DEF("PECS",                       "Plasma Energy Conservation System", 0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFFalcoUpgrade6Bouncer",     "Plasma Energy Conservation System", 0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFFalcoUpgrade5Altfire",     "Laser Overdrive Module",            0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFKrystalUpgrade1Altfire",   "Runic Charging: Plasma Discharge",  0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFKrystalUpgrade2Altfire",   "Runic Charging: Toxic Orb",         0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFKrystalUpgrade3Altfire",   "Runic Charging: Concentrated Light",0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFKrystalUpgrade4Altfire",   "Runic Charging: Restoration",       0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("SFAmmoRegen",                "SL-EEA Module",                     0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("SFAmmoRegenUpgradeMove",     "SL-KA Module",                      0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("SFAmmoRegenUpgradeCooldown", "SF-BDF Module",                     0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("SFAmmoRegenUpgradeAmount",   "SL-CU Module",                      0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFAmmoStepUp",               "Sidearm Energy Stepper",            0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFAmmoStepDown",             "Primary Energy Stepper",            0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("SFAmmoBlasterMAX",           "Max Blaster Ammo",                  0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("SFAmmoMAX",                  "Max Normal Ammo",                   0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("SFAmmoBFGMAX",               "Max BFG-Type Ammo",                 0, -1, -1, "SprNone", 0, 0);
-        ITEMDATA_DEF("SFAmmoUltMAX",               "Max Ultimate Ammo",                 0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_CATEGORY_END;
     }
 

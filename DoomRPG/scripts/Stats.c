@@ -408,7 +408,7 @@ void CheckStats()
         SetAmmoCapacity("SFAmmoBlaster", SF_AMMO_BLASTER_MAX + (CheckActorInventory(Player.TID, "SFAmmoBlasterMAX") * 50));
         SetAmmoCapacity("SFAmmo", SF_AMMO_MAX + (CheckActorInventory(Player.TID, "SFAmmoMAX") * 100));
         SetAmmoCapacity("SFAmmoBFG", SF_AMMO_BFG_MAX + (CheckActorInventory(Player.TID, "SFAmmoBFGMAX") * 250));
-        SetAmmoCapacity("SFAmmoUlt", SF_AMMO_ULT_MAX + (CheckActorInventory(Player.TID, "SFAmmoUltMAX") * 500));
+        SetAmmoCapacity("SFAmmoMana", SF_AMMO_MANA_MAX + (CheckActorInventory(Player.TID, "SFAmmoManaMAX") * 100));
     }
     Player.Stim.VialMax = 10 + Player.CapacityTotal;
     Player.SurvivalBonus = (fixed)Player.AgilityTotal / 10.0;
