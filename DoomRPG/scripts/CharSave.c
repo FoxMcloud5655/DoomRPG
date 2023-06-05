@@ -613,6 +613,7 @@ NamedScript MenuEntry void LoadCharacter()
             if (DebugLog)
                 Log("Instructed Starfox to set parts%d = %d", i+1, parts);
         }
+        Player.EP = 1000;
         for (int i = 0; i < ItemMax[ItemCategories - 1]; i++)
             while (Player.Locker[ItemCategories - 1][i] > 0)
                 if (WithdrawItem(ItemCategories - 1, i) == 0)
