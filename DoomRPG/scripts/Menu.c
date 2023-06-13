@@ -694,10 +694,10 @@ void DrawStatsMenu()
             EndHudMessage(HUDMSG_PLAIN, 0, "Gray",    30.1,   250.0,  0.05);
             HudMessage("Primary: %d/%d", CheckInventory("SFAmmo"), GetAmmoCapacity("SFAmmo"));
             EndHudMessage(HUDMSG_PLAIN, 0, "Green",   30.1,   258.0,  0.05);
-            HudMessage("PWNE: %d/%d", CheckInventory("SFAmmoBFG"), GetAmmoCapacity("SFAmmoBFG"));
+            HudMessage("APE: %d/%d", CheckInventory("SFAmmoBFG"), GetAmmoCapacity("SFAmmoBFG"));
             EndHudMessage(HUDMSG_PLAIN, 0, "Orange",  30.1,   266.0,  0.05);
-            HudMessage("APE: %d/%d", CheckInventory("SFAmmoUlt"), GetAmmoCapacity("SFAmmoUlt"));
-            EndHudMessage(HUDMSG_PLAIN, 0, "Brick",   30.1,   274.0,  0.05);
+            HudMessage("Mana: %d/%d", CheckInventory("SFAmmoMana"), GetAmmoCapacity("SFAmmoMana"));
+            EndHudMessage(HUDMSG_PLAIN, 0, "Blue",    30.1,   274.0,  0.05);
         }
 
         // Luck

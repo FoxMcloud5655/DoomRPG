@@ -1912,6 +1912,41 @@ NamedScript Console bool Summon(SkillLevelInfo *SkillLevel, void *Data)
         "SpiderMastermind"
     };
 
+    str const SFSummons[][2] =
+    {
+        {
+            "ZombieMan",
+            "SFZombieMan"
+        },
+        {
+            "ShotgunGuy",
+            "SFShotgunGuy"
+        },
+        {
+            "ChaingunGuy",
+            "SFChaingunGuy"
+        },
+        {"DoomImp"},
+        {"Demon"},
+        {"Cacodemon"},
+        {"HellKnight"},
+        {"BaronOfHell"},
+        {"LostSoul"},
+        {"PainElemental"},
+        {"Revenant"},
+        {"Fatso"},
+        {"Arachnotron"},
+        {"Archvile"},
+        {
+            "Cyberdemon"//,
+            //"SFCyberdemon"
+        },
+        {
+            "SpiderMastermind",
+            "SFSpiderMastermind"
+        },
+    };
+
     str const DRLASummons[][6] =
     {
         // Former Human
@@ -2190,6 +2225,8 @@ NamedScript Console bool Summon(SkillLevelInfo *SkillLevel, void *Data)
             Name = CHSummons[Index - 1][SkillLevel->CurrentLevel - 1];
         else if (CompatMode == COMPAT_EXTRAS)
             Name = StrParam("DRPG%SExtras", Summons[Index - 1]);
+        else if (CompatMode == COMPAT_STARFOX)
+            Name = SFSummons[Index - 1][SkillLevel->CurrentLevel - 1];
         else
             Name = StrParam("DRPG%S", Summons[Index - 1]);
     }
@@ -3050,6 +3087,29 @@ void BuildSkillData()
         Skills[4][16].Description[0] = "Summons a Spider Mastermind";
         Skills[4][16].Description[1] = "Summons a Uncommon Spider Mastermind";
         Skills[4][16].Description[2] = "Summons a Rare Spider Mastermind";
+    }
+    else if (CompatMode = COMPAT_STARFOX)
+    {
+        Skills[4][1].MaxLevel = 2;
+        Skills[4][2].MaxLevel = 2;
+        Skills[4][3].MaxLevel = 2;
+        //Skills[4][15].MaxLevel = 2;
+        Skills[4][16].MaxLevel = 2;
+
+        Skills[4][1].Description[0] = "Summons a Former Human";
+        Skills[4][1].Description[1] = "Summons a Former Human with a laser rifle";
+
+        Skills[4][2].Description[0] = "Summons a Former Sergeant";
+        Skills[4][2].Description[1] = "Summons a laser-firing Former Sergeant";
+
+        Skills[4][3].Description[0] = "Summons a Commando";
+        Skills[4][3].Description[1] = "Summons a Laser Minigunner Commando";
+
+        //Skills[4][15].Description[0] = "Summons a Cyberdemon";
+        //Skills[4][15].Description[1] = "Summons a Starfox Infused Cyberdemon";
+
+        Skills[4][16].Description[0] = "Summons a Spider Mastermind";
+        Skills[4][16].Description[1] = "Summons an enhanced Spider Mastermind";
     }
 
     // Icons

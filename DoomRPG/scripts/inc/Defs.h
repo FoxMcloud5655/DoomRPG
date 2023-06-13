@@ -750,7 +750,7 @@ typedef enum
 #define DRLA_DEVICE_MAX         4 + (Player.CapacityTotal / 50)
 #define SF_AMMO_BLASTER_MAX     Player.CapacityTotal * 5
 #define SF_AMMO_MAX             400 + (Player.CapacityTotal * 10)
-#define SF_AMMO_BFG_MAX         9500 + (Player.CapacityTotal * 50)
+#define SF_AMMO_BFG_MAX         4500 + (Player.CapacityTotal * 50)
 #define SF_AMMO_MANA_MAX        400 + (Player.CapacityTotal * 10)
 
 #define NATURALCAP              100
