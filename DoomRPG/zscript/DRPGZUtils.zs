@@ -48,7 +48,7 @@ class DRPGZInputHandler : EventHandler
             return false;
 
         // KeyDown detection
-        if 			(e.Type == e.Type_KeyDown)
+        if (e.Type == e.Type_KeyDown)
             KeyDown = true;
         else if (e.Type == e.Type_KeyUp)
             KeyDown = false;
@@ -92,7 +92,6 @@ class DRPGZInputHandler : EventHandler
         // Only update ACS if key is supported
         if (KeySupported > 0)
             CallACS("UpdateInput", keySupported, KeyDown, CVar.GetCVar("drpg_menu_repetition", players[consoleplayer]).GetBool());
-
         return false;
     }
 }
@@ -167,7 +166,7 @@ class DRPGZUtilities
         // 2 = Wide
 
         // Default
-        if 			(Preset == 1)
+        if (Preset == 1)
         {
             // Reset HUD CVars
             for (int i = 0; i < drpgHUDCVars.size(); i++)

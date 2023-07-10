@@ -606,18 +606,12 @@ NamedScript MenuEntry void LoadCharacter()
     // Starfox Stored Parts
     if (CompatMode == COMPAT_STARFOX)
     {
-        for (int i = 0; i < STARFOX_MAX_PARTS; i++)
-        {
-            int parts = Info.SFParts[i];
-            ACS_NamedExecuteAlways("SFSetParts", 0, PlayerNumber(), i+1, parts);
-            if (DebugLog)
-                Log("Instructed Starfox to set parts%d = %d", i+1, parts);
-        }
-        Player.EP = 1000;
         for (int i = 0; i < ItemMax[ItemCategories - 1]; i++)
-            while (Player.Locker[ItemCategories - 1][i] > 0)
-                if (WithdrawItem(ItemCategories - 1, i) == 0)
-                    break;
+        {
+            ItemInfoPtr ItemPtr = &ItemData[ItemCategories - 1][i];
+            SetInventory(ItemPtr->Actor, Player.Locker[ItemCategories - 1][i]);
+            Player.Locker[ItemCategories - 1][i] = 0;
+        }
     }
 
     // DRLA Tokens
@@ -850,16 +844,6 @@ NamedScript void PopulateCharData(CharSaveInfo *Info)
             Info->ItemAutoMode[i][j] = Player.ItemAutoMode[i][j];
 
     // ----- COMPATIBILITY EXTENSIONS -----
-
-    // Starfox Stored Parts
-    if (CompatMode == COMPAT_STARFOX)
-        for (int i = 0; i < STARFOX_MAX_PARTS; i++)
-        {
-            int parts = ACS_NamedExecuteWithResult("SFGetParts", PlayerNumber(), i+1);
-            Info->SFParts[i] = parts;
-            if (DebugLog)
-                Log("Starfox reports that parts%d = %d", i+1, parts);
-        }
 
     // DRLA Tokens
     if (CompatMode == COMPAT_DRLA)

@@ -451,6 +451,9 @@ NamedScript void BuildItemData()
         ITEMDATA_DEF("SFFalcoClassXWeapon",  "Blue Wave Cannon",                     256000, 9, 9, "FRZWA0", 26, 30);
         ITEMDATA_DEF("SFSlippyClassXWeapon", "StarFox Labs END-GAME Cannon",         256000, 9, 9, "BOXXA0", 26, 30);
 
+        ITEMDATA_DEF("SFSpellbookFire",      "Spell Tome: Fire",       8000, 4, 4, "SPELY0", 14, 24);
+        ITEMDATA_DEF("SFSpellbookLightning", "Spell Tome: Lightning", 16000, 5, 5, "SPELY0", 14, 24);
+
         ITEMDATA_CATEGORY_END;
 
         // Weapon Boxes
@@ -506,6 +509,11 @@ NamedScript void BuildItemData()
         ITEMDATA_DEF("SFAmmoBlasterMAX",           "Max Blaster Ammo",                  0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("SFAmmoMAX",                  "Max Normal Ammo",                   0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_DEF("SFAmmoBFGMAX",               "Max BFG-Type Ammo",                 0, -1, -1, "SprNone", 0, 0);
+
+        ITEMDATA_DEF("SFPart1", "Metal Scrap",   0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFPart2", "Silica Scrap",  0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFPart3", "Glass Scrap",   0, -1, -1, "SprNone", 0, 0);
+        ITEMDATA_DEF("SFPart4", "Lithium Scrap", 0, -1, -1, "SprNone", 0, 0);
         ITEMDATA_CATEGORY_END;
     }
 

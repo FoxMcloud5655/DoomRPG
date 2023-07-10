@@ -1481,15 +1481,33 @@ NamedScript void FocusMode()
             RegenDelay--;
         else
         {
+            if (CompatMode == COMPAT_STARFOX)
+            {
+                GiveActorInventory(0, "SFAmmoMana", 1);
+            }
             Player.EP += Player.EPAmount;
             if (Player.EP > Player.EPMax)
                 Player.EP = Player.EPMax;
             RegenDelay = (RegenWindupSpeed * (Player.EPTime / 4)) / StartWindupSpeed;
         }
-
         // Moving and attacking interrupts focusing
         if (IsPlayerMoving() || Player.EP >= Player.EPMax || CheckInput(BT_ATTACK, KEY_HELD, true, -1) || CheckInput(BT_ALTATTACK, KEY_HELD, true, -1))
             Player.Focusing = false;
+
+        if (CompatMode == COMPAT_STARFOX)
+        {
+            // Prevent ammo regen while focusing
+            if (CheckInventory("SFAmmoRegen") == 1)
+            {
+                GiveActorInventory(0, "SFAmmoRegen", 1);
+            }
+
+            // Stop focusing if tetrary attacking or reflector turns on
+            if (CheckInput(BT_USER3, KEY_HELD, true, -1) || CheckInput(BT_USER4, KEY_HELD, true, -1))
+            {
+                Player.Focusing = false;
+            }
+        }
 
         Delay(1);
     }
