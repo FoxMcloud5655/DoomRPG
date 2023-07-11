@@ -1483,7 +1483,7 @@ NamedScript void FocusMode()
         {
             if (CompatMode == COMPAT_STARFOX)
             {
-                GiveActorInventory(0, "SFAmmoMana", 1);
+                GiveInventory("SFAmmoMana", 1);
             }
             Player.EP += Player.EPAmount;
             if (Player.EP > Player.EPMax)
@@ -1499,7 +1499,7 @@ NamedScript void FocusMode()
             // Prevent ammo regen while focusing
             if (CheckInventory("SFAmmoRegen") == 1)
             {
-                GiveActorInventory(0, "SFAmmoRegen", 1);
+                GiveInventory("SFAmmoRegen", 1);
             }
 
             // Stop focusing if tetrary attacking or reflector turns on
@@ -1513,7 +1513,7 @@ NamedScript void FocusMode()
     }
 
     Player.Focusing = false; // So we can't gain Regen XP out of thin air
-    PlaySound(0, "misc/epfocusdone", CHAN_BODY, 0.5, false, ATTN_NORM);
+    PlaySound(0, "misc/epfocusdone", CHAN_BODY, 0.75, false, ATTN_NORM);
     SetPlayerProperty(0, 0, PROP_FROZEN);
 }
 
