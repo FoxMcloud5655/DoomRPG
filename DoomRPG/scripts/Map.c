@@ -1088,7 +1088,8 @@ bool CheckMapEvent(int Event, LevelInfo *TargetLevel)
                 CurrentSkill < 5);
 
     case MAPEVENT_SPECIAL_SINSTORM:
-        return false;
+        return (GetCVar("drpg_mapevent_sinstorm") &&
+                AveragePlayerLevel() >= 50);
 
     default:
         return true;
@@ -1478,7 +1479,7 @@ NamedScript void SetupMapEvent()
         SetMusic("Skill6");
         SetHudSize(640, 480, false);
         SetFont("BIGFONT");
-        HudMessage("A foul misfortune sweeps the land, turning up the darkest creatures. There is no God now.");
+        HudMessage("A foul misfortune sweeps the land, raising up the darkest of creatures.");
         EndHudMessageBold(HUDMSG_FADEOUT, 0, "Gray", 320.4, 150.0, 1.0, 19.0);
         SetHudSize(0, 0, false);
         break;
