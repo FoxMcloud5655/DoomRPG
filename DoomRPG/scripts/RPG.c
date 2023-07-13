@@ -1343,7 +1343,7 @@ NamedScript OptionalArgs(1) void DynamicLootGenerator(str Actor, int MaxItems)
         if (i % 1000 == 0) Delay(1);
     }
 
-    if (NumItems < 1) // [KS] If we can't find any possible positions to spawn anything, fuck it.
+    if (NumItems < 1) // [KS] If we can't find any possible positions to spawn anything, do nothing.
         return;
 
     int TID, A;
@@ -1390,13 +1390,15 @@ NamedScript OptionalArgs(1) void DynamicLootGenerator(str Actor, int MaxItems)
             {
                 if (Actor == "DRPGGenericMonsterDropper")
                 {
-                    str SpawnMonster;
+                    str SpawnMonster = NULL;
                     if (CurrentLevel != NULL && CurrentLevel->Event == MAPEVENT_ONEMONSTER)
                         SpawnMonster = GetMissionMonsterActor(CurrentLevel->SelectedMonster->Actor);
                     else if (GetCVar("drpg_monster_adaptive_spawns"))
-                        SpawnMonster = Monsters[Random(1, CurrentLevel->MaxTotalMonsters)].Actor;
-                    else
-                        SpawnMonster = Actor;
+                        while (SpawnMonster == "DRPGBossBrain" || SpawnMonster == NULL)
+                        {
+                            SpawnMonster = Monsters[Random(1, CurrentLevel->MaxTotalMonsters)].Actor;
+                        }
+                    else SpawnMonster = Actor;
                     if (!Visible && Spawn(SpawnMonster, X, Y, Z, TID, A))
                         Items++;
                 }
