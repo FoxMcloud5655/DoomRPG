@@ -745,7 +745,7 @@ int WithdrawItem(int Page, int Index)
         (*LockerAmount)--;
         if (!CurrentLevel->UACBase)
             Player.EP -= LOCKER_EPRATE;
-        PlaySound(0, "menu/move", CHAN_AUTO);
+        PlaySound(0, "menu/move", CHAN_BODY);
     }
     else
     {
