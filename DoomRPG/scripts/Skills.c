@@ -672,7 +672,7 @@ Start:
     {
         if (CheckInput(BT_USER1, KEY_HELD, false, PlayerNumber()))
         {
-            ActivatorSound("menu/click", 127);
+            PlaySound(0, "menu/click", CHAN_AUTO);
             Player.SkillWheelOpen = true;
         }
     }
@@ -738,7 +738,7 @@ Start:
             {
                 if (CheckInput(BT_MOVELEFT, KEY_REPEAT, false, PlayerNumber()))
                 {
-                    ActivatorSound("menu/click", 127);
+                    PlaySound(0, "menu/click", CHAN_AUTO);
                     Player.WheelSelection--;
                     OldLocation = Location;
                     LerpPos = 0;
@@ -746,7 +746,7 @@ Start:
                 }
                 if (CheckInput(BT_MOVERIGHT, KEY_REPEAT, false, PlayerNumber()))
                 {
-                    ActivatorSound("menu/click", 127);
+                    PlaySound(0, "menu/click", CHAN_AUTO);
                     Player.WheelSelection++;
                     OldLocation = Location;
                     LerpPos = 0;
@@ -877,7 +877,7 @@ NamedScript KeyBind void UseSkill(int Key)
     // You cannot use skills while Silenced
     if (Player.StatusType[SE_SILENCE])
     {
-        ActivatorSound("skills/silence", 127);
+        PlaySound(0, "skills/silence", CHAN_AUTO);
         SetFont("BIGFONT");
         PrintError("You cannot use skills while silenced");
         return;
@@ -905,7 +905,7 @@ NamedScript KeyBind void UseSkill(int Key)
         SkillLevel->CurrentLevel++;
         TakeInventory("DRPGModule", MODULE_SKILL_MULT);
         FadeRange(0, 255, 255, 0.5, 0, 255, 255, 0.0, 0.5);
-        ActivatorSound("health/epcapsule", 127);
+        PlaySound(0, "health/epcapsule", CHAN_AUTO);
         return;
     }
 
@@ -914,7 +914,7 @@ NamedScript KeyBind void UseSkill(int Key)
     {
         SetFont("BIGFONT");
         PrintError("You don't know this skill yet");
-        ActivatorSound("skills/fail", 127);
+        PlaySound(0, "skills/fail", CHAN_AUTO);
         return;
     }
 
@@ -923,7 +923,7 @@ NamedScript KeyBind void UseSkill(int Key)
     {
         SetFont("BIGFONT");
         PrintError("You can't use skills while burned out");
-        ActivatorSound("skills/fail", 127);
+        PlaySound(0, "skills/fail", CHAN_AUTO);
         return;
     }
 
@@ -933,7 +933,7 @@ NamedScript KeyBind void UseSkill(int Key)
         {
             SetFont("BIGFONT");
             PrintError("You are not powerful enough");
-            ActivatorSound("skills/fail", 127);
+            PlaySound(0, "skills/fail", CHAN_AUTO);
             return;
         }
 
@@ -1006,7 +1006,7 @@ NamedScript KeyBind void UseSkill(int Key)
     {
         SetFont("BIGFONT");
         PrintError("Not enough EP to use this skill!");
-        ActivatorSound("skills/fail", 127);
+        PlaySound(0, "skills/fail", CHAN_AUTO);
     }
 }
 
@@ -1019,7 +1019,7 @@ NamedScript Console bool Heal(SkillLevelInfo *SkillLevel, void *Data)
     if ((SkillLevel->CurrentLevel < 3 && Player.ActualHealth >= Player.HealthMax) && !HaveStatusEffect())
     {
         PrintError("You are already at max health");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1103,7 +1103,7 @@ NamedScript Console bool Heal(SkillLevelInfo *SkillLevel, void *Data)
             SetActivator(Players(i).TID);
 
             FadeRange(255, 0, 255, 0.5, 255, 0, 255, 0, 1.0);
-            ActivatorSound("skills/heal", (Players(i).TID == PlayerTID ? 127 : 64));
+            PlaySound(0, "skills/heal", CHAN_BODY, (Players(i).TID == PlayerTID ? 1 : 0.5));
         }
 
         SetActivator(PlayerTID);
@@ -1111,7 +1111,7 @@ NamedScript Console bool Heal(SkillLevelInfo *SkillLevel, void *Data)
     else
     {
         FadeRange(255, 0, 255, 0.5, 255, 0, 255, 0, 1.0);
-        ActivatorSound("skills/heal", 127);
+        PlaySound(0, "skills/heal", CHAN_AUTO);
     }
 
     return true;
@@ -1123,7 +1123,7 @@ NamedScript Console bool HealSummons(SkillLevelInfo *SkillLevel, void *Data)
     if (Player.Summons == 0)
     {
         PrintError("You have no summoned friendlies");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1136,7 +1136,7 @@ NamedScript Console bool HealSummons(SkillLevelInfo *SkillLevel, void *Data)
             SetActorProperty(Player.SummonTID[i], APROP_Health, Stats->HealthMax);
         }
 
-    ActivatorSound("skills/heal2", 127);
+    PlaySound(0, "skills/heal2", CHAN_AUTO);
 
     return true;
 }
@@ -1146,14 +1146,14 @@ NamedScript Console bool Decontaminate(SkillLevelInfo *SkillLevel, void *Data)
     if (Player.Toxicity <= 0)
     {
         PrintError("You have no toxicity");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
     Player.Toxicity = 0;
     ClearToxicityMeter();
 
-    ActivatorSound("skills/decontaminate", 127);
+    PlaySound(0, "skills/decontaminate", CHAN_AUTO);
     FadeRange(0, 255, 0, 0.5, 0, 255, 0, 0.0, 1.0);
 
     Player.SkillCostMult += 25;
@@ -1166,14 +1166,14 @@ NamedScript Console bool Repair(SkillLevelInfo *SkillLevel, void *Data)
     if (CheckInventory("Armor") == 0 || CheckInventory("Armor") >= GetArmorInfo(ARMORINFO_SAVEAMOUNT))
     {
         PrintError("You aren't wearing any armor");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
     FadeRange(0, 255, 0, 0.5, 0, 255, 0, 0, 1.0);
     GiveInventory(GetArmorInfoString(ARMORINFO_CLASSNAME), 1);
 
-    ActivatorSound("skills/repair", 127);
+    PlaySound(0, "skills/repair", CHAN_AUTO);
 
     return true;
 }
@@ -1188,32 +1188,32 @@ NamedScript Console bool Powerup(SkillLevelInfo *SkillLevel, void *Data)
         if (Player.SkillPowerupCooldown > 0)
         {
             PrintError(StrParam("You must wait %S before using Invulnerability", FormatTime(Player.SkillPowerupCooldown)));
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
             return false;
         };
-        ActivatorSound("powerups/protect", 127);
+        PlaySound(0, "powerups/protect", CHAN_AUTO);
         GiveInventory(StrParam("DRPGSkillInvulnerability%d", SkillLevel->CurrentLevel), 1);
         Player.SkillPowerupCooldown = 35 * 60 * (SkillLevel->CurrentLevel > 1 ? 5 : 10);
         break;
     case 1: // Invisibility
-        ActivatorSound("powerups/invis", 127);
+        PlaySound(0, "powerups/invis", CHAN_AUTO);
         GiveInventory(StrParam("DRPGSkillInvisibility%d", SkillLevel->CurrentLevel), 1);
         break;
     case 3: // Iron Feet
-        ActivatorSound("powerups/suit", 127);
+        PlaySound(0, "powerups/suit", CHAN_AUTO);
         GiveInventory("DRPGSkillIronFeet", 1);
         break;
     case 4: // Night Vision
-        ActivatorSound("powerups/light", 127);
+        PlaySound(0, "powerups/light", CHAN_AUTO);
         GiveInventory("DRPGSkillLightAmp", 1);
         break;
     case 5: // Berserk
-        ActivatorSound("powerups/berserk", 127);
+        PlaySound(0, "powerups/berserk", CHAN_AUTO);
         GiveInventory("PowerStrength", 1);
         HealThing(MAX_HEALTH);
         break;
     case 6: // Mental Mapping
-        ActivatorSound("powerups/map", 127);
+        PlaySound(0, "powerups/map", CHAN_AUTO);
         GiveInventory("DRPGAllMapRevealer", 1);
         GiveInventory("DRPGAllMapScanner", 1);
         break;
@@ -1227,7 +1227,7 @@ NamedScript Console bool BulletTime(SkillLevelInfo *SkillLevel, void *Data)
     if (Player.SkillPowerupCooldown > 0)
     {
         PrintError(StrParam("You must wait %S before using Time Freeze", FormatTime(Player.SkillPowerupCooldown)));
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1284,14 +1284,14 @@ NamedScript Console bool DropWeapon(SkillLevelInfo *SkillLevel, void *Data)
 
     if (Spawn(Weapon, X, Y, Z, 0, Angle))
     {
-        ActivatorSound("skills/drop", 127);
+        PlaySound(0, "skills/drop", CHAN_AUTO);
         Spawn("TeleportFog", X, Y, Z, 0, Angle);
         return true;
     }
     else
     {
         PrintError("You cannot drop weapons here");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1309,7 +1309,7 @@ NamedScript Console bool DropSupply(SkillLevelInfo *SkillLevel, void *Data)
     if (Player.SkillSupplyCooldown > 0)
     {
         PrintError(StrParam("You must wait %S before calling in new supplies", FormatTime(Player.SkillSupplyCooldown)));
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1329,14 +1329,14 @@ NamedScript Console bool DropSupply(SkillLevelInfo *SkillLevel, void *Data)
 
     if (Spawned)
     {
-        ActivatorSound("skills/drop", 127);
+        PlaySound(0, "skills/drop", CHAN_AUTO);
         Spawn("TeleportFog", X, Y, Z, 0, Angle);
         return true;
     }
     else
     {
         PrintError("A supply drop cannot be performed at your current location");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1405,7 +1405,7 @@ NamedScript Console bool UseAura(SkillLevelInfo *SkillLevel, void *Data)
     // Aura Cost Multiplier
     Player.SkillCostMult += 10;
 
-    ActivatorSound("skills/buff", 127);
+    PlaySound(0, "skills/buff", CHAN_AUTO);
     return true;
 }
 
@@ -1423,7 +1423,7 @@ NamedScript Console bool Weaken(SkillLevelInfo *SkillLevel, void *Data)
     if (ActivatorTID() == Players(PlayerNum).TID)
     {
         PrintError("You have no target");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1499,7 +1499,7 @@ NamedScript Console bool Weaken(SkillLevelInfo *SkillLevel, void *Data)
     SetActivator(Players(PlayerNum).TID);
 
     FadeRange(0, 0, 0, 0.25, 0, 0, 0, 0.0, 1.0);
-    ActivatorSound("skills/weaken", 127);
+    PlaySound(0, "skills/weaken", CHAN_AUTO);
     return true;
 }
 
@@ -1508,7 +1508,7 @@ NamedScript Console bool Translocate(SkillLevelInfo *SkillLevel, void *Data)
     if (CurrentLevel->UACBase)
     {
         PrintError("Cannot translocate here");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1540,7 +1540,7 @@ NamedScript Console bool AuraSteal(SkillLevelInfo *SkillLevel, void *Data)
     {
         SetActivator(Players(PlayerNum).TID);
         PrintError("You have no target");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1599,7 +1599,7 @@ NamedScript Console bool AuraSteal(SkillLevelInfo *SkillLevel, void *Data)
     // Remove from enemy
     RemoveMonsterAura(Stats);
 
-    ActivatorSound("skills/aurasteal", 127);
+    PlaySound(0, "skills/aurasteal", CHAN_AUTO);
     return true;
 }
 
@@ -1639,7 +1639,7 @@ NamedScript Console bool SoulSteal(SkillLevelInfo *SkillLevel, void *Data)
     {
         SetActivator(Players(PlayerNum).TID);
         PrintError("You have no target");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1716,7 +1716,7 @@ NamedScript Console bool SoulSteal(SkillLevelInfo *SkillLevel, void *Data)
     AddHealthDirect(LeechAmount, 100);
 
     FadeRange(0, 0, 0, 0.5, 0, 0, 0, 0.0, 0.25);
-    ActivatorSound("skills/soulsteal", 127);
+    PlaySound(0, "skills/soulsteal", CHAN_AUTO);
     return true;
 }
 
@@ -1737,7 +1737,7 @@ NamedScript Console bool Disruption(SkillLevelInfo *SkillLevel, void *Data)
             GiveInventory("DRPGAreaDisruptionSmall", 1);
 
         FadeRange(0, 64, 255, 0.5, 0, 64, 255, 0.0, 0.25);
-        ActivatorSound("skills/disruption", 127);
+        PlaySound(0, "skills/disruption", CHAN_AUTO);
 
         return true;
     }
@@ -1747,7 +1747,7 @@ NamedScript Console bool Disruption(SkillLevelInfo *SkillLevel, void *Data)
     {
         SetActivator(Players(PlayerNum).TID);
         PrintError("You have no target");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1817,7 +1817,7 @@ NamedScript Console bool Disruption(SkillLevelInfo *SkillLevel, void *Data)
     Thing_ChangeTID(UniqueMonsterTID, RealMonsterTID);
 
     FadeRange(0, 64, 255, 0.5, 0, 64, 255, 0.0, 0.25);
-    ActivatorSound("skills/disruption", 127);
+    PlaySound(0, "skills/disruption", CHAN_AUTO);
     return true;
 }
 
@@ -1844,7 +1844,7 @@ NamedScript Console void PlasmaBeam1()
 {
     int BeamTime = 35;
 
-    ActivatorSound("skills/plasmabeam1", 127);
+    PlaySound(0, "skills/plasmabeam1", CHAN_AUTO);
 
     while (BeamTime--)
     {
@@ -1857,8 +1857,8 @@ NamedScript Console void PlasmaBeam2()
 {
     int BeamTime = 35;
 
-    ActivatorSound("skills/plasmabeam1", 63);
-    ActivatorSound("skills/plasmabeam2", 64);
+    PlaySound(0, "skills/plasmabeam1", CHAN_BODY, 0.5);
+    PlaySound(0, "skills/plasmabeam2", CHAN_BODY, 0.5);
 
     while (BeamTime--)
     {
@@ -1871,7 +1871,7 @@ NamedScript Console void PlasmaBeam3()
 {
     int BeamTime = 35;
 
-    ActivatorSound("skills/plasmabeam3", 127);
+    PlaySound(0, "skills/plasmabeam3", CHAN_AUTO);
 
     while (BeamTime--)
     {
@@ -2178,7 +2178,7 @@ NamedScript Console bool Summon(SkillLevelInfo *SkillLevel, void *Data)
     if (CurrentLevel->UACBase)
     {
         PrintError("You cannot summon friendlies here");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2186,7 +2186,7 @@ NamedScript Console bool Summon(SkillLevelInfo *SkillLevel, void *Data)
     if (Player.Summons >= MAX_SUMMONS)
     {
         PrintError("You cannot summon any more friendlies");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2284,7 +2284,7 @@ NamedScript Console bool Summon(SkillLevelInfo *SkillLevel, void *Data)
     else
     {
         PrintError("You cannot summon a friendly here");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2299,7 +2299,7 @@ NamedScript Console bool BreakdownArmor(SkillLevelInfo *SkillLevel, void *Data)
     if (CompatMode == COMPAT_DRLA && Armor >= 99999)
     {
         PrintError("You cannot breakdown indestructible armors");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2319,13 +2319,13 @@ NamedScript Console bool BreakdownArmor(SkillLevelInfo *SkillLevel, void *Data)
         TakeInventory("BasicArmor", Armor);
         GiveInventory("DRPGCredits", Armor);
 
-        ActivatorSound("skills/breakdown", 127);
+        PlaySound(0, "skills/breakdown", CHAN_AUTO);
         return true;
     }
     else
     {
         PrintError("You're not wearing any armor");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2358,7 +2358,7 @@ NamedScript Console bool ForceWall(SkillLevelInfo *SkillLevel, void *Data)
     else
     {
         PrintError("Cannot place a force wall here");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2376,7 +2376,7 @@ NamedScript Console bool Rally(SkillLevelInfo *SkillLevel, void *Data)
     if (Player.Summons == 0)
     {
         PrintError("You have no summoned friendlies");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2386,7 +2386,7 @@ NamedScript Console bool Rally(SkillLevelInfo *SkillLevel, void *Data)
         if (Player.SummonTID[i] > 0)
             SetActorPosition(Player.SummonTID[i], X, Y, Z, 0);
 
-    ActivatorSound("skills/rally", 127);
+    PlaySound(0, "skills/rally", CHAN_AUTO);
     return true;
 }
 
@@ -2398,7 +2398,7 @@ NamedScript Console bool Unsummon(SkillLevelInfo *SkillLevel, void *Data)
     if (Player.Summons == 0)
     {
         PrintError("You have no summoned friendlies");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2429,7 +2429,7 @@ NamedScript Console bool Unsummon(SkillLevelInfo *SkillLevel, void *Data)
     Player.Summons = 0;
 
     FadeRange(192, 0, 0, 0.5, 192, 0, 0, 0.0, 1.0);
-    ActivatorSound("skills/unsummon", 127);
+    PlaySound(0, "skills/unsummon", CHAN_AUTO);
     return true;
 }
 
@@ -2439,7 +2439,7 @@ NamedScript Console bool Recall(SkillLevelInfo *SkillLevel, void *Data)
     if (ArenaActive || MarinesHostile)
     {
         PrintError("You cannot recall from this location");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2454,7 +2454,7 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
     if (CurrentLevel->UACBase)
     {
         PrintError("You cannot use that skill here");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
     if (DebugLog)
@@ -2545,7 +2545,7 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
         if (Player.Shield.Accessory && Player.Shield.Accessory->PassiveEffect == SHIELD_PASS_DOSHMAGNET)
             CreditCount *= 3;
         GiveInventory("DRPGCredits", CreditCount);
-        ActivatorSound("credits/pickup", 127);
+        PlaySound(0, "credits/pickup", CHAN_AUTO);
     }
 
     CleanDropTIDArray();
@@ -2608,7 +2608,7 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
     if (tmpTIDPos == 0 && CreditCount == 0)
     {
         PrintError("No magnetizeable items detected");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2662,7 +2662,7 @@ NamedScript Console bool Magnetize(SkillLevelInfo *SkillLevel, void *Data)
         Angle += AngleAdd;
     }
     FadeRange(0, 0, 0, 0.25 * SkillLevel->CurrentLevel, 0, 0, 0, 0.0, 1.0);
-    ActivatorSound("skills/magnet", 127);
+    PlaySound(0, "skills/magnet", CHAN_AUTO);
     return true;
 }
 
@@ -2674,7 +2674,7 @@ NamedScript Console bool Transport(SkillLevelInfo *SkillLevel, void *Data)
     // [marrub] For Seryder
     if (CheckInventory("DRPGDisallowTransport"))
     {
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2682,7 +2682,7 @@ NamedScript Console bool Transport(SkillLevelInfo *SkillLevel, void *Data)
     if (ArenaActive || MarinesHostile || Player.OutpostMenu > 0)
     {
         PrintError("There was a malfunction with the transportation system");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2690,7 +2690,7 @@ NamedScript Console bool Transport(SkillLevelInfo *SkillLevel, void *Data)
     if (CurrentLevel && CurrentLevel->Event == MAPEVENT_HELLUNLEASHED && CurrentLevel->HellUnleashedActive)
     {
         PrintError("Error reaching Outpost transportation system");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2698,7 +2698,7 @@ NamedScript Console bool Transport(SkillLevelInfo *SkillLevel, void *Data)
     if (CurrentLevel && CurrentLevel->Event == MAPEVENT_DRLA_FEEDINGFRENZY)
     {
         PrintError("Error reaching Outpost transportation system");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -2728,13 +2728,13 @@ NamedScript Console bool Transport(SkillLevelInfo *SkillLevel, void *Data)
 
                 if (CheckInput(BT_USE, KEY_ONLYHELD, false, PlayerNumber()))
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     PlayersApprove++;
                     Voted[i] = true;
                 }
                 if (CheckInput(BT_SPEED, KEY_ONLYHELD, false, PlayerNumber()))
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     PlayersDeny++;
                     Voted[i] = true;
                 }
@@ -2859,7 +2859,7 @@ NamedScript void TransportOutFX(int tid)
     if (GetActorZ(0) == GetActorFloorZ(0))
         SetActorPosition(0, GetActorX(0), GetActorY(0), GetActorZ(0)+1, false);
     GiveInventory("DRPGTransportSetNonShootable", 1);
-    ActivatorSound("misc/transport", 96);
+    PlaySound(0, "misc/transport", CHAN_BODY, 0.75);
     SpawnForced("DRPGTransportEffect", GetActorX(0), GetActorY(0), GetActorZ(0), 0, 0);
     SetActorProperty(0, APROP_RenderStyle, STYLE_AddStencil);
     SetActorProperty(0, APROP_StencilColor, 0x0096FF);
@@ -2877,7 +2877,7 @@ NamedScript void TransportInFX(int tid)
         SetActivator(tid);
 
     GiveInventory("DRPGTransportUnsetNonShootable", 1);
-    ActivatorSound("misc/transport", 96);
+    PlaySound(0, "misc/transport", CHAN_BODY, 0.75);
     SpawnForced("DRPGTransportEffect", GetActorX(0), GetActorY(0), GetActorZ(0), 0, 0);
     SetActorProperty(0, APROP_RenderStyle, STYLE_Normal);
     SetActorPropertyFixed(0, APROP_Alpha, 1.0);

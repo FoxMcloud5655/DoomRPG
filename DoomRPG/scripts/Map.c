@@ -1128,7 +1128,7 @@ void MapEventReward()
                 break;
             }
 
-            ActivatorSound("mission/complete", 127);
+            PlaySound(0, "mission/complete", CHAN_AUTO);
             PrintMessage(Message);
         }
     }
@@ -1858,7 +1858,7 @@ NamedScript DECORATE void EnvironmentalHazardRefillGenerator()
     if (CurrentLevel->GeneratorFuel > 0)
     {
         DropInventory(0, "DRPGNeutralizerFuel");
-        ActivatorSound("radiation/tankup", 127);
+        PlaySound(0, "radiation/tankup", CHAN_AUTO);
         PrintMessage("You set down the spare tank");
         return;
     }
@@ -2582,7 +2582,7 @@ NamedScript void DoomsdayEvent()
 
         SetActorProperty(Players(i).TID, APROP_Health, -1000000);
         FadeRange(255, 255, 255, 1.0, 255, 255, 255, 0.0, 2.0);
-        ActivatorSound("nuke/detonate", 127);
+        PlaySound(0, "nuke/detonate", CHAN_AUTO);
         Radius_Quake2(0, 9, 70, 0, 512, "None");
     }
 
@@ -2606,7 +2606,7 @@ NamedScript void DoomsdayFirebomb(int PlayerTID)
         SpawnSpotFacing("DRPGDoomsdayMortarBlast", 0, 0);
         Radius_Quake2(0, 6, 16, 0, 512, "None");
         FadeRange(255, 128, 64, 0.33, 255, 128, 64, 0.0, 0.5);
-        ActivatorSound("drpgmarines/bulletexp", 127);
+        PlaySound(0, "drpgmarines/bulletexp", CHAN_AUTO);
         if (CurrentLevel->DoomTime < (GetLevelInfo(LEVELINFO_PAR_TIME) ? GetLevelInfo(LEVELINFO_PAR_TIME) * 2 : GetCVar("drpg_default_par_seconds") * 2))
         {
             Delay(35);
@@ -3128,7 +3128,7 @@ Start:
         SetPlayerProperty(0, false, PROP_BUDDHA);
         SetPlayerProperty(0, false, PROP_INVULNERABILITY);
         Thing_Damage2(0, 6666666, "Mindrape");
-        ActivatorSound("spiderovermind/mindpulse", 127);
+        PlaySound(0, "spiderovermind/mindpulse", CHAN_AUTO);
     }
     else
         SetActorProperty(0, APROP_Health, GetActorProperty(0, APROP_Health) - 1);

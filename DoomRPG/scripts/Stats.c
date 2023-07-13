@@ -93,11 +93,11 @@ NamedScript DECORATE void TryStatusEffect(int Type, int Time, int Intensity)
     // Status Effect Resist check
     if (RandomFixed(0.0, 100.0) <= Player.StatusEffectResist)
     {
-        ActivatorSound("health/statuseffect2", 127);
+        PlaySound(0, "health/statuseffect2", CHAN_AUTO);
     }
     else // Apply status effect
     {
-        ActivatorSound("health/statuseffect", 127);
+        PlaySound(0, "health/statuseffect", CHAN_AUTO);
         Player.StatusTypeHUD = Type;
         StatusEffect(Type, Time, Intensity);
     }
@@ -165,7 +165,7 @@ NamedScript KeyBind void UseMedkit()
         Player.VitalityXP += (int)(Factor * Scale * 10);
     }
 
-    ActivatorSound("items/healthuse", 127);
+    PlaySound(0, "items/healthuse", CHAN_AUTO);
 }
 
 void InitXPTable()
@@ -285,7 +285,7 @@ void CheckLevel()
         FadeRange(255, 255, 255, 0.5, 255, 255, 255, 0, 2.0);
         PrintMessage(StrParam("You have reached level %d", Player.Level), LEVELUP_ID, -32);
 
-        ActivatorSound("misc/levelup", 96);
+        PlaySound(0, "misc/levelup", CHAN_BODY, 0.75);
         SpawnForced("DRPGLevelUpArrow", GetActorX(0), GetActorY(0), GetActorZ(0) + GetActorPropertyFixed(Player.TID, APROP_Height), 0, 0);
     }
 }
@@ -320,7 +320,7 @@ void CheckRank()
 
         Player.RankLevel++;
 
-        ActivatorSound("misc/rankup", 96);
+        PlaySound(0, "misc/rankup", CHAN_BODY, 0.75);
         FadeRange(255, 255, 0, 0.5, 255, 255, 0, 0, 2.0);
 
         // Determine how many new items you've unlocked in the shop
@@ -361,7 +361,7 @@ void CheckHealth()
 
         // Heartbeat
         if ((Timer() % 64) == 0 && Player.ActualHealth > 0)
-            ActivatorSound("health/low", 64);
+            PlaySound(0, "health/low", CHAN_BODY, 0.5);
 
         // Halve Movement Speed and Jump Height
         Player.Speed /= 2;
@@ -429,56 +429,56 @@ void CheckStats()
         if (Player.StrengthXP >= StatTable[Player.StrengthNat] && Player.StrengthNat < NATURALCAP)
         {
             Player.StrengthNat++;
-            ActivatorSound("misc/statup", 127);
+            PlaySound(0, "misc/statup", CHAN_AUTO);
             DrawStatUp(STAT_STRENGTH);
         }
 
         if (Player.DefenseXP >= StatTable[Player.DefenseNat] && Player.DefenseNat < NATURALCAP)
         {
             Player.DefenseNat++;
-            ActivatorSound("misc/statup", 127);
+            PlaySound(0, "misc/statup", CHAN_AUTO);
             DrawStatUp(STAT_DEFENSE);
         }
 
         if (Player.VitalityXP >= StatTable[Player.VitalityNat] && Player.VitalityNat < NATURALCAP)
         {
             Player.VitalityNat++;
-            ActivatorSound("misc/statup", 127);
+            PlaySound(0, "misc/statup", CHAN_AUTO);
             DrawStatUp(STAT_VITALITY);
         }
 
         if (Player.EnergyXP >= StatTable[Player.EnergyNat] && Player.EnergyNat < NATURALCAP)
         {
             Player.EnergyNat++;
-            ActivatorSound("misc/statup", 127);
+            PlaySound(0, "misc/statup", CHAN_AUTO);
             DrawStatUp(STAT_ENERGY);
         }
 
         if (Player.RegenerationXP >= StatTable[Player.RegenerationNat] && Player.RegenerationNat < NATURALCAP)
         {
             Player.RegenerationNat++;
-            ActivatorSound("misc/statup", 127);
+            PlaySound(0, "misc/statup", CHAN_AUTO);
             DrawStatUp(STAT_REGENERATION);
         }
 
         if (Player.AgilityXP >= StatTable[Player.AgilityNat] && Player.AgilityNat < NATURALCAP)
         {
             Player.AgilityNat++;
-            ActivatorSound("misc/statup", 127);
+            PlaySound(0, "misc/statup", CHAN_AUTO);
             DrawStatUp(STAT_AGILITY);
         }
 
         if (Player.CapacityXP >= StatTable[Player.CapacityNat] && Player.CapacityNat < NATURALCAP)
         {
             Player.CapacityNat++;
-            ActivatorSound("misc/statup", 127);
+            PlaySound(0, "misc/statup", CHAN_AUTO);
             DrawStatUp(STAT_CAPACITY);
         }
 
         if (Player.LuckXP >= StatTable[Player.LuckNat] && Player.LuckNat < NATURALCAP)
         {
             Player.LuckNat++;
-            ActivatorSound("misc/statup", 127);
+            PlaySound(0, "misc/statup", CHAN_AUTO);
             DrawStatUp(STAT_LUCK);
         }
 

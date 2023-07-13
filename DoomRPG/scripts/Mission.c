@@ -362,7 +362,7 @@ void CheckMission()
     if (Complete)
     {
         // Message
-        ActivatorSound("mission/complete", 127);
+        PlaySound(0, "mission/complete", CHAN_AUTO);
         SetFont("BIGFONT");
         SetHudSize(640, 480, false);
         HudMessage("Mission Complete!\n\n\Cj+%ld XP\n\Ck+%ld Rank\n\Cf+%d Credits\n\Cd+%d Modules\n\n\CiItem: \Cj%S",

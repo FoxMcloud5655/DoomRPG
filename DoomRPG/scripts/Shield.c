@@ -683,7 +683,7 @@ NamedScript bool CellFastCharge()
 
     TakeInventory("Cell", 1);
     FadeRange(0, 255, 255, 0.1, 0, 255, 255, 0.0, 0.5);
-    ActivatorSound("regen/shield", 64);
+    PlaySound(0, "regen/shield", CHAN_BODY, 0.5);
     AddShield(10);
 
     return true;
@@ -833,7 +833,7 @@ NamedScript void SpaghettiShieldBreak()
 
     FadeRange(0, 255, 0, 0.5, 0, 255, 0, 0, 1.0);
     GiveInventory(GetArmorInfoString(ARMORINFO_CLASSNAME), 1);
-    ActivatorSound("skills/repair", 127);
+    PlaySound(0, "skills/repair", CHAN_AUTO);
     Player.Shield.AccessoryBattery = 0;
 }
 
@@ -1122,7 +1122,7 @@ NamedScript void HowDidYouEvenMod()
 NamedScript void SayItOhYeahOhBaby() // OH YEEEEEEEEAH!
 {
     Delay(8);
-    ActivatorSound("shield/ohyeah", 127);
+    PlaySound(0, "shield/ohyeah", CHAN_AUTO);
 }
 
 NamedScript void OhYeahMod()
@@ -1306,21 +1306,21 @@ NamedScript bool ActivateShield()
     if (!Player.Shield.Body || !Player.Shield.Battery || !Player.Shield.Capacitor)
     {
         PrintError("Your shield is incomplete and is missing one or more parts");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
     if (Player.StatusType[SE_EMP])
     {
         PrintError("Your shield cannot be activated while EMP is active");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
     if (Player.Shield.Capacity <= 0)
     {
         PrintError("Your shield has no charge capacity and cannot be activated");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return false;
     }
 
@@ -1435,7 +1435,7 @@ void CheckShields()
         if (!SkipEPCharge && Player.EP > 0)
         {
             FadeRange(0, 255, 255, 0.1, 0, 255, 255, 0.0, 0.5);
-            ActivatorSound("regen/shield", 64);
+            PlaySound(0, "regen/shield", CHAN_BODY | 4096, 1);
             Player.EP--;
             Player.Shield.Charge++;
         }

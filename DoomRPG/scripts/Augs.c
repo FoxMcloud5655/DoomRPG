@@ -175,7 +175,7 @@ NamedScript DECORATE OptionalArgs(1) void DisableAugs(bool NoDrain)
         Player.Augs.Battery /= 2;
 
     // Disabled sound
-    ActivatorSound("aug/disable", 127);
+    PlaySound(0, "aug/disable", CHAN_AUTO);
 }
 
 NamedScript KeyBind void ReactivateDisabledAugs()
@@ -249,7 +249,7 @@ void CheckAugs()
 
     // Play energy drained sound
     if (Player.Augs.Battery <= 0 && Player.Augs.SlotsUsed > 0)
-        ActivatorSound("aug/dead", 127);
+        PlaySound(0, "aug/dead", CHAN_AUTO);
 
     // Disable Augs if your battery is dead
     if (Player.Augs.Battery <= 0)
@@ -477,7 +477,7 @@ void EquipAug(int Aug)
     if (Player.Augs.Level[Aug] == 0)
     {
         PrintError("This aug has not been activated yet");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
@@ -485,7 +485,7 @@ void EquipAug(int Aug)
     if (Player.Augs.Battery <= 0)
     {
         PrintError("Your aug battery is depleted");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
@@ -493,7 +493,7 @@ void EquipAug(int Aug)
     {
         if (Player.Augs.Active[Aug])
         {
-            ActivatorSound("aug/equip", 127);
+            PlaySound(0, "aug/equip", CHAN_AUTO);
             Player.Augs.SlotsUsed--;
             Player.Augs.Active[Aug] = false;
         }
@@ -504,12 +504,12 @@ void EquipAug(int Aug)
             if (Player.Augs.SlotsUsed > Player.Augs.Slots)
             {
                 PrintError("You are already using all of your aug slots");
-                ActivatorSound("menu/error", 127);
+                PlaySound(0, "menu/error", CHAN_AUTO);
                 Player.Augs.SlotsUsed--;
             }
             else
             {
-                ActivatorSound("aug/equip", 127);
+                PlaySound(0, "aug/equip", CHAN_AUTO);
                 Player.Augs.Active[Aug] = true;
             }
         }
@@ -526,7 +526,7 @@ void LevelUpAug(int AugIndex)
         {
             if (CheckInventory("DRPGAugCanister"))
             {
-                ActivatorSound("aug/levelup", 127);
+                PlaySound(0, "aug/levelup", CHAN_AUTO);
                 TakeInventory("DRPGAugCanister", 1);
             }
             else
@@ -536,7 +536,7 @@ void LevelUpAug(int AugIndex)
         {
             if (CheckInventory("DRPGAugCanister") && CheckInventory("DRPGAugUpgradeCanister") >= Player.Augs.Level[AugIndex] + 1)
             {
-                ActivatorSound("aug/levelup", 127);
+                PlaySound(0, "aug/levelup", CHAN_AUTO);
                 TakeInventory("DRPGAugCanister", 1);
                 TakeInventory("DRPGAugUpgradeCanister", Player.Augs.Level[AugIndex] + 1);
             }
@@ -547,7 +547,7 @@ void LevelUpAug(int AugIndex)
         if (!CanLevel)
         {
             PrintError("You cannot upgrade this aug");
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
             return;
         }
 

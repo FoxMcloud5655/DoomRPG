@@ -73,7 +73,7 @@ NamedScript KeyBind void OpenMenu()
     // Exit handling for Outpost menus.
     if (Player.OutpostMenu > 0)
     {
-        ActivatorSound("menu/leave", 127);
+        PlaySound(0, "menu/leave", CHAN_AUTO);
         SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
         Player.OutpostMenu = 0;
         return;
@@ -81,7 +81,7 @@ NamedScript KeyBind void OpenMenu()
     // Exit handling for Crates.
     else if (Player.CrateOpen)
     {
-        ActivatorSound("crate/close", 127);
+        PlaySound(0, "crate/close", CHAN_AUTO);
         Player.CrateOpen = false;
 
         // Set the crate to it's inactive state if it's empty
@@ -95,7 +95,7 @@ NamedScript KeyBind void OpenMenu()
     }
     else if (Player.CrateHacking)
     {
-        ActivatorSound("hacking/select", 127);
+        PlaySound(0, "hacking/select", CHAN_AUTO);
         Player.CrateHacking = false;
         return;
     }
@@ -109,7 +109,7 @@ NamedScript KeyBind void OpenMenu()
 
     if (Player.InShop && CurrentLevel->UACBase)
     {
-        ActivatorSound("menu/leave", 127);
+        PlaySound(0, "menu/leave", CHAN_AUTO);
         SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
         Player.InMenu = false;
         Player.InShop = false;
@@ -129,7 +129,7 @@ NamedScript KeyBind void OpenMenu()
         }
         else
         {
-            ActivatorSound("menu/leave", 127);
+            PlaySound(0, "menu/leave", CHAN_AUTO);
             SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
             Player.InMenu = false;
             Player.MenuIndex = 0;
@@ -141,7 +141,7 @@ NamedScript KeyBind void OpenMenu()
     {
         if (DebugLog)
             Log("\CdDEBUG: \CfOpening Menu");
-        ActivatorSound("menu/enter", 127);
+        PlaySound(0, "menu/enter", CHAN_AUTO);
         Player.InMenu = true;
         Player.Menu = MENUPAGE_MAIN;
         Player.MenuIndex = 0;
@@ -2033,13 +2033,13 @@ void MenuInput()
     {
         if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             Player.MenuIndex--;
             if (Player.MenuIndex < 0) Player.MenuIndex = MAX_MENU - 1;
         }
         if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             Player.MenuIndex++;
             if (Player.MenuIndex > MAX_MENU - 1) Player.MenuIndex = 0;
         }
@@ -2051,7 +2051,7 @@ void MenuInput()
                 OpenShop(false);
             else
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.Menu = Player.MenuIndex + 1;
                 Player.MenuIndex = 0;
                 ClearToxicityMeter();
@@ -2066,13 +2066,13 @@ void MenuInput()
         {
             if (Player.StatPage == STATPAGE_STATS)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex -= 2;
                 if (Player.MenuIndex < 0) Player.MenuIndex = STAT_MAX - 1;
             }
             else if (Player.StatPage == STATPAGE_TEAM)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex--;
                 ClearToxicityMeter();
                 if (Player.MenuIndex < 0) Player.MenuIndex = PlayerCount() - 1;
@@ -2082,13 +2082,13 @@ void MenuInput()
         {
             if (Player.StatPage == STATPAGE_STATS)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex += 2;
                 if (Player.MenuIndex > STAT_MAX - 1) Player.MenuIndex = 0;
             }
             else if (Player.StatPage == STATPAGE_TEAM)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex++;
                 ClearToxicityMeter();
                 if (Player.MenuIndex > PlayerCount() - 1) Player.MenuIndex = 0;
@@ -2100,7 +2100,7 @@ void MenuInput()
             {
                 if (Player.StatPage > 0)
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     Player.StatPage--;
                     Player.MenuIndex = 0;
                     if (Player.StatPage == STATPAGE_STATXP && !GetCVar("drpg_levelup_natural"))
@@ -2109,7 +2109,7 @@ void MenuInput()
             }
             else if (Player.StatPage == STATPAGE_STATS)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex--;
                 if (Player.MenuIndex < 0) Player.MenuIndex = STAT_MAX - 1;
             }
@@ -2120,7 +2120,7 @@ void MenuInput()
             {
                 if (Player.StatPage < STATPAGE_MAX - (InMultiplayer ? 1 : 2))
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     Player.StatPage++;
                     Player.MenuIndex = 0;
                     if (Player.StatPage == STATPAGE_STATXP && !GetCVar("drpg_levelup_natural"))
@@ -2129,7 +2129,7 @@ void MenuInput()
             }
             else if (Player.StatPage == STATPAGE_STATS)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex++;
                 if (Player.MenuIndex > STAT_MAX - 1) Player.MenuIndex = 0;
             }
@@ -2149,7 +2149,7 @@ void MenuInput()
         if (CheckInput(BT_ATTACK, KEY_ONLYPRESSED, false, PlayerNumber()) && Player.StatPage == STATPAGE_TEAM)
         {
             Player.PlayerView = Player.MenuIndex;
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
         }
     }
 
@@ -2158,24 +2158,24 @@ void MenuInput()
     {
         if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()) && Player.MenuIndex > 0)
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             Player.MenuIndex -= 5;
             if (Player.MenuIndex < 0) Player.MenuIndex = 0;
         }
         if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()) && Player.MenuIndex < AUG_MAX - 1)
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             Player.MenuIndex += 5;
             if (Player.MenuIndex > AUG_MAX - 1) Player.MenuIndex = AUG_MAX - 1;
         }
         if (CheckInput(BT_MOVELEFT, KEY_REPEAT, false, PlayerNumber()) && Player.MenuIndex > 0)
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             Player.MenuIndex--;
         }
         if (CheckInput(BT_MOVERIGHT, KEY_REPEAT, false, PlayerNumber()) && Player.MenuIndex < AUG_MAX - 1)
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             Player.MenuIndex++;
         }
         if (CheckInput(BT_USE, KEY_ONLYPRESSED, false, PlayerNumber()))
@@ -2199,12 +2199,12 @@ void MenuInput()
                 if (Player.SkillLevel[Player.SkillPage][Player.MenuIndex].CurrentLevel > 1)
                 {
                     Player.SkillLevel[Player.SkillPage][Player.MenuIndex].CurrentLevel--;
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                 }
             }
             else if (Player.MenuIndex > 0)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex -= 6;
                 if (Player.MenuIndex < 0) Player.MenuIndex = 0;
             }
@@ -2216,12 +2216,12 @@ void MenuInput()
                 if (Player.SkillLevel[Player.SkillPage][Player.MenuIndex].CurrentLevel < Player.SkillLevel[Player.SkillPage][Player.MenuIndex].Level)
                 {
                     Player.SkillLevel[Player.SkillPage][Player.MenuIndex].CurrentLevel++;
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                 }
             }
             else if (Player.MenuIndex < SkillCategoryMax[Player.SkillPage] - 1)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex += 6;
                 if (Player.MenuIndex > SkillCategoryMax[Player.SkillPage] - 1) Player.MenuIndex = SkillCategoryMax[Player.SkillPage] - 1;
             }
@@ -2230,14 +2230,14 @@ void MenuInput()
         {
             if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex = 0;
                 Player.SkillPage--;
                 if (Player.SkillPage < 0) Player.SkillPage = MAX_CATEGORIES - 1;
             }
             else if (Player.MenuIndex > 0)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex--;
             }
         }
@@ -2245,14 +2245,14 @@ void MenuInput()
         {
             if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex = 0;
                 Player.SkillPage++;
                 if (Player.SkillPage >= MAX_CATEGORIES) Player.SkillPage = 0;
             }
             else if (Player.MenuIndex < SkillCategoryMax[Player.SkillPage] - 1)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex++;
             }
         }
@@ -2282,13 +2282,13 @@ void MenuInput()
 
         if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             Player.MenuIndex -= 10;
             if (Player.MenuIndex < 0) Player.MenuIndex = 0;
         }
         if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             Player.MenuIndex += 10;
             if (Player.MenuIndex > PartsMax - 1) Player.MenuIndex = PartsMax - 1;
         }
@@ -2298,14 +2298,14 @@ void MenuInput()
             {
                 if (Player.ShieldPage > 0)
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     Player.ShieldPage--;
                     Player.MenuIndex = 0;
                 }
             }
             else
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex--;
                 if (Player.MenuIndex < 0) Player.MenuIndex = PartsMax - 1;
             }
@@ -2316,14 +2316,14 @@ void MenuInput()
             {
                 if (Player.ShieldPage < 3)
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     Player.ShieldPage++;
                     Player.MenuIndex = 0;
                 }
             }
             else
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 Player.MenuIndex++;
                 if (Player.MenuIndex > PartsMax - 1) Player.MenuIndex = 0;
             }
@@ -2340,14 +2340,14 @@ void MenuInput()
                             if (i == SHIELDPAGE_BATTERY) Player.Shield.Battery = CurrentPart;
                             if (i == SHIELDPAGE_CAPACITOR) Player.Shield.Capacitor = CurrentPart;
 
-                            ActivatorSound("shield/equip", 127);
+                            PlaySound(0, "shield/equip", CHAN_AUTO);
                         }
                 if (Player.ShieldPage == SHIELDPAGE_ACCESSORY)
                     if (CheckInventory(CurrentAccessory->Actor))
                     {
                         SetShieldAccessory(CurrentAccessory);
 
-                        ActivatorSound("shield/equip", 127);
+                        PlaySound(0, "shield/equip", CHAN_AUTO);
                     }
             }
         }
@@ -2364,7 +2364,7 @@ void MenuInput()
                             if (i == SHIELDPAGE_CAPACITOR) Player.Shield.Capacitor = NULL;
                             if (i == SHIELDPAGE_ACCESSORY) RemoveShieldAccessory();
 
-                            ActivatorSound("shield/unequip", 127);
+                            PlaySound(0, "shield/unequip", CHAN_AUTO);
                         }
             }
         }
@@ -2376,13 +2376,13 @@ void MenuInput()
         if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()))
         {
             Player.MenuIndex--;
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             if (Player.MenuIndex < 0) Player.MenuIndex = STIM_MAX;
         }
         if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()))
         {
             Player.MenuIndex++;
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             if (Player.MenuIndex > STIM_MAX) Player.MenuIndex = 0;
         }
         if (CheckInput(BT_MOVELEFT, KEY_ONLYPRESSED, false, PlayerNumber()) && Player.StimSelected > 0)
@@ -2390,14 +2390,14 @@ void MenuInput()
             if (Player.Stim.Size > 0) return;
 
             Player.StimSelected--;
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
         }
         if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && Player.StimSelected < 4 - 1)
         {
             if (Player.Stim.Size > 0) return;
 
             Player.StimSelected++;
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
         }
         if (CheckInput(BT_USE, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
@@ -2415,23 +2415,23 @@ void MenuInput()
         {
             Player.MenuIndex -= TURRET_PAGE_MAX / 4;
             if (Player.MenuIndex < 0) Player.MenuIndex = 0;
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
         }
         if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()) && Player.MenuIndex < MAX_UPGRADES - 1)
         {
             Player.MenuIndex += TURRET_PAGE_MAX / 4;
             if (Player.MenuIndex >= MAX_UPGRADES - 1) Player.MenuIndex = MAX_UPGRADES - 1;
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
         }
         if (CheckInput(BT_MOVELEFT, KEY_REPEAT, false, PlayerNumber()) && Player.MenuIndex > 0)
         {
             Player.MenuIndex--;
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
         }
         if (CheckInput(BT_MOVERIGHT, KEY_REPEAT, false, PlayerNumber()) && Player.MenuIndex < MAX_UPGRADES - 1)
         {
             Player.MenuIndex++;
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
         }
         if (CheckInput(BT_USE, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
@@ -2447,7 +2447,7 @@ void MenuInput()
             Player.TurretPage++;
             if (Player.TurretPage >= TURRETPAGE_MAX)
                 Player.TurretPage = TURRETPAGE_COMMAND;
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
         }
     }
 }
@@ -2478,7 +2478,7 @@ void IncreaseStat(int Stat)
     {
         if (GetActivatorCVar("drpg_auto_spend")) return;
         PrintError("You don't have enough Modules to upgrade this stat");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
 
         return;
     }
@@ -2498,7 +2498,7 @@ void IncreaseStat(int Stat)
     }
 
     if (Player.InMenu || Player.GUI.Open) // Spent the point in the menu, make a sound
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
 
     TakeInventory("DRPGModule", Cost);
 }
@@ -2516,13 +2516,13 @@ void IncreaseSkill(int Category, int Index)
             SkillLevel->Level++;
             SkillLevel->CurrentLevel++;
             TakeInventory("DRPGModule", Cost);
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
         }
     }
     else
     {
         PrintError("You don't have enough Modules");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
     }
 }
 
@@ -2531,7 +2531,7 @@ void UpgradeTurret(int Index)
     if (Index > 0 && !Player.Turret.Upgrade[TU_BUILD])
     {
         PrintError("You haven't built the turret yet");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
@@ -2540,7 +2540,7 @@ void UpgradeTurret(int Index)
         if (CheckInventory("DRPGTurretPart") >= TurretUpgradeCost(Index))
         {
             TakeInventory("DRPGTurretPart", TurretUpgradeCost(Index));
-            ActivatorSound("turret/upgrade", 127);
+            PlaySound(0, "turret/upgrade", CHAN_AUTO);
 
             Player.Turret.Upgrade[Index]++;
 
@@ -2563,7 +2563,7 @@ void UpgradeTurret(int Index)
         else
         {
             PrintError("You don't have enough Turret Parts to perform this upgrade");
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
         }
     }
 }
@@ -2574,7 +2574,7 @@ void PrintStatError()
     SetFont("BIGFONT");
     HudMessage("You cannot increase stats past %d", Player.StatCap);
     EndHudMessage(HUDMSG_FADEOUT, 0, "Red", 0.5, 0.5, 2.0, 1.0);
-    ActivatorSound("menu/error", 127);
+    PlaySound(0, "menu/error", CHAN_AUTO);
 }
 
 void MenuHelp()

@@ -648,7 +648,7 @@ NamedScript KeyBind void SetSkill(int NewSkill)
     FadeRange(255, 255, 255, 0.5, 255, 255, 255, 0.0, 0.5);
     ChangeSkill(NewSkill);
     CurrentSkill = NewSkill;
-    ActivatorSound("misc/skillchange", 127);
+    PlaySound(0, "misc/skillchange", CHAN_AUTO);
     SetFont("BIGFONT");
     if (CompatMonMode == COMPAT_DRLA)
         HudMessage("\CjSkill Level has been changed to\n\n%S", SkillLevelsDRLA[NewSkill]);
@@ -748,7 +748,7 @@ NamedScript KeyBind void Respec(bool DoStats, bool DoSkills)
     SetFont("BIGFONT");
     HudMessage("Respec Complete");
     EndHudMessage(HUDMSG_FADEOUT, 0, "White", 0.5, 0.5, 2.5, 2.5);
-    ActivatorSound("misc/secret", 127);
+    PlaySound(0, "misc/secret", CHAN_AUTO);
 }
 
 NamedScript DECORATE int GetAugBattery()
@@ -796,7 +796,7 @@ NamedScript DECORATE void AddToxicity(int Amount)
     if ((PrevToxicity < 25 && Player.Toxicity >= 25) ||
             (PrevToxicity < 50 && Player.Toxicity >= 50) ||
             (PrevToxicity < 75 && Player.Toxicity >= 75))
-        ActivatorSound("misc/toxic", 127);
+        PlaySound(0, "misc/toxic", CHAN_AUTO);
 }
 
 // Add Stim Immunity to the Player
@@ -1273,7 +1273,7 @@ NamedScript KeyBind void PlayerTeleport(int PlayerNum)
     if (PlayerNum == PlayerNumber() || !PlayerInGame(PlayerNum))
     {
         PrintError("Not a valid player");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
@@ -2428,7 +2428,7 @@ NamedScript Console void Cheat(int StatBoost)
     if (StatBoost == 0)
     {
         Player.ActualHealth = 0;
-        ActivatorSound("mission/gottarget2", 127);
+        PlaySound(0, "mission/gottarget2", CHAN_AUTO);
         return;
     }
 
@@ -2580,7 +2580,7 @@ NamedScript Console void GiveCredits(int Amount)
 {
     if (Amount == 0) Amount = 1000000000;
     GiveInventory("DRPGCredits", Amount);
-    ActivatorSound("credits/payout", 127);
+    PlaySound(0, "credits/payout", CHAN_AUTO);
 }
 
 // Shuffle the Shop Special
@@ -2943,7 +2943,7 @@ NamedScript MenuEntry void ResetToDefaults()
 {
     if (InMultiplayer)
     {
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         HudMessage("'Reset to Defaults' can only be done in singleplayer due to potential desync.");
         EndHudMessage(HUDMSG_FADEOUT, 0, "Orange", 0.5, 0.5, 8.0, 1.0);
         return;

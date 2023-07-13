@@ -122,7 +122,7 @@ NamedScript DECORATE void UseCrate(int ID)
         if (Crates[ID].Hacking != PlayerNumber())
         {
             PrintError(StrParam("%tS\C- is already hacking an item in this crate", Crates[Player.CrateID].Hacking + 1));
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
         }
 
         return;
@@ -140,7 +140,7 @@ NamedScript DECORATE void UseCrate(int ID)
         if (Crates[ID].HackingCooldown > 0)
         {
             PrintError(StrParam("Security Lockdown Triggered\n\nYou must wait %S before reattemtping the hack", FormatTime(Crates[ID].HackingCooldown)));
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
         }
         else
         {
@@ -161,7 +161,7 @@ NamedScript DECORATE void UseCrate(int ID)
     Player.CrateID = ID;
     Player.CrateIndex = 0;
 
-    ActivatorSound("crate/open", 127);
+    PlaySound(0, "crate/open", CHAN_AUTO);
 
     Delay(1);
 
@@ -275,7 +275,7 @@ NamedScript void CrateHack()
     // Prevent the use input from leaking into the input handling below (aka exploding a crate immediately in your face)
     Delay(4);
 
-    ActivatorSound("hacking/begin", 127);
+    PlaySound(0, "hacking/begin", CHAN_AUTO);
 
     SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
     Crates[Player.CrateID].Hacking = PlayerNumber();
@@ -345,7 +345,7 @@ NamedScript void CrateHack()
                         switch (Crate->Nodes[i].Type)
                         {
                         case NODE_CRITFAIL:
-                            ActivatorSound("hacking/critfail", 127);
+                            PlaySound(0, "hacking/critfail", CHAN_AUTO);
                             SetFont("SMALLFONT");
                             HudMessage("Security Lockdown Triggered!");
                             EndHudMessage(HUDMSG_FADEOUT, 0, "Red", 160.0, 140.0, 2.0, 1.0);
@@ -354,7 +354,7 @@ NamedScript void CrateHack()
                             Player.CrateHacking = false;
                             break;
                         case NODE_EXPLODE:
-                            ActivatorSound("hacking/critfail", 127);
+                            PlaySound(0, "hacking/critfail", CHAN_AUTO);
                             SetFont("SMALLFONT");
                             HudMessage("Explosive Device Triggered!");
                             EndHudMessage(HUDMSG_FADEOUT, 0, "Orange", 160.0, 140.0, 2.0, 1.0);
@@ -363,7 +363,7 @@ NamedScript void CrateHack()
                             Player.CrateOpen = false;
                             break;
                         case NODE_UNLOCK:
-                            ActivatorSound("hacking/success", 127);
+                            PlaySound(0, "hacking/success", CHAN_AUTO);
                             SetFont("SMALLFONT");
                             HudMessage("Hack Successful");
                             EndHudMessage(HUDMSG_FADEOUT, 0, "Green", 160.0, 140.0, 2.0, 1.0);
@@ -373,21 +373,21 @@ NamedScript void CrateHack()
                             Player.CrateHacking = false;
                             break;
                         case NODE_XP:
-                            ActivatorSound("hacking/select", 127);
+                            PlaySound(0, "hacking/select", CHAN_AUTO);
                             SetFont("SMALLFONT");
                             HudMessage("+%ld XP", XPBonus);
                             EndHudMessage(HUDMSG_FADEOUT, 0, "White", 160.0, 140.0, 2.0, 1.0);
                             Player.XP += XPBonus;
                             break;
                         case NODE_RANK:
-                            ActivatorSound("hacking/select", 127);
+                            PlaySound(0, "hacking/select", CHAN_AUTO);
                             SetFont("SMALLFONT");
                             HudMessage("+%ld Rank", RankBonus);
                             EndHudMessage(HUDMSG_FADEOUT, 0, "Yellow", 160.0, 140.0, 2.0, 1.0);
                             Player.Rank += RankBonus;
                             break;
                         case NODE_RETRY:
-                            ActivatorSound("hacking/select", 127);
+                            PlaySound(0, "hacking/select", CHAN_AUTO);
                             SetFont("SMALLFONT");
                             HudMessage("Extra Try");
                             EndHudMessage(HUDMSG_FADEOUT, 0, "Blue", 160.0, 140.0, 2.0, 1.0);
@@ -395,7 +395,7 @@ NamedScript void CrateHack()
                                 Crate->Tries++;
                             break;
                         case NODE_ADD:
-                            ActivatorSound("hacking/select", 127);
+                            PlaySound(0, "hacking/select", CHAN_AUTO);
                             SetFont("SMALLFONT");
                             HudMessage("Extra Item!");
                             EndHudMessage(HUDMSG_FADEOUT, 0, "Cyan", 160.0, 140.0, 2.0, 1.0);
@@ -403,7 +403,7 @@ NamedScript void CrateHack()
                                 Crates[Player.CrateID].Amount++;
                             break;
                         case NODE_RARITY:
-                            ActivatorSound("hacking/select", 127);
+                            PlaySound(0, "hacking/select", CHAN_AUTO);
                             SetFont("SMALLFONT");
                             HudMessage("Rarity Upgrade!");
                             EndHudMessage(HUDMSG_FADEOUT, 0, "Purple", 160.0, 140.0, 2.0, 1.0);
@@ -417,13 +417,13 @@ NamedScript void CrateHack()
 
             if (HitNothing)
             {
-                ActivatorSound("hacking/select", 127);
+                PlaySound(0, "hacking/select", CHAN_AUTO);
                 Crate->Tries--;
 
                 // You fail it
                 if (Crate->Tries <= 0)
                 {
-                    ActivatorSound("hacking/fail", 127);
+                    PlaySound(0, "hacking/fail", CHAN_AUTO);
                     Crates[Player.CrateID].HackingCooldown += 35 * 30;
                     Crate->Tries = 3;
                     Player.CrateHacking = false;
@@ -883,38 +883,38 @@ void CrateInput()
 {
     if (CheckInput(BT_USE, KEY_PRESSED, false, PlayerNumber()))
     {
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
         CrateTakeItem();
     }
     if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
     {
         if (CheckInput(BT_USE, KEY_PRESSED, false, PlayerNumber()))
         {
-            ActivatorSound("transfer/complete", 127);
+            PlaySound(0, "transfer/complete", CHAN_AUTO);
             CrateTakeAll();
         }
     }
     if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()))
     {
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
         Player.CrateIndex -= 9;
         if (Player.CrateIndex < 0) Player.CrateIndex = 0;
     }
     if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()))
     {
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
         Player.CrateIndex += 9;
         if (Player.CrateIndex > CRATE_MAX_ITEMS - 1) Player.CrateIndex = CRATE_MAX_ITEMS - 1;
     }
     if (CheckInput(BT_MOVELEFT, KEY_REPEAT, false, PlayerNumber()))
     {
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
         Player.CrateIndex--;
         if (Player.CrateIndex < 0) Player.CrateIndex = 0;
     }
     if (CheckInput(BT_MOVERIGHT, KEY_REPEAT, false, PlayerNumber()))
     {
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
         Player.CrateIndex++;
         if (Player.CrateIndex > CRATE_MAX_ITEMS - 1) Player.CrateIndex = CRATE_MAX_ITEMS - 1;
     }

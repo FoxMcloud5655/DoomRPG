@@ -289,7 +289,7 @@ NamedScript MenuEntry void SaveCharacter()
     if (!CurrentLevel->UACBase && !DebugLog)
     {
         PrintError("\CgERROR: \CjYou must be in the Outpost to save and deposit your equipment");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
@@ -369,7 +369,7 @@ NamedScript MenuEntry void SaveCharacter()
     if (Success)
     {
         // Saving Successful
-        ActivatorSound("charsave/save", 127);
+        PlaySound(0, "charsave/save", CHAN_AUTO);
         SetFont("BIGFONT");
         HudMessage("===== Character Saved =====");
         EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 70, "Green", 0.5, 0.3, 3.0, 2.0);
@@ -379,7 +379,7 @@ NamedScript MenuEntry void SaveCharacter()
     else
     {
         // Saving Failed
-        ActivatorSound("charsave/fail", 127);
+        PlaySound(0, "charsave/fail", CHAN_AUTO);
         SetFont("BIGFONT");
         HudMessage("===== Character Save Failed =====");
         EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 70, "Red", 0.5, 0.3, 5.0, 2.0);
@@ -402,7 +402,7 @@ NamedScript MenuEntry void LoadCharacter()
     int NumCVars = GetActivatorCVar("drpg_char_data_len");
     if (NumCVars <= 0)
     {
-        ActivatorSound("charsave/fail", 127);
+        PlaySound(0, "charsave/fail", CHAN_AUTO);
         SetFont("BIGFONT");
         HudMessage("===== No Character Data =====");
         EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 70, "Red", 0.5, 0.3, 3.0, 2.0);
@@ -458,7 +458,7 @@ NamedScript MenuEntry void LoadCharacter()
         };
         int Reason = -(Info.Version) - 1;
 
-        ActivatorSound("charsave/fail", 127);
+        PlaySound(0, "charsave/fail", CHAN_AUTO);
         SetFont("BIGFONT");
         HudMessage("===== Character Load Failed =====");
         EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 70, "Red", 0.5, 0.3, 3.0, 2.0);
@@ -626,7 +626,7 @@ NamedScript MenuEntry void LoadCharacter()
 
     UpdateShopAutoList();
 
-    ActivatorSound("charsave/accept", 127);
+    PlaySound(0, "charsave/accept", CHAN_AUTO);
     SetFont("BIGFONT");
     HudMessage("===== Character Load Complete =====");
     EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 70, "Green", 0.5, 0.3, 3.0, 2.0);
@@ -641,7 +641,7 @@ NamedScript MenuEntry void ClearCharacter()
     for (int i = 0; i < CHARSAVE_MAXCVARS; i++)
         SetUserCVarString(PlayerNumber(), StrParam("drpg_char_data_%d", i), "");
 
-    ActivatorSound("charsave/accept", 127);
+    PlaySound(0, "charsave/accept", CHAN_AUTO);
     SetFont("BIGFONT");
     HudMessage("===== Character Cleared =====");
     EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 0, "Yellow", 0.5, 0.3, 3.0, 2.0);

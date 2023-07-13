@@ -78,14 +78,14 @@ NamedScript KeyBind void UseStim(bool Force)
     if (!Force && Player.Stim.Size == 0)
     {
         PrintError("You don't have an injector ready");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
     if (!Force && Player.Stim.Amount == 0)
     {
         PrintError("Your current injector is empty");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
@@ -163,9 +163,9 @@ NamedScript KeyBind void UseStim(bool Force)
 
     // FX
     ClearToxicityMeter();
-    ActivatorSound("items/stim", 127);
+    PlaySound(0, "items/stim", CHAN_AUTO);
     if (Random(0, 100) == 0) // DRUGS
-        ActivatorSound("misc/drugs", 127);
+        PlaySound(0, "misc/drugs", CHAN_AUTO);
     FadeRange(255, 255, 255, 0.25, 255, 255, 255, 0, 1.0);
 }
 
@@ -174,7 +174,7 @@ NamedScript KeyBind void ThrowAwayStim()
     if (Player.Stim.Size == 0)
     {
         PrintError("You don't have an injector ready");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
@@ -290,7 +290,7 @@ NamedScript KeyBind void ThrowAwayStim()
 
     // FX
     ClearToxicityMeter();
-    ActivatorSound("menu/leave", 127);
+    PlaySound(0, "menu/leave", CHAN_AUTO);
 }
 
 NamedScript DECORATE void TossStim()
@@ -483,26 +483,26 @@ void MixStim(int Type)
     if (Player.Stim.Size == 0)
     {
         PrintError("You don't have an injector ready");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
     if (Player.Stim.Vials[Type] <= 0)
     {
         PrintError("You don't have any vials of this type left");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
     if (Player.Stim.Amount >= Player.Stim.Capacity)
     {
         PrintError("The injector is currently full");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
     // Add from vial to stim
-    ActivatorSound("menu/move", 127);
+    PlaySound(0, "menu/move", CHAN_AUTO);
     Player.Stim.Vials[Type]--;
     Player.Stim.Current[Type]++;
 }
@@ -515,19 +515,19 @@ void SetStim(int Type)
             (Type == 3 && !CheckInventory("DRPGStimXL")))
     {
         PrintError("You have no injectors of this type");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
     if (Player.Stim.Size > 0)
     {
         PrintError("You already have a stim ready");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
     Player.Stim.Size = Type + 1;
-    ActivatorSound("menu/move", 127);
+    PlaySound(0, "menu/move", CHAN_AUTO);
 
     if (Type == 0) TakeInventory("DRPGStimSmall", 1);
     if (Type == 1) TakeInventory("DRPGStimMedium", 1);

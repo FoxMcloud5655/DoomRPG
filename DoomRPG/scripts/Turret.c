@@ -643,7 +643,7 @@ Start:
     {
         Player.Turret.Maintenance = false;
         PrintError("Maintenance has been postponed because you have run out of money");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
     }
 
     // Maintenance
@@ -657,7 +657,7 @@ Start:
 
                 // Done
                 if (Player.Turret.Battery >= Player.Turret.BatteryMax)
-                    ActivatorSound("turret/chargedone", 127);
+                    PlaySound(0, "turret/chargedone", CHAN_AUTO);
             }
 
         // Repairing
@@ -686,7 +686,7 @@ Start:
                 // Done
                 if (Player.Turret.Health >= Player.Turret.HealthMax)
                 {
-                    ActivatorSound("turret/repairdone", 127);
+                    PlaySound(0, "turret/repairdone", CHAN_AUTO);
                     Player.Turret.Destroyed = false;
                 }
             }
@@ -700,7 +700,7 @@ Start:
 
                 // Done
                 if (Player.Turret.RefitTimer <= 0)
-                    ActivatorSound("turret/refitdone", 127);
+                    PlaySound(0, "turret/refitdone", CHAN_AUTO);
             }
 
         // Calculate maintenance cost for this tic
@@ -720,7 +720,7 @@ Start:
     if (Player.Turret.Maintenance && Player.Turret.ChargeTimer <= 0 && Player.Turret.RepairTimer <= 0 && Player.Turret.RefitTimer <= 0)
     {
         Player.Turret.Maintenance = false;
-        ActivatorSound("turret/maintenancedone", 127);
+        PlaySound(0, "turret/maintenancedone", CHAN_AUTO);
     }
 
     Delay(1);
@@ -768,7 +768,7 @@ Start:
         TurretCommand(TU_BUILD);
     else if (!CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()) && CheckInput(BT_USER2, KEY_HELD, false, PlayerNumber()) && !((Player.InMenu && Player.Menu != 3) || Player.InShop || Player.OutpostMenu > 0 || Player.SkillWheelOpen) && Player.Turret.Init)
     {
-        ActivatorSound("menu/click", 127);
+        PlaySound(0, "menu/click", CHAN_AUTO);
         Player.Turret.WheelOpen = true;
         LerpPos = 1.0;
     }
@@ -856,7 +856,7 @@ Start:
                 TurretMaintenance();
             if (CheckInput(BT_MOVELEFT, KEY_REPEAT, false, PlayerNumber()))
             {
-                ActivatorSound("menu/click", 127);
+                PlaySound(0, "menu/click", CHAN_AUTO);
                 Player.Turret.WheelCommand--;
                 OldLocation = Location;
                 LerpPos = 0;
@@ -864,7 +864,7 @@ Start:
             }
             if (CheckInput(BT_MOVERIGHT, KEY_REPEAT, false, PlayerNumber()))
             {
-                ActivatorSound("menu/click", 127);
+                PlaySound(0, "menu/click", CHAN_AUTO);
                 Player.Turret.WheelCommand++;
                 OldLocation = Location;
                 LerpPos = 0;
@@ -1554,20 +1554,20 @@ void TurretMaintenance()
     // You don't have any money to begin maintenance
     if (!CheckInventory("DRPGCredits"))
     {
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         PrintError("Cannot perform maintenance because you have no money");
         return;
     }
 
     if (!Player.Turret.Maintenance)
     {
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
         Player.Turret.Maintenance = true;
         TurretDespawn();
     }
     else
     {
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
         Player.Turret.Maintenance = false;
     }
 }
@@ -1689,7 +1689,7 @@ void TurretCommand(int Index)
     {
         if (!TurretLoadAmmo(TU_WEAPON_BULLET))
         {
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
             PrintError("You need at least \Ca50 Bullets\C- to load into the turret");
         }
     }
@@ -1712,7 +1712,7 @@ void TurretCommand(int Index)
     {
         if (!TurretLoadAmmo(TU_WEAPON_PELLET))
         {
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
             PrintError("You need at least \Ci20 Shells\C- to load into the turret");
         }
     }
@@ -1735,7 +1735,7 @@ void TurretCommand(int Index)
     {
         if (!TurretLoadAmmo(TU_WEAPON_ROCKET))
         {
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
             PrintError("You need at least \Cc5 Rockets\C- to load into the turret");
         }
     }
@@ -1758,7 +1758,7 @@ void TurretCommand(int Index)
     {
         if (!TurretLoadAmmo(TU_WEAPON_PLASMA))
         {
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
             PrintError("You need at least \Cd100 Cells\C- to load into the turret");
         }
     }
@@ -1781,27 +1781,27 @@ void TurretCommand(int Index)
     {
         if (!TurretLoadAmmo(TU_WEAPON_RAILGUN))
         {
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
             PrintError("You need at least \Cd50 Cells\C- to load into the turret");
         }
     }
 
     if (Index == TU_AMMO_AUTOLOADER)
     {
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
         Player.Turret.Autoload = !Player.Turret.Autoload;
     }
 
     if (Index == TU_COMMAND_RECALL && Player.Turret.Active)
     {
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
         Player.Turret.Command = TC_NONE;
         SetUserVariable(Player.Turret.TID, "user_needs_teleport", 1);
     }
 
     if (Index == TU_COMMAND_DRAW_FIRE && Player.Turret.Active)
     {
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
         if (Player.Turret.Command != TC_DRAW_FIRE)
             Player.Turret.Command = TC_DRAW_FIRE;
         else
@@ -1810,7 +1810,7 @@ void TurretCommand(int Index)
 
     if (Index == TU_COMMAND_HOLD_POSITION && Player.Turret.Active)
     {
-        ActivatorSound("menu/move", 127);
+        PlaySound(0, "menu/move", CHAN_AUTO);
         if (Player.Turret.Command != TC_HOLD_POSITION)
             Player.Turret.Command = TC_HOLD_POSITION;
         else
@@ -1881,28 +1881,28 @@ void TurretSpawn()
 
     if (Player.Turret.Battery <= 0)
     {
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         PrintError("Your turret's battery is depleted");
         return;
     }
 
     if (Player.Turret.Destroyed)
     {
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         PrintError("Your turret is destroyed and must be repaired");
         return;
     }
 
     if (Player.Turret.Maintenance)
     {
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         PrintError("Your turret is currently in the Outpost for maintenance");
         return;
     }
 
     if (Player.Turret.RefitTimer > 0)
     {
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         PrintError("Your turret is currently being refitted with upgrades");
         return;
     }
@@ -1933,13 +1933,13 @@ void TurretSpawn()
     else if (Spawned && !CanSee)
     {
         Thing_Remove(TID);
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         PrintError("The turret has no room to spawn here");
     }
     else
     {
         Thing_Remove(TID);
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         PrintError("The turret cannot be summoned here");
     }
 }

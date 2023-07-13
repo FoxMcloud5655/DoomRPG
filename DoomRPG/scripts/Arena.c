@@ -138,7 +138,7 @@ NamedScript MapSpecial void ArenaLoop()
                     else
                     {
                         PrintError("Someone is currently in a menu");
-                        ActivatorSound("menu/error", 127);
+                        PlaySound(0, "menu/error", CHAN_AUTO);
                     }
                 }
                 else if (CheckInput(BT_SPEED, KEY_HELD, false, ArenaPlayerNumber) && (!Player.InMenu && !Player.InShop && !Player.OutpostMenu && !Player.CrateOpen))
@@ -271,14 +271,14 @@ NamedScript MapSpecial void ArenaChooseBonus()
         // Input
         if (CheckInput(BT_FORWARD, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             BonusChoice--;
             if (BonusChoice < 1) BonusChoice = ABONUS_MAX - (CanChooseKey ? 1 : 2);
             if (BonusChoice == ABONUS_MODDROP && CompatMode != COMPAT_DRLA) BonusChoice--;
         }
         if (CheckInput(BT_BACK, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             BonusChoice++;
             if (BonusChoice == ABONUS_MODDROP && CompatMode != COMPAT_DRLA) BonusChoice++;
             if (BonusChoice > ABONUS_MAX - (CanChooseKey ? 1 : 2)) BonusChoice = 1;
@@ -332,7 +332,7 @@ void ArenaGetBonus(int Bonus)
     switch (Bonus)
     {
     case ABONUS_SELECT: // Choose Your Own!
-        ActivatorSound("arena/pickbonus", 127);
+        PlaySound(0, "arena/pickbonus", CHAN_AUTO);
         ArenaChooseBonus();
         break;
     case ABONUS_FULLEP: // Full EP
@@ -419,7 +419,7 @@ void ArenaGetBonus(int Bonus)
         }
         DropArenaItem(SpawnItem);
         if (ArenaKey < 6) ArenaKey++;
-        ActivatorSound("arena/keydrop", 127);
+        PlaySound(0, "arena/keydrop", CHAN_AUTO);
         break;
     }
 
@@ -431,7 +431,7 @@ void ArenaGetBonus(int Bonus)
         HudMessage("%S", ArenaBonus[Bonus]);
         EndHudMessageBold(HUDMSG_FADEOUT, MENU_ID, "White", 0.5, 0.5, 2.0, 1.0);
         if (Bonus != 10)
-            ActivatorSound("arena/drop", 127);
+            PlaySound(0, "arena/drop", CHAN_AUTO);
     }
 }
 

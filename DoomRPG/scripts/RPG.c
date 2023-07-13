@@ -528,7 +528,7 @@ NamedScript DECORATE int PlayerDamage(int Inflictor, int DamageTaken)
         if (CheckInventory("DRPGLife"))
         {
             Player.ActualHealth = Player.HealthMax;
-            ActivatorSound("health/resurrect", 127);
+            PlaySound(0, "health/resurrect", CHAN_AUTO);
             if (!CurrentLevel->UACBase)
             {
                 SetInventory("ArtiTeleport", 1);
@@ -552,7 +552,7 @@ NamedScript DECORATE int PlayerDamage(int Inflictor, int DamageTaken)
             if (Player.Shield.Accessory && Player.Shield.Accessory->PassiveEffect == SHIELD_PASS_SURVIVECHARGE)
                 Player.Shield.Charge = Player.Shield.Capacity;
 
-            ActivatorSound("health/survive", 127);
+            PlaySound(0, "health/survive", CHAN_AUTO);
             SetHudSize(320, 200, false);
             SetFont("BIGFONT");
             HudMessage("Agility Save!");
@@ -1662,7 +1662,7 @@ NamedScript Type_RESPAWN void Respawn()
     // NU-YU Accessory
     if (Player.Shield.Accessory && Player.Shield.Accessory->PassiveEffect == SHIELD_PASS_HYPERION)
     {
-        ActivatorSound("shield/newu", 127);
+        PlaySound(0, "shield/newu", CHAN_AUTO);
         Player.Shield.Active = true;
         Player.Shield.Charge = Player.Shield.Capacity;
         GiveInventory("DRPGShieldNewUProtection", 1);

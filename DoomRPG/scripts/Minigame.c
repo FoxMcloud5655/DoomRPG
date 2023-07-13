@@ -151,7 +151,7 @@ NamedScript void ItemRoulette(bool Rare)
         // Input Handling
         if (CheckInput(BT_USE, KEY_PRESSED, false, PlayerNumber()) && Spinning)
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             if (!Started)
                 Started = true;
             else
@@ -159,13 +159,13 @@ NamedScript void ItemRoulette(bool Rare)
         }
         if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()) && !Started)
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             ChipIndex--;
             if (ChipIndex < 0) ChipIndex = 3;
         }
         if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()) && !Started)
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             ChipIndex++;
             if (ChipIndex > 3) ChipIndex = 0;
         }
@@ -176,7 +176,7 @@ NamedScript void ItemRoulette(bool Rare)
             case 0: // Rarity
                 if (ChipRarity > 0)
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     ChipRarity--;
                     ChipTotal--;
                     Repick = true;
@@ -185,7 +185,7 @@ NamedScript void ItemRoulette(bool Rare)
             case 1: // Amount
                 if (ChipAmount > 0)
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     ChipAmount--;
                     ChipTotal--;
                     Repick = true;
@@ -194,7 +194,7 @@ NamedScript void ItemRoulette(bool Rare)
             case 2: // Duds
                 if (ChipDuds > 0)
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     ChipDuds--;
                     ChipTotal--;
                     Repick = true;
@@ -203,7 +203,7 @@ NamedScript void ItemRoulette(bool Rare)
             case 3: // Speed
                 if (ChipSpeed > 0)
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     ChipSpeed--;
                     ChipTotal--;
                 }
@@ -217,7 +217,7 @@ NamedScript void ItemRoulette(bool Rare)
             case 0: // Rarity
                 if (ChipRarity < 10)
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     ChipRarity++;
                     ChipTotal++;
                     Repick = true;
@@ -226,7 +226,7 @@ NamedScript void ItemRoulette(bool Rare)
             case 1: // Amount
                 if (ChipAmount < 10)
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     ChipAmount++;
                     ChipTotal++;
                     Repick = true;
@@ -235,7 +235,7 @@ NamedScript void ItemRoulette(bool Rare)
             case 2: // Duds
                 if (ChipDuds < 10)
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     ChipDuds++;
                     ChipTotal++;
                     Repick = true;
@@ -244,7 +244,7 @@ NamedScript void ItemRoulette(bool Rare)
             case 3: // Speed
                 if (ChipSpeed < 10)
                 {
-                    ActivatorSound("menu/move", 127);
+                    PlaySound(0, "menu/move", CHAN_AUTO);
                     ChipSpeed++;
                     ChipTotal++;
                 }
@@ -276,7 +276,7 @@ NamedScript void ItemRoulette(bool Rare)
             // Give the item if it wasn't a blank
             if (WheelItems[Selection] != GetBlankItem())
             {
-                ActivatorSound("transfer/complete", 127);
+                PlaySound(0, "transfer/complete", CHAN_AUTO);
 
                 // Item
                 str ItemActor = WheelItems[Selection]->Actor;
@@ -286,7 +286,7 @@ NamedScript void ItemRoulette(bool Rare)
                 SetActorVelocity(Player.TID, 0.01, 0.01, 0, true, false);
             }
             else
-                ActivatorSound("menu/error", 127);
+                PlaySound(0, "menu/error", CHAN_AUTO);
 
             // Take Chips
             if (Rare)
