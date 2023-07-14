@@ -654,7 +654,7 @@ NamedScript MapSpecial void LevelTransport()
                 SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
                 SetPlayerProperty(0, 1, PROP_FROZEN);
                 Player.OutpostMenu = 0;
-                PlaySound(0, "transfer/loop", CHAN_BODY, 1.0, true, ATTN_NORM);
+                PlaySound(0, "transfer/loop", CHAN_AUTO, 1.0, true, ATTN_NORM);
 
                 // Power transfer loop
                 while (TransportTimer > 0)
@@ -665,7 +665,7 @@ NamedScript MapSpecial void LevelTransport()
                     // Transfer is cancelled either by death or input
                     if (GetActorProperty(0, APROP_Health) <= 0 || CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
                     {
-                        PlaySound(0, "transfer/fail", CHAN_BODY, 1.0, false, ATTN_NORM);
+                        PlaySound(0, "transfer/fail", CHAN_AUTO, 1.0, false, ATTN_NORM);
                         SetPlayerProperty(0, 0, PROP_FROZEN);
                         return;
                     }
@@ -678,7 +678,7 @@ NamedScript MapSpecial void LevelTransport()
                     Delay(1);
                 }
 
-                PlaySound(0, "transfer/complete", CHAN_BODY, 1.0, false, ATTN_NORM);
+                PlaySound(0, "transfer/complete", CHAN_AUTO, 1.0, false, ATTN_NORM);
                 Delay(10);
             }
 

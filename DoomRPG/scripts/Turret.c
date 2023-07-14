@@ -1524,7 +1524,7 @@ bool TurretTeleport(int DestTID)
 
         if (Teleported && CheckSight(DestTID, 0, CSF_NOFAKEFLOORS))
         {
-            PlaySound(0, "turret/spawn", CHAN_BODY, 1.0, false, ATTN_NORM);
+            PlaySound(0, "turret/spawn", CHAN_AUTO, 1.0, false, ATTN_NORM);
             SpawnForced("DRPGTurretTeleport", TeleX[i], TeleY[i], TeleZ - 32.0, 0, 0);
 
             SetPointer(AAPTR_TARGET, 0, AAPTR_NULL);

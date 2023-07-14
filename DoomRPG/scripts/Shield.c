@@ -683,7 +683,7 @@ NamedScript bool CellFastCharge()
 
     TakeInventory("Cell", 1);
     FadeRange(0, 255, 255, 0.1, 0, 255, 255, 0.0, 0.5);
-    PlaySound(0, "regen/shield", CHAN_BODY, 0.5);
+    PlaySound(0, "regen/shield", CHAN_AUTO, 0.5);
     AddShield(10);
 
     return true;
@@ -1435,7 +1435,7 @@ void CheckShields()
         if (!SkipEPCharge && Player.EP > 0)
         {
             FadeRange(0, 255, 255, 0.1, 0, 255, 255, 0.0, 0.5);
-            PlaySound(0, "regen/shield", CHAN_BODY | 4096, 1);
+            PlaySound(0, "regen/shield", CHAN_AUTO | 4096, 1);
             Player.EP--;
             Player.Shield.Charge++;
         }

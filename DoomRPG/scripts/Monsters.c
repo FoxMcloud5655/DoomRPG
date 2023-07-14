@@ -1624,7 +1624,7 @@ Start:
                 Thing_ChangeTID(0, NewTID);
                 SetActivator(Players(i).TID);
                 FadeRange(64, 128, 128, 0.5, 64, 128, 128, 0.0, 0.5);
-                PlaySound(0, "drain/ep", CHAN_BODY, 0.25);
+                PlaySound(0, "drain/ep", CHAN_AUTO, 0.25);
                 SetActivator(NewTID);
                 Thing_ChangeTID(0, OrigTID);
             }
@@ -1864,7 +1864,7 @@ Start:
             GiveInventory("DRPGCredits", (int)(Stats->Luck * GetCVarFixed("drpg_aurasteal_amount")));
             SetActivator(Players(i).TID);
             FadeRange(255, 255, 0, 0.5, 255, 255, 0, 0.0, 0.5);
-            PlaySound(0, "drain/money", CHAN_BODY, 0.25);
+            PlaySound(0, "drain/money", CHAN_AUTO, 0.25);
             SetActivator(NewTID);
             Thing_ChangeTID(0, OrigTID);
 
@@ -1959,7 +1959,7 @@ Start:
             Thing_ChangeTID(0, NewTID);
             SetActivator(Players(i).TID);
             FadeRange(0, 0, 255, 0.5, 0, 0, 255, 0.0, 0.5);
-            PlaySound(0, "drain/ammo", CHAN_BODY, 0.25);
+            PlaySound(0, "drain/ammo", CHAN_AUTO, 0.25);
             SetActivator(NewTID);
             Thing_ChangeTID(0, OrigTID);
         }

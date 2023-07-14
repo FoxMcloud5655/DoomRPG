@@ -1103,7 +1103,7 @@ NamedScript Console bool Heal(SkillLevelInfo *SkillLevel, void *Data)
             SetActivator(Players(i).TID);
 
             FadeRange(255, 0, 255, 0.5, 255, 0, 255, 0, 1.0);
-            PlaySound(0, "skills/heal", CHAN_BODY, (Players(i).TID == PlayerTID ? 1 : 0.5));
+            PlaySound(0, "skills/heal", CHAN_AUTO, (Players(i).TID == PlayerTID ? 1 : 0.5));
         }
 
         SetActivator(PlayerTID);
@@ -1857,8 +1857,8 @@ NamedScript Console void PlasmaBeam2()
 {
     int BeamTime = 35;
 
-    PlaySound(0, "skills/plasmabeam1", CHAN_BODY, 0.5);
-    PlaySound(0, "skills/plasmabeam2", CHAN_BODY, 0.5);
+    PlaySound(0, "skills/plasmabeam1", CHAN_AUTO, 0.5);
+    PlaySound(0, "skills/plasmabeam2", CHAN_AUTO, 0.5);
 
     while (BeamTime--)
     {
@@ -2859,7 +2859,7 @@ NamedScript void TransportOutFX(int tid)
     if (GetActorZ(0) == GetActorFloorZ(0))
         SetActorPosition(0, GetActorX(0), GetActorY(0), GetActorZ(0)+1, false);
     GiveInventory("DRPGTransportSetNonShootable", 1);
-    PlaySound(0, "misc/transport", CHAN_BODY, 0.75);
+    PlaySound(0, "misc/transport", CHAN_AUTO, 0.75);
     SpawnForced("DRPGTransportEffect", GetActorX(0), GetActorY(0), GetActorZ(0), 0, 0);
     SetActorProperty(0, APROP_RenderStyle, STYLE_AddStencil);
     SetActorProperty(0, APROP_StencilColor, 0x0096FF);
@@ -2877,7 +2877,7 @@ NamedScript void TransportInFX(int tid)
         SetActivator(tid);
 
     GiveInventory("DRPGTransportUnsetNonShootable", 1);
-    PlaySound(0, "misc/transport", CHAN_BODY, 0.75);
+    PlaySound(0, "misc/transport", CHAN_AUTO, 0.75);
     SpawnForced("DRPGTransportEffect", GetActorX(0), GetActorY(0), GetActorZ(0), 0, 0);
     SetActorProperty(0, APROP_RenderStyle, STYLE_Normal);
     SetActorPropertyFixed(0, APROP_Alpha, 1.0);

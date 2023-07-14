@@ -1472,7 +1472,7 @@ NamedScript void FocusMode()
 
         Player.EPRate = 0;
 
-        PlaySound(0, "misc/epfocus", CHAN_BODY, 0.5, true, ATTN_NORM);
+        PlaySound(0, "misc/epfocus", CHAN_BODY | 4096, 0.75, true);
         SpawnForced("DRPGEPFocusAura", X, Y, Z, 0, 0);
         DrawProgressBar("\CnFocusing", Percent);
 
@@ -1515,7 +1515,7 @@ NamedScript void FocusMode()
     }
 
     Player.Focusing = false; // So we can't gain Regen XP out of thin air
-    PlaySound(0, "misc/epfocusdone", CHAN_BODY, 0.75, false, ATTN_NORM);
+    PlaySound(0, "misc/epfocusdone", CHAN_BODY);
     SetPlayerProperty(0, 0, PROP_FROZEN);
 }
 

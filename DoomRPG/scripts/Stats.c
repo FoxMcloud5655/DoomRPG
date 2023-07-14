@@ -285,7 +285,7 @@ void CheckLevel()
         FadeRange(255, 255, 255, 0.5, 255, 255, 255, 0, 2.0);
         PrintMessage(StrParam("You have reached level %d", Player.Level), LEVELUP_ID, -32);
 
-        PlaySound(0, "misc/levelup", CHAN_BODY, 0.75);
+        PlaySound(0, "misc/levelup", CHAN_AUTO, 0.75);
         SpawnForced("DRPGLevelUpArrow", GetActorX(0), GetActorY(0), GetActorZ(0) + GetActorPropertyFixed(Player.TID, APROP_Height), 0, 0);
     }
 }
@@ -320,7 +320,7 @@ void CheckRank()
 
         Player.RankLevel++;
 
-        PlaySound(0, "misc/rankup", CHAN_BODY, 0.75);
+        PlaySound(0, "misc/rankup", CHAN_AUTO, 0.75);
         FadeRange(255, 255, 0, 0.5, 255, 255, 0, 0, 2.0);
 
         // Determine how many new items you've unlocked in the shop
@@ -361,7 +361,7 @@ void CheckHealth()
 
         // Heartbeat
         if ((Timer() % 64) == 0 && Player.ActualHealth > 0)
-            PlaySound(0, "health/low", CHAN_BODY, 0.5);
+            PlaySound(0, "health/low", CHAN_AUTO, 0.5);
 
         // Halve Movement Speed and Jump Height
         Player.Speed /= 2;
