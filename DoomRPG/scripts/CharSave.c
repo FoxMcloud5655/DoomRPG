@@ -395,6 +395,10 @@ NamedScript MenuEntry void SaveCharacter()
 
 NamedScript MenuEntry void LoadCharacter()
 {
+    int PrevEP = Player.EP;
+    int PrevEPMax = Player.EPMax;
+    Player.EP = 10;
+    Player.EPMax = 10;
     char *EncodedSaveString;
     char *SaveString;
     //CharSaveInfo Info;
@@ -406,6 +410,8 @@ NamedScript MenuEntry void LoadCharacter()
         SetFont("BIGFONT");
         HudMessage("===== No Character Data =====");
         EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 70, "Red", 0.5, 0.3, 3.0, 2.0);
+        Player.EP = PrevEP;
+        Player.EPMax = PrevEPMax;
         return;
     }
 
@@ -465,6 +471,8 @@ NamedScript MenuEntry void LoadCharacter()
         SetFont("SMALLFONT");
         HudMessage("%S (Error %d)", ReasonStrings[Reason], Reason + 1);
         EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 71, "Orange", 0.5, 0.35, 3.0, 2.0);
+        Player.EP = PrevEP;
+        Player.EPMax = PrevEPMax;
         return;
     }
 
@@ -536,7 +544,8 @@ NamedScript MenuEntry void LoadCharacter()
     Player.CapacityXP = StatTable[Info.StatsNat[6] - 1];
     Player.LuckXP = StatTable[Info.StatsNat[7] - 1];
 
-    Player.EP = Player.EnergyTotal * 10;
+    Player.EPMax = Player.EnergyTotal * 10;
+    Player.EP = Player.EPMax;
     Player.HealthMax = Player.VitalityTotal * 10;
     Player.ActualHealth = Player.HealthMax;
     SetActorProperty(0, APROP_Health, Player.HealthMax);
@@ -619,6 +628,10 @@ NamedScript MenuEntry void LoadCharacter()
         for (int i = 0; i < DRLA_MAX_TOKENS; i++)
             if (Info.DRLATokens[i])
                 SetInventory(DRLATokens[i], 1);
+
+    Player.EP = Player.EPMax;
+
+    Delay(1);
 
     // Set Health and EP to their proper max values
     Player.ActualHealth = Player.HealthMax;
