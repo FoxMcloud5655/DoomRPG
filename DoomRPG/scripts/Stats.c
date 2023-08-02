@@ -774,8 +774,8 @@ void CheckStatBounds()
         Player.StatusEffectResist = 100.0k;
 
     // Cap Toxicity Regen Bonus
-    if (Player.ToxicityRegenBonus > 25)
-        Player.ToxicityRegenBonus = 25;
+    if (Player.ToxicityRegenBonus > 29)
+        Player.ToxicityRegenBonus = 29;
 
     // Prevent Shield Capacity from under/overflowing
     if (Player.Shield.Charge < 0)
@@ -1003,12 +1003,17 @@ void CheckToxicity()
         }
     }
 
-    // Death at 100% Toxicity
-    if (Player.Toxicity >= 100)
+    // Damage at 100% Toxicity or higher, death at 0 HP or 200% Toxicity
+    if (Player.Toxicity >= 100 && Timer() % 35 == 0)
     {
-        SetActorProperty(Player.TID, APROP_Health, 0);
-        SetActorState(Player.TID, "Death.Toxicity", false);
-        Player.Toxicity = 0;
+        Player.ActualHealth -= Player.Toxicity - 99;
+        FadeRange(0, 255, 0, 0.25, 0, 255, 0, 0.0, 0.25);
+        if (Player.ActualHealth <= 0 || Player.Toxicity >= 200)
+        {
+            SetActorProperty(Player.TID, APROP_Health, 0);
+            SetActorState(Player.TID, "Death.Toxicity", false);
+            Player.Toxicity = 0;
+        }
     }
 }
 
@@ -1116,11 +1121,11 @@ void CheckStatusEffects()
             SpawnForced("DRPGRadiationGlow2", GetActorX(0), GetActorY(0), GetActorZ(0) + (GetActorProperty(0, APROP_Height) / 2.0));
 
             // Poisoning
-            if (Player.Toxicity < 85 && !(Player.Shield.Accessory && Player.Shield.Accessory->PassiveEffect == SHIELD_PASS_NOTOXIC && Player.Shield.Active))
+            if (Player.Toxicity < 100 && !(Player.Shield.Accessory && Player.Shield.Accessory->PassiveEffect == SHIELD_PASS_NOTOXIC && Player.Shield.Active))
             {
                 int i = Random(1, Player.StatusIntensity[SE_RADIATION]);
-                if (Player.Toxicity + i > 85)
-                    i = 85 - Player.Toxicity;
+                if (Player.Toxicity + i > 100)
+                    i = 100 - Player.Toxicity;
                 AddToxicity(i);
                 FadeRange(0, 255, 0, 0.25, 0, 255, 0, 0.0, i * 0.25);
             }

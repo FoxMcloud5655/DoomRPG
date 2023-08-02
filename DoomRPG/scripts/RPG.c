@@ -577,7 +577,7 @@ NamedScript DECORATE int ShieldDamage(int DamageTaken)
     {
         Player.AutosaveTimerReset = true;
         AugDamage(DamageTaken);
-        ToxicityDamage();
+        //ToxicityDamage();
         StatusDamage(DamageTaken, RandomFixed(0.0, 100.0), false);
         DamageHUD(DamageTaken, false);
 
@@ -757,7 +757,7 @@ NamedScript void GiveTip()
         { "\CcStim Stat Vials",                 "Stat vials increase their various corresponding stats when used.", },
         { "\CcStim Booster Vials",              "Booster vials are special vials which have unique stat-related effects. Purifier vials increase the duration that stat vials will last. Potency vials increase all stats at once.", },
         { "\CcStim Powerup Vials",              "Powerup vials give various special powers for a limited duration. Unlike the Stat stims, they are unaffected by Purifier vials, and their time is affected solely by the amount of vials put into the Stim.", },
-        { "\CdToxicity",                        "Toxicity is a measure of the radiation and toxins in your body. Toxicity is increased by taking radiation or toxin related damage, such as standing on damage floors. The higher your toxicity levels get, the more penalties you will suffer. If your toxicity levels reach 100%, you will die. Toxicity will naturally dissipate over time, the speed of which is determined by your Regeneration stat.", },
+        { "\CdToxicity",                        "Toxicity is a measure of the radiation and toxins in your body. Toxicity is increased by taking radiation or toxin related damage, such as standing on damage floors. The higher your toxicity levels get, the more penalties you will suffer. If your toxicity levels reach 100%, you start taking damage. The more toxicity you have, the more damage you take. If you have over 200%, you instantly die. Toxicity will naturally dissipate over time, the speed of which is determined by your Regeneration stat.", },
 
         // Turrets
         { "\CdTurrets",                         "Turrets are portable sentry drones which can be built and equipped with multiple offensive and defensive upgrades. Turrets must initially be built from turret parts, at which point the turret may be used and upgraded further as more parts become available.", },
@@ -784,7 +784,7 @@ NamedScript void GiveTip()
         { "\CnSilence",                         "Silence is a status effect which prevents you from using skills.", },
         { "\CgCurse",                           "Curse is a status effect which increases the amount of damage you take.", },
         { "\CvEMP",                             "EMP is a status effect which will completely disable your shields and augmentations and not allow you to re-enable them. It will also drain your augmentation battery.", },
-        { "\CdRadiation",                       "Radiation is a status effect which slowly increases your toxicity levels. It will not increase your toxicity past 85%.", },
+        { "\CdRadiation",                       "Radiation is a status effect which slowly increases your toxicity levels. It will not increase your toxicity past 100%.", },
 
         // Outpost/Arena
         { "\CqOutpost",                         "The UAC Outpost is the main hub of operations where you can perform various activities, access various facilities and stock up between levels. You can transport to the Outpost at any time using the Transport skill.", },

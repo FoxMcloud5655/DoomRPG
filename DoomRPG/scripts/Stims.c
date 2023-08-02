@@ -217,7 +217,7 @@ NamedScript KeyBind void ThrowAwayStim()
             PrintMessage("You consider throwing it at the enemies instead\nNah, it'd just make them angrier");
             break;
         case 5:
-            PrintMessage("Recycled the unusable stim");
+            PrintMessage("Recycled the basically unusable stim");
             break;
         }
     }
@@ -226,16 +226,16 @@ NamedScript KeyBind void ThrowAwayStim()
         switch (Random(1, 5))
         {
         case 1:
-            PrintMessage("Congratulations, you've produced death");
+            PrintMessage("This stim was a little too good");
             break;
         case 2:
-            PrintMessage("You carefully examine the stim, and notice it's unsuitable for humans");
+            PrintMessage("You carefully examine the stim, and note that a normal human would die if they took this");
             break;
         case 3:
             PrintMessage("You may want to lay up on the stat boosters a little next time");
             break;
         case 4:
-            PrintMessage("Well that stim's no good now");
+            PrintMessage("Well, that stim's not going in you now");
             break;
         case 5:
             PrintMessage("Recycled the toxic stim");
@@ -373,7 +373,7 @@ void CheckStim()
     };
 
     // Toxicity multiplier for Potency and Purifier stims
-    int StimToxicityMultiplier = 1 + Player.Stim.Current[STIM_POTENCY] + Player.Stim.Current[STIM_PURIFIER];
+    float StimToxicityMultiplier = 1 + Player.Stim.Current[STIM_POTENCY] * 0.5 + Player.Stim.Current[STIM_PURIFIER] * 0.5;
 
     // Stim maximum capacities
     if (Player.Stim.Size == 1) // Small
@@ -396,8 +396,8 @@ void CheckStim()
     // Toxicity from total amount of compounds
     Player.Stim.Toxicity += (Player.Stim.Amount * StimToxicityMultiplier) / 5;
 
-    // Toxicity added Based on Skill
-    Player.Stim.Toxicity += 3 * StimToxicityMultiplier; //GameSkill() * StimToxicityMultiplier;
+    // Base Toxicity
+    Player.Stim.Toxicity += 3 * StimToxicityMultiplier;
 
     // Calculate the current Stim amount
     Player.Stim.Amount = 0;
