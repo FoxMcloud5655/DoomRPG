@@ -336,7 +336,7 @@ NamedScript DECORATE int CheckCapacity()
         for (int i = 0; ItemListRL[i] != NULL; i++)
             if (CheckInventory(ItemListRL[i]) > 0)
                 Items += CheckInventory(ItemListRL[i]);
-    };
+    }
 
     if (CompatMode == COMPAT_STARFOX)
     {
@@ -351,7 +351,7 @@ NamedScript DECORATE int CheckCapacity()
         for (int i = 0; ItemListSF[i] != NULL; i++)
             if (CheckInventory(ItemListSF[i]) > 0)
                 Items += CheckInventory(ItemListSF[i]);
-    };
+    }
 
     Player.InvItems = Items;
 

@@ -1453,7 +1453,7 @@ NamedScript void FocusMode()
     if (GetActorProperty(0, APROP_Health) <= 0) return;
 
     // Return if you're already at max EP
-    if (Player.EP >= Player.EPMax && (CompatMode != COMPAT_STARFOX || CheckInventory("SFAmmoMana") >= GetAmmoCapacity("SFAmmoMana"))) return;
+    if (Player.EP >= Player.EPMax && (CompatMode != COMPAT_STARFOX || (CheckInventory("SFAmmoMana") >= GetAmmoCapacity("SFAmmoMana")))) return;
 
     SetPlayerProperty(0, 1, PROP_FROZEN);
 
@@ -1493,7 +1493,7 @@ NamedScript void FocusMode()
             RegenDelay = (RegenWindupSpeed * (Player.EPTime / 4)) / StartWindupSpeed;
         }
         // Moving and attacking interrupts focusing
-        if (IsPlayerMoving() || Player.EP >= Player.EPMax && (CompatMode != COMPAT_STARFOX || CheckInventory("SFAmmoMana") >= GetAmmoCapacity("SFAmmoMana"))|| CheckInput(BT_ATTACK, KEY_HELD, true, -1) || CheckInput(BT_ALTATTACK, KEY_HELD, true, -1))
+        if (IsPlayerMoving() || Player.EP >= Player.EPMax && (CompatMode != COMPAT_STARFOX || (CheckInventory("SFAmmoMana") >= GetAmmoCapacity("SFAmmoMana"))) || CheckInput(BT_ATTACK, KEY_HELD, true, -1) || CheckInput(BT_ALTATTACK, KEY_HELD, true, -1))
             Player.Focusing = false;
 
         if (CompatMode == COMPAT_STARFOX)

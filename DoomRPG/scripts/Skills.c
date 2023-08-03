@@ -3088,7 +3088,7 @@ void BuildSkillData()
         Skills[4][16].Description[1] = "Summons a Uncommon Spider Mastermind";
         Skills[4][16].Description[2] = "Summons a Rare Spider Mastermind";
     }
-    else if (CompatMode = COMPAT_STARFOX)
+    else if (CompatMode == COMPAT_STARFOX)
     {
         Skills[4][1].MaxLevel = 2;
         Skills[4][2].MaxLevel = 2;
