@@ -586,12 +586,12 @@ void DrawStatsMenu()
         SetFont("SMALLFONT");
         if (Player.StrengthTotal > 0)
         {
-            HudMessage("+%d%% Base Damage", Player.Level * (10 - GameSkill()));
+            HudMessage("+%d%% Base Damage", Player.Level * (10 - SKILL_LEVEL));
             EndHudMessage(HUDMSG_PLAIN, 0, "Red",                30.1,   36.0,   0.05);
         }
         else
         {
-            HudMessage("%d%% Base Damage", Player.Level * (10 - GameSkill()));
+            HudMessage("%d%% Base Damage", Player.Level * (10 - SKILL_LEVEL));
             EndHudMessage(HUDMSG_PLAIN, 0, "Red",                30.1,   36.0,   0.05);
         }
         if (Player.StrengthTotal > 0)

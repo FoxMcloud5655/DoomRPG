@@ -50,7 +50,7 @@ NamedScript Type_OPEN void MapInit()
         if (GetCVar("drpg_monster_mapweight") > 1000)
             SetCVar("drpg_monster_mapweight", 1000);
         int StartMapNum = GetCVar("drpg_monster_mapweight");
-        CurrentSkill = GameSkill() - 1;
+        CurrentSkill = SKILL_LEVEL - 1;
         UsedSecretExit = false;
         PreviousLevelSecret = false;
         PreviousLevelNum = StartMapNum - 1;
@@ -368,9 +368,9 @@ NamedScript Type_OPEN void MapInit()
     }
 
     // Hell Skill has some additional challenges
-    if (GetCVar("drpg_minibosses") == 1 && GameSkill() >= 5 || GetCVar("drpg_minibosses") == 2)
+    if (GetCVar("drpg_minibosses") == 1 && SKILL_LEVEL >= 5 || GetCVar("drpg_minibosses") == 2)
         AddMiniboss();
-    if (GetCVar("drpg_reinforcements") == 1 && GameSkill() >= 5 || GetCVar("drpg_reinforcements") == 2)
+    if (GetCVar("drpg_reinforcements") == 1 && SKILL_LEVEL >= 5 || GetCVar("drpg_reinforcements") == 2)
         for (int i = 0; i < MAX_PLAYERS; i++)
             if (PlayerInGame(i))
                 HellSkillTransport(i);
@@ -898,7 +898,7 @@ NamedScript void AddMiniboss()
     while (!Monsters[Chosen].Init)
         Chosen = Random(1, MonsterID - 1);
 
-    int LevelMod = (GameSkill() - 1) * AveragePlayerLevel();
+    int LevelMod = (SKILL_LEVEL - 1) * AveragePlayerLevel();
     LevelMod = (int)(LevelMod * RandomFixed(1.0, 1.33));
     Monsters[Chosen].LevelAdd += LevelMod;
 
@@ -1463,7 +1463,7 @@ NamedScript void SetupMapEvent()
     // --------------------------------------------------
 
     case MAPEVENT_SKILL_HELL:
-        if (GameSkill() != 5)
+        if (SKILL_LEVEL != 5)
             ChangeLevel(CurrentLevel->LumpName, 0, CHANGELEVEL_NOINTERMISSION, 4);
         SetMusic("Skill5");
         SetHudSize(640, 480, false);
@@ -1474,7 +1474,7 @@ NamedScript void SetupMapEvent()
         break;
 
     case MAPEVENT_SKILL_ARMAGEDDON:
-        if (GameSkill() != 6)
+        if (SKILL_LEVEL != 6)
             ChangeLevel(CurrentLevel->LumpName, 0, CHANGELEVEL_NOINTERMISSION, 5);
         SetMusic("Skill6");
         SetHudSize(640, 480, false);
@@ -1712,14 +1712,14 @@ NamedScript void EnvironmentalHazard()
     CheckPar *= 35;
 
     // Spawn the Neutralizer Fuel Tanks
-    int FuelAmount = 35 * 30 * (6 - GameSkill());
+    int FuelAmount = 35 * 30 * (6 - SKILL_LEVEL);
     if (FuelAmount < 35 * 30)
         FuelAmount = 35 * 30;
 
     int RadTime = CheckPar * CurrentLevel->HazardLevel;
     int TanksNeeded = RadTime / FuelAmount;
 
-    DynamicLootGenerator("DRPGNeutralizerFuel", TanksNeeded + 1 + (12 - GameSkill() * 2));
+    DynamicLootGenerator("DRPGNeutralizerFuel", TanksNeeded + 1 + (12 - SKILL_LEVEL * 2));
 
     while (!NeutralizerSpawned)
     {
@@ -1841,7 +1841,7 @@ NamedScript void EnvironmentalHazardDamage()
 
 NamedScript DECORATE void EnvironmentalHazardRefillGenerator()
 {
-    int FuelAmount = 35 * 30 * (6 - GameSkill());
+    int FuelAmount = 35 * 30 * (6 - SKILL_LEVEL);
     if (FuelAmount < 35 * 30)
         FuelAmount = 35 * 30;
 
@@ -1896,7 +1896,7 @@ NamedScript void EnvironmentalHazardDisarm()
 NamedScript void ThermonuclearBombEvent()
 {
     int BombTID = UniqueTID();
-    int MaxKeys = GameSkill() + 3;
+    int MaxKeys = SKILL_LEVEL + 3;
     bool BombSpawned = false;
     bool BombDisarmed = false;
 
@@ -2234,7 +2234,7 @@ Start:
             AddMult = 0.001;
 
         // Spawn in next wave of enemies
-        if ((Timer() % (35 * (int)(ParTime / GameSkill()))) == 0)
+        if ((Timer() % (35 * (int)(ParTime / SKILL_LEVEL))) == 0)
             HellUnleashedSpawnMonsters();
 
         // Slowly increment the values
@@ -2242,8 +2242,8 @@ Start:
         CurrentLevel->RareAdd += RandomFixed(AddMult * 0.01, AddMult * 0.1);
 
         // Level Imposed Caps
-        if (CurrentLevel->LevelAdd > (fixed)AveragePlayerLevel() * (fixed)GameSkill())
-            CurrentLevel->LevelAdd = (fixed)AveragePlayerLevel() * (fixed)GameSkill();
+        if (CurrentLevel->LevelAdd > (fixed)AveragePlayerLevel() * (fixed)SKILL_LEVEL)
+            CurrentLevel->LevelAdd = (fixed)AveragePlayerLevel() * (fixed)SKILL_LEVEL;
         if (CurrentLevel->RareAdd > AveragePlayerLevel() / 10.0)
             CurrentLevel->RareAdd = AveragePlayerLevel() / 10.0;
 
@@ -2918,7 +2918,7 @@ NamedScript void FeedingFrenzyEvent()
         ActiveHungry = ThingCountName("RLArmageddonLostSoulRPG", 0);
 
         if (ActiveHungry < LastActiveHungry)
-            KilledHungry += (LastActiveHungry - ActiveHungry) * GameSkill();
+            KilledHungry += (LastActiveHungry - ActiveHungry) * SKILL_LEVEL;
 
         for (int i = 0; i < CurrentLevel->MonsterPositions.Position; i++)
         {

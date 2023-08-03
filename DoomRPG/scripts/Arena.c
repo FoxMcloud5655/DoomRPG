@@ -693,9 +693,9 @@ void ArenaSetEnvironment(int ID)
         ChangeFloor(ArenaSectorTag, "LAVA1");
         ChangeFloor(ArenaSectorTag + 1, "LAVA1");
         ChangeFloor(ArenaSectorTag + 2, "LAVA1");
-        Sector_SetDamage(ArenaSectorTag, 1 + GameSkill(), MOD_SLIME);
-        Sector_SetDamage(ArenaSectorTag + 1, 1 + GameSkill(), MOD_SLIME);
-        Sector_SetDamage(ArenaSectorTag + 2, 1 + GameSkill(), MOD_SLIME);
+        Sector_SetDamage(ArenaSectorTag, 1 + SKILL_LEVEL, MOD_SLIME);
+        Sector_SetDamage(ArenaSectorTag + 1, 1 + SKILL_LEVEL, MOD_SLIME);
+        Sector_SetDamage(ArenaSectorTag + 2, 1 + SKILL_LEVEL, MOD_SLIME);
         break;
     case AEVENT_GRAYSCALE:
         Sector_SetColor(ArenaSectorTag, 255, 255, 255, 255);

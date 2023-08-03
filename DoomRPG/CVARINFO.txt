@@ -52,6 +52,8 @@ server  bool    drpg_monster_darkblue_ammodrain = true;
 server  bool    drpg_monster_yellow_moneydrain = true;
 
 // Game Difficulty
+server  bool    drpg_dynamic_difficulty = true;
+server  int     drpg_static_difficulty_skill_level = 5;
 server  float   drpg_skill_costscale = 1.0;
 server  bool    drpg_skill_keepauras = false;
 server  int     drpg_skill_costcooldown = 10;

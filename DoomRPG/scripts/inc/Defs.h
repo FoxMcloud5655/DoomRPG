@@ -691,6 +691,7 @@ typedef enum
 // Stats
 //
 
+#define SKILL_LEVEL             GetCVar("drpg_dynamic_difficulty") ? (CompatMonMode == COMPAT_DRLA && GameSkill() == 3 ? 5 : GameSkill()) : GetCVar("drpg_static_difficulty_skill_level")
 #define MAX_HEALTH              1000000
 #define MAX_LEVEL               100
 #define MAX_RANK                24

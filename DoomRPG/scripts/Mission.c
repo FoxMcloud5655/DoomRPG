@@ -218,7 +218,7 @@ MissionInfo CreateMission(int Difficulty)
     }
 
     // Calculate the rewards based on all Player's average Level and Rank
-    // XPTable[Player.Level + 1] / (3 + MAX_DIFFICULTIES - Difficulty) + Random(0, XPTable[Player.Level + 1] / GameSkill());
+    // XPTable[Player.Level + 1] / (3 + MAX_DIFFICULTIES - Difficulty) + Random(0, XPTable[Player.Level + 1] / SKILL_LEVEL);
     for (int i = 0; i < MAX_PLAYERS; i++)
     {
         long int XPNext;

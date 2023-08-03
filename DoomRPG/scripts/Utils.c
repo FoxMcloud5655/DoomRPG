@@ -209,7 +209,7 @@ NamedScript DECORATE void DestroyImmunity()
 // Return the Skill Level (for DECORATE)
 NamedScript DECORATE int GetSkillLevel()
 {
-    return GameSkill();
+    return SKILL_LEVEL;
 }
 
 // Return the Global shop card rank between all players (for DECORATE)

@@ -53,7 +53,7 @@ bool RPGMap Invasion = false;
 
 NamedScript MapSpecial void EnterOutpost()
 {
-    ForcefieldTimer = 35 * 60 * GameSkill(); // 1 Minute per skill level
+    ForcefieldTimer = 35 * 60 * SKILL_LEVEL; // 1 Minute per skill level
 
     SetHudSize(320, 240, true);
 
@@ -61,7 +61,7 @@ NamedScript MapSpecial void EnterOutpost()
     LevelChoice = FindLevelInfoIndex(TransporterLevel->LumpName);
 
     // Assign the current skill level to the skill choice
-    SkillChoice = GameSkill() - 1;
+    SkillChoice = SKILL_LEVEL - 1;
 
     // Set the current wave to the max wave
     ArenaWave = ArenaMaxWave;
@@ -647,7 +647,7 @@ NamedScript MapSpecial void LevelTransport()
             if (MarinesHostile || PowerOut)
             {
                 bool IsTechnician = (CompatMode == COMPAT_DRLA && PlayerClass(PlayerNumber()) == 2);
-                int TransportTimerMax = (35 * (5 + GameSkill() + PlayerCount())) / (IsTechnician ? 2 : 1);
+                int TransportTimerMax = (35 * (5 + SKILL_LEVEL + PlayerCount())) / (IsTechnician ? 2 : 1);
                 int TransportTimer = TransportTimerMax;
 
                 // Setup power transfer
@@ -1055,7 +1055,7 @@ NamedScript MapSpecial void PissOffMarines(bool Steal)
         if (ForcefieldTimer > 0 && OutpostNotoriety == 2)
         {
             // Set completion state on the Shield Generator
-            SetActorState(GeneratorTID, StrParam("%dPowerLoop", ForcefieldTimer / ((35 * 60 * GameSkill()) / 7)), false);
+            SetActorState(GeneratorTID, StrParam("%dPowerLoop", ForcefieldTimer / ((35 * 60 * SKILL_LEVEL) / 7)), false);
 
             // Decrement timer
             ForcefieldTimer--;

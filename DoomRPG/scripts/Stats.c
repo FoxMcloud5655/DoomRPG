@@ -382,7 +382,7 @@ void CheckStats()
     Player.CapacityTotal = Player.Capacity + Player.CapacityNat + Player.CapacityBonus;
     Player.LuckTotal = Player.Luck + Player.LuckNat + Player.LuckBonus;
 
-    Player.LevelDamage = Player.Level * (10 - GameSkill());
+    Player.LevelDamage = Player.Level * (10 - SKILL_LEVEL);
     Player.BonusDamage = Player.StrengthTotal;
     Player.DamageMult = 1.0;
     Player.TotalDamage = Player.LevelDamage + Player.BonusDamage;
@@ -655,7 +655,7 @@ void DoRegen()
         fixed Z = GetActorZ(0);
         int Angle = GetActorAngle(0) * 256;
         SpawnForced("DRPGRegenSphereEffect", X, Y, Z + 32.0, AuraTID, Angle);
-        int RegenRate = (Min(Player.RegenBoostTimer--, 10 * 35)) / GameSkill();
+        int RegenRate = (Min(Player.RegenBoostTimer--, 10 * 35)) / SKILL_LEVEL;
         Player.HPRate += RegenRate;
         Player.EPRate += RegenRate;
 
@@ -1024,7 +1024,7 @@ void CheckStimImmunity()
         Player.StimImmunity = 100;
 
     if (!CurrentLevel->UACBase || ArenaActive || MarinesHostile)
-        if ((Timer() % (35 * GameSkill())) == 0 && Player.StimImmunity > 0)
+        if ((Timer() % (35 * SKILL_LEVEL)) == 0 && Player.StimImmunity > 0)
             Player.StimImmunity--;
 }
 
@@ -1032,7 +1032,7 @@ void ToxicityDamage()
 {
     // Check Damage Type for Toxicity
     if ((Player.DamageType == DT_TOXIC || Player.DamageType == DT_RADIATION) && !CheckInventory("PowerIronFeet") && !(Player.Shield.Accessory && Player.Shield.Accessory->PassiveEffect == SHIELD_PASS_NOTOXIC && Player.Shield.Active))
-        AddToxicity(Random(1, GameSkill()));
+        AddToxicity(Random(1, SKILL_LEVEL));
 }
 
 void CheckStatusEffects()

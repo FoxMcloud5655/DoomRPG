@@ -703,7 +703,7 @@ typedef struct
 
 NamedScript void GiveTip()
 {
-    if ((CurrentLevel->Event == MAPEVENT_SKILL_HELL && GameSkill() != 5) || (CurrentLevel->Event == MAPEVENT_SKILL_ARMAGEDDON && GameSkill() != 6))
+    if ((CurrentLevel->Event == MAPEVENT_SKILL_HELL && SKILL_LEVEL != 5) || (CurrentLevel->Event == MAPEVENT_SKILL_ARMAGEDDON && SKILL_LEVEL != 6))
         return;
 
     TipInfo Tips[MAX_TIPS] =
@@ -1303,7 +1303,7 @@ NamedScript OptionalArgs(1) void DynamicLootGenerator(str Actor, int MaxItems)
     // Determine the max amount of items to create if it's not specifically specified
     if (MaxItems == 0)
     {
-        MaxItems = Random(LevelNum / GameSkill(), LevelNum) + ((AveragePlayerLuck() + AveragePlayerLevel()) / (GameSkill() * 2));
+        MaxItems = Random(LevelNum / SKILL_LEVEL, LevelNum) + ((AveragePlayerLuck() + AveragePlayerLevel()) / (SKILL_LEVEL * 2));
         MaxItems *= GetCVarFixed("drpg_lootgen_factor");
     }
 

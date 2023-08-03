@@ -772,7 +772,7 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
 
         // Special case for Bosses
         if (Stats->Flags & MF_BOSS)
-            Stats->Level += (GameSkill() * 10);
+            Stats->Level += (SKILL_LEVEL * 10);
 
         // Special case for Megabosses
         if (Stats->Flags & MF_MEGABOSS)
@@ -782,7 +782,7 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
         if (GetActorClass(0) == "DRPGSuperPowerSuit")
             Stats->Level = 1000;
 
-        MonsterStatPool = 40 + GameSkill() * Stats->Level;
+        MonsterStatPool = 40 + SKILL_LEVEL * Stats->Level;
 
         // Calculate the monster's cut and special stats
         if (GetCVar("drpg_monster_specialize"))
@@ -929,7 +929,7 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
                         AuraMissionAdd += Players(i).Mission.Amount;
 
             // Hell skill and above always has an additional +5% chance
-            if (GameSkill() >= 5)
+            if (SKILL_LEVEL >= 5)
                 AuraMissionAdd += 5;
 
             // 1st roll: Chance of having an aura at all
@@ -1065,7 +1065,7 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
     {
         if (Stats->Level + Stats->LevelAdd >= MonsterLevelCap)
             Stats->LevelAdd = MonsterLevelCap - Stats->Level;
-        MonsterStatPool = GameSkill() * Stats->LevelAdd;
+        MonsterStatPool = SKILL_LEVEL * Stats->LevelAdd;
 
         int StrengthAdd = 0;
         int DefenseAdd = 0;
@@ -1296,7 +1296,7 @@ Start:
     {
         StatsChanged = true;
 
-        SetActorPropertyFixed(0, APROP_DamageMultiplier, 1.0 + ((fixed)(Stats->Strength * (fixed)GameSkill()) / 100.0));
+        SetActorPropertyFixed(0, APROP_DamageMultiplier, 1.0 + ((fixed)(Stats->Strength * (fixed)SKILL_LEVEL) / 100.0));
         OldStrength = Stats->Strength;
     }
 
@@ -1597,7 +1597,7 @@ Start:
 
         if (!PlayerInGame(i)) continue;
 
-        if (Distance(0, Players(i).TID) < Stats->Radius * GameSkill() * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0) && Players(i).EP > 0)
+        if (Distance(0, Players(i).TID) < Stats->Radius * SKILL_LEVEL * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0) && Players(i).EP > 0)
         {
             // Continue if this player is immune to stealing
             if ((Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) || Players(i).SoulActive[SOUL_PINK]) continue;
@@ -1851,7 +1851,7 @@ Start:
 
         if (!PlayerInGame(i)) continue;
 
-        if (Distance(0, Players(i).TID) < Stats->Radius * GameSkill() * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0))
+        if (Distance(0, Players(i).TID) < Stats->Radius * SKILL_LEVEL * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0))
         {
             // Continue if this player is immune to stealing
             if ((Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) || Players(i).SoulActive[SOUL_PINK]) continue;
@@ -1917,7 +1917,7 @@ Start:
 
         if (!PlayerInGame(i)) continue;
 
-        if (Distance(0, Players(i).TID) < Stats->Radius * GameSkill() * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0))
+        if (Distance(0, Players(i).TID) < Stats->Radius * SKILL_LEVEL * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0))
         {
             // Continue if this player is immune to stealing
             if ((Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) || Players(i).SoulActive[SOUL_PINK]) continue;
@@ -2339,7 +2339,7 @@ NamedScript void MonsterDeath()
             Delay(35 * 2.25); // Just long enough to sync up with the sound nicely
 
             // LOOTSPLOOOOOOOOOOOOOSIIIOOOOOOOOOOOOOONNNNNN
-            int Rolls = 200 - (GameSkill() * 25);
+            int Rolls = 200 - (SKILL_LEVEL * 25);
             while (Rolls--)
             {
                 DropMonsterItem(Killer, 0, "DRPGCredits250", 256, 0, 0, 0, 16, 16, Random(8, 16));
@@ -2646,7 +2646,7 @@ void MonsterLevelup(MonsterStatsPtr Stats)
     // Apply the stats to the monster
     Stats->Level++;
 
-    int Pool = GameSkill();
+    int Pool = SKILL_LEVEL;
 
     while (Pool > 0)
     {
