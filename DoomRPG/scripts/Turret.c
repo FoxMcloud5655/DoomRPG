@@ -611,13 +611,13 @@ NamedScript Type_ENTER void TurretLoopMaintenance()
 Start:
 
     // Stats which need to be kept updated
-    Player.Turret.HealthMax = 100 * Player.Turret.Upgrade[TU_ARMOR_PLATING];
-    Player.Turret.BatteryMax = TURRET_BATTERY_CHARGE * Player.Turret.Upgrade[TU_BATTERY_CAPACITY];
-    Player.Turret.BulletAmmoMax = 200 * Player.Turret.Upgrade[TU_WEAPON_BULLET_CAPACITY];
-    Player.Turret.ShellAmmoMax = 50 * Player.Turret.Upgrade[TU_WEAPON_PELLET_CAPACITY];
-    Player.Turret.RocketAmmoMax = 50 * Player.Turret.Upgrade[TU_WEAPON_ROCKET_CAPACITY];
-    Player.Turret.PlasmaAmmoMax = 300 * Player.Turret.Upgrade[TU_WEAPON_PLASMA_CAPACITY];
-    Player.Turret.RailAmmoMax = 10 * Player.Turret.Upgrade[TU_WEAPON_RAILGUN_CAPACITY];
+    Player.Turret.HealthMax = 100 * Player.Turret.Upgrade[TU_ARMOR_PLATING] + Player.VitalityTotal * 10;
+    Player.Turret.BatteryMax = TURRET_BATTERY_CHARGE * Player.Turret.Upgrade[TU_BATTERY_CAPACITY] + Player.EnergyTotal;
+    Player.Turret.BulletAmmoMax = 200 * Player.Turret.Upgrade[TU_WEAPON_BULLET_CAPACITY] + Player.CapacityTotal * 5;
+    Player.Turret.ShellAmmoMax = 50 * Player.Turret.Upgrade[TU_WEAPON_PELLET_CAPACITY] + Player.CapacityTotal;
+    Player.Turret.RocketAmmoMax = 50 * Player.Turret.Upgrade[TU_WEAPON_ROCKET_CAPACITY] + Player.CapacityTotal;
+    Player.Turret.PlasmaAmmoMax = 300 * Player.Turret.Upgrade[TU_WEAPON_PLASMA_CAPACITY] + Player.CapacityTotal * 5;
+    Player.Turret.RailAmmoMax = 10 * Player.Turret.Upgrade[TU_WEAPON_RAILGUN_CAPACITY] + (Player.CapacityTotal / 5);
 
     // Prevent ammo overflow
     if (Player.Turret.BulletAmmo > Player.Turret.BulletAmmoMax)
@@ -632,8 +632,8 @@ Start:
         Player.Turret.RailAmmo = Player.Turret.RailAmmoMax;
 
     // Calculate Maintenance Timers
-    Player.Turret.ChargeTimer = Player.Turret.BatteryMax - Player.Turret.Battery;
-    Player.Turret.RepairTimer = Player.Turret.HealthMax - Player.Turret.Health;
+    Player.Turret.ChargeTimer = (Player.Turret.BatteryMax - Player.Turret.Battery) / 2;
+    Player.Turret.RepairTimer = (Player.Turret.HealthMax - Player.Turret.Health) / 2;
 
     // Reset maintenance cost this tic
     MaintCost = 0;
@@ -653,8 +653,8 @@ Start:
         if ((Timer() % (35 - (Player.Turret.Upgrade[TU_HARDWARE_BATTERY] * 3))) == 0)
             if (Player.Turret.ChargeTimer > 0)
             {
-                Player.Turret.Battery++;
-
+                Player.Turret.Battery += 2;
+                MaintCost++;
                 // Done
                 if (Player.Turret.Battery >= Player.Turret.BatteryMax)
                     PlaySound(0, "turret/chargedone", CHAN_AUTO);
@@ -681,7 +681,10 @@ Start:
                 }
 
                 if (Player.Turret.PaidForRepair)
-                    Player.Turret.Health++;
+                {
+                    MaintCost++;
+                    Player.Turret.Health += 2;
+                }
 
                 // Done
                 if (Player.Turret.Health >= Player.Turret.HealthMax)
@@ -697,22 +700,14 @@ Start:
             if (Player.Turret.RefitTimer > 0)
             {
                 Player.Turret.RefitTimer--;
-
+                MaintCost++;
                 // Done
                 if (Player.Turret.RefitTimer <= 0)
                     PlaySound(0, "turret/refitdone", CHAN_AUTO);
             }
 
-        // Calculate maintenance cost for this tic
-        if (Player.Turret.ChargeTimer > 0)
-            MaintCost++;
-        if (Player.Turret.PaidForRepair && Player.Turret.RepairTimer > 0)
-            MaintCost++;
-        if (Player.Turret.RefitTimer > 0)
-            MaintCost++;
-
         // Steady credit loss while maintenance is happening
-        if ((Player.Turret.ChargeTimer > 0 || (Player.Turret.PaidForRepair && Player.Turret.RepairTimer > 0) || Player.Turret.RefitTimer > 0) && (Timer() % (5 + (Player.Turret.Upgrade[TU_HARDWARE_FABRICATION] * 3))) == 0)
+        if (Player.Turret.ChargeTimer > 0 || (Player.Turret.PaidForRepair && Player.Turret.RepairTimer > 0) || Player.Turret.RefitTimer > 0)
             TakeInventory("DRPGCredits", MaintCost);
     }
 

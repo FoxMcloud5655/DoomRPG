@@ -2537,7 +2537,12 @@ void UpgradeTurret(int Index)
 
     if (Player.Turret.Upgrade[Index] < TurretUpgradeData[Index].MaxLevel)
     {
-        if (CheckInventory("DRPGTurretPart") >= TurretUpgradeCost(Index))
+        if (Index == TU_HARDWARE_FABRICATION)
+        {
+            PrintError("This upgrade is disabled in this version of DoomRPG");
+            PlaySound(0, "menu/error", CHAN_AUTO);
+        }
+        else if (CheckInventory("DRPGTurretPart") >= TurretUpgradeCost(Index))
         {
             TakeInventory("DRPGTurretPart", TurretUpgradeCost(Index));
             PlaySound(0, "turret/upgrade", CHAN_AUTO);
