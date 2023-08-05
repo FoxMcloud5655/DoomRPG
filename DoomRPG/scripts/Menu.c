@@ -586,22 +586,22 @@ void DrawStatsMenu()
         SetFont("SMALLFONT");
         if (Player.StrengthTotal > 0)
         {
-            HudMessage("+%d%% Base Damage", Player.Level * (10 - SKILL_LEVEL));
+            HudMessage("+%d%% Level Based Damage", Player.Level * 4);
             EndHudMessage(HUDMSG_PLAIN, 0, "Red",                30.1,   36.0,   0.05);
         }
         else
         {
-            HudMessage("%d%% Base Damage", Player.Level * (10 - SKILL_LEVEL));
+            HudMessage("%d%% Level Based Damage", Player.Level * 4);
             EndHudMessage(HUDMSG_PLAIN, 0, "Red",                30.1,   36.0,   0.05);
         }
         if (Player.StrengthTotal > 0)
         {
-            HudMessage("+%d%% Bonus Damage", Player.BonusDamage);
+            HudMessage("+%d%% Stat Based Damage", Player.BonusDamage);
             EndHudMessage(HUDMSG_PLAIN, 0, "Red",                30.1,   44.0,   0.05);
         }
         else
         {
-            HudMessage("%d%% Bonus Damage", Player.BonusDamage);
+            HudMessage("%d%% Stat Based Damage", Player.BonusDamage);
             EndHudMessage(HUDMSG_PLAIN, 0, "Red",                30.1,   44.0,   0.05);
         }
         HudMessage("%.2kX Multiplier", Player.DamageMult);

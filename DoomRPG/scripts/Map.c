@@ -1718,8 +1718,11 @@ NamedScript void EnvironmentalHazard()
 
     int RadTime = CheckPar * CurrentLevel->HazardLevel;
     int TanksNeeded = RadTime / FuelAmount;
+    int FuelSpawned = TanksNeeded + 1 + (12 - SKILL_LEVEL * 2);
+    if (FuelSpawned < 2)
+        FuelSpawned = 2;
 
-    DynamicLootGenerator("DRPGNeutralizerFuel", TanksNeeded + 1 + (12 - SKILL_LEVEL * 2));
+    DynamicLootGenerator("DRPGNeutralizerFuel", FuelSpawned);
 
     while (!NeutralizerSpawned)
     {
@@ -2227,7 +2230,7 @@ Start:
         fixed ParTime = (fixed)GetLevelInfo(LEVELINFO_PAR_TIME);
         if (ParTime <= 0) // Assign a default value to prevent divide-by-zero
             ParTime = 35 * GetCVar("drpg_default_par_seconds"); // Default Par
-        fixed AddMult = 0.1 / ParTime;
+        fixed AddMult = (0.1 / ParTime) * (1 + SKILL_LEVEL / 10);
 
         // Cap this to make sure it isn't too low
         if (AddMult < 0.001)

@@ -1597,7 +1597,7 @@ Start:
 
         if (!PlayerInGame(i)) continue;
 
-        if (Distance(0, Players(i).TID) < Stats->Radius * SKILL_LEVEL * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0) && Players(i).EP > 0)
+        if (Distance(0, Players(i).TID) < Stats->Radius * 20 + Stats->Radius && CheckSight(0, Players(i).TID, 0) && Players(i).EP > 0)
         {
             // Continue if this player is immune to stealing
             if ((Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) || Players(i).SoulActive[SOUL_PINK]) continue;
@@ -1851,7 +1851,7 @@ Start:
 
         if (!PlayerInGame(i)) continue;
 
-        if (Distance(0, Players(i).TID) < Stats->Radius * SKILL_LEVEL * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0))
+        if (Distance(0, Players(i).TID) < Stats->Radius * 20 + Stats->Radius && CheckSight(0, Players(i).TID, 0))
         {
             // Continue if this player is immune to stealing
             if ((Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) || Players(i).SoulActive[SOUL_PINK]) continue;
@@ -1917,7 +1917,7 @@ Start:
 
         if (!PlayerInGame(i)) continue;
 
-        if (Distance(0, Players(i).TID) < Stats->Radius * SKILL_LEVEL * 4 + Stats->Radius && CheckSight(0, Players(i).TID, 0))
+        if (Distance(0, Players(i).TID) < Stats->Radius * 20 + Stats->Radius && CheckSight(0, Players(i).TID, 0))
         {
             // Continue if this player is immune to stealing
             if ((Players(i).Aura.Type[AURA_PINK].Active && Players(i).Aura.Type[AURA_PINK].Level >= 3) || Players(i).SoulActive[SOUL_PINK]) continue;
@@ -2339,7 +2339,7 @@ NamedScript void MonsterDeath()
             Delay(35 * 2.25); // Just long enough to sync up with the sound nicely
 
             // LOOTSPLOOOOOOOOOOOOOSIIIOOOOOOOOOOOOOONNNNNN
-            int Rolls = 200 - (SKILL_LEVEL * 25);
+            int Rolls = 100;
             while (Rolls--)
             {
                 DropMonsterItem(Killer, 0, "DRPGCredits250", 256, 0, 0, 0, 16, 16, Random(8, 16));

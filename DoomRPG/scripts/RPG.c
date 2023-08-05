@@ -1303,7 +1303,10 @@ NamedScript OptionalArgs(1) void DynamicLootGenerator(str Actor, int MaxItems)
     // Determine the max amount of items to create if it's not specifically specified
     if (MaxItems == 0)
     {
-        MaxItems = Random(LevelNum / SKILL_LEVEL, LevelNum) + ((AveragePlayerLuck() + AveragePlayerLevel()) / (SKILL_LEVEL * 2));
+        fixed SkillLevelDivision = (10 - (SKILL_LEVEL / 5));
+        if (SkillLevelDivision < 1)
+            SkillLevelDivision = 1;
+        MaxItems = Random(LevelNum / 5, LevelNum) + ((AveragePlayerLuck() + AveragePlayerLevel()) / SkillLevelDivision);
         MaxItems *= GetCVarFixed("drpg_lootgen_factor");
     }
 
