@@ -451,7 +451,7 @@ ShieldAccessory const ShieldAccessories[MAX_ACCESSORIES] =
     {
         "DRPGShieldAccessory47",
         "\CjMASTA-R4",  "SHA2U0",   100000,
-        "Every new wave of \CaThe Arena\C- you complete gives you:\n\Cv+10 Capacity\n\Cd+0.25 Charge Rate\n\Ca-0.1 Delay",
+        "Every new wave of \CaThe Arena\C- you complete (max: 200) gives you:\n\Cv+10 Capacity\n\Cd+0.25 Charge Rate\n\Ca-0.1 Delay",
         SHIELD_PASS_NONE,
         ArenaShieldMod, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     },
@@ -1105,8 +1105,8 @@ NamedScript void OCDShieldMod()
 NamedScript void ArenaShieldMod()
 {
     int ArenaCompletes = ArenaMaxWave - 1;
-    if (ArenaCompletes > 100)
-        ArenaCompletes = 100;
+    if (ArenaCompletes > 200)
+        ArenaCompletes = 200;
     Player.Shield.Capacity += ArenaCompletes * 10;
     Player.Shield.ChargeRate += ArenaCompletes / 4;
     Player.Shield.DelayRate -= (fixed)ArenaCompletes * 0.1;
