@@ -744,10 +744,6 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
         fixed RandomMaxWeight = GetCVarFixed("drpg_monster_random_max_mult");
         int LevelNum = CurrentLevel->LevelNum;
 
-        // Let's not cap Level Number to 100 anymore
-        //if (LevelNum > 100)
-        //    LevelNum = 100;
-
         // If the Arena is active, base the Monster Levels Map Number portion on the current wave
         if (CurrentLevel->UACBase && ArenaActive)
             LevelNum = ArenaWave / 3;
@@ -928,9 +924,7 @@ OptionalArgs(1) NamedScript void MonsterInitStats(int StatFlags)
                     if (Players(i).Mission.Type == MT_KILLAURAS)
                         AuraMissionAdd += Players(i).Mission.Amount;
 
-            // Hell skill and above always has an additional +5% chance
-            if (SKILL_LEVEL >= 5)
-                AuraMissionAdd += 5;
+            AuraMissionAdd += SKILL_LEVEL;
 
             // 1st roll: Chance of having an aura at all
             bool HasAura = true;
