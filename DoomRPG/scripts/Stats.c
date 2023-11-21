@@ -1167,8 +1167,11 @@ void StatusDamage(int Amount, fixed Chance, bool Critical)
     // We lucked out this time and won't get hit with a status effect
     if (RandomFixed(0.0, 100.0) >= Chance) return;
 
+    // Damage amounts under 5% max HP don't inflict status effects
+    if (Amount <= Player.HealthMax / 20) return;
+
     // Calculate the intensity
-    Intensity = (Amount * Player.HealthMax) / 1000;
+    Intensity = (Amount * 10) / Player.HealthMax;
     if (Intensity < 1)
         Intensity = 1;
     if (Intensity > 5)

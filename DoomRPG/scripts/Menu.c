@@ -634,6 +634,8 @@ void DrawStatsMenu()
         EndHudMessage(HUDMSG_PLAIN, 0, "Brick",              30.1,   94.0,   0.05);
         HudMessage("%.2k%% Status Resist", Player.StatusEffectResist);
         EndHudMessage(HUDMSG_PLAIN, 0, "Brick",              30.1,   102.0,  0.05);
+        HudMessage("DMG < %d = No Status", (int)(Player.HealthMax / 20));
+        EndHudMessage(HUDMSG_PLAIN, 0, "Brick",              30.1,   110.0,  0.05);
         HudMessage("%d Max EP", Player.EPMax);
         EndHudMessage(HUDMSG_PLAIN, 0, "LightBlue",          230.1,  86.0,   0.05);
         HudMessage("%d EP Regen", Player.EPAmount);
