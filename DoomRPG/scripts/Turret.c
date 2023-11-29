@@ -632,8 +632,8 @@ Start:
         Player.Turret.RailAmmo = Player.Turret.RailAmmoMax;
 
     // Calculate Maintenance Timers
-    Player.Turret.ChargeTimer = (Player.Turret.BatteryMax - Player.Turret.Battery) / 2;
-    Player.Turret.RepairTimer = (Player.Turret.HealthMax - Player.Turret.Health) / 2;
+    Player.Turret.ChargeTimer = (Player.Turret.BatteryMax - Player.Turret.Battery) / 10;
+    Player.Turret.RepairTimer = (Player.Turret.HealthMax - Player.Turret.Health) / 10;
 
     // Reset maintenance cost this tic
     MaintCost = 0;
@@ -653,7 +653,7 @@ Start:
         if ((Timer() % (35 - (Player.Turret.Upgrade[TU_HARDWARE_BATTERY] * 3))) == 0)
             if (Player.Turret.ChargeTimer > 0)
             {
-                Player.Turret.Battery += 2;
+                Player.Turret.Battery += 10;
                 MaintCost++;
                 // Done
                 if (Player.Turret.Battery >= Player.Turret.BatteryMax)
@@ -683,7 +683,7 @@ Start:
                 if (Player.Turret.PaidForRepair)
                 {
                     MaintCost++;
-                    Player.Turret.Health += 2;
+                    Player.Turret.Health += 10;
                 }
 
                 // Done
@@ -708,7 +708,7 @@ Start:
 
         // Steady credit loss while maintenance is happening
         if (Player.Turret.ChargeTimer > 0 || (Player.Turret.PaidForRepair && Player.Turret.RepairTimer > 0) || Player.Turret.RefitTimer > 0)
-            TakeInventory("DRPGCredits", MaintCost);
+            TakeInventory("DRPGCredits", MaintCost * 5);
     }
 
     // Maintenance is done

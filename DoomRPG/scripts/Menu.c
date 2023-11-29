@@ -2555,12 +2555,12 @@ void UpgradeTurret(int Index)
             if (Index > 0)
             {
                 TurretDespawn();
-                Player.Turret.RefitTimer += Player.Turret.Upgrade[Index] * (10 - Player.Turret.Upgrade[TU_HARDWARE_SPECS]);
+                Player.Turret.RefitTimer += Player.Turret.Upgrade[Index] * (2 - Player.Turret.Upgrade[TU_HARDWARE_SPECS]);
             }
             else // Build
             {
                 Player.Turret.Health = 100;
-                Player.Turret.RefitTimer += 60;
+                Player.Turret.RefitTimer += 10;
 
                 // Automatically start maintenance to begin building the turret
                 if (CheckInventory("DRPGCredits") > 0)
