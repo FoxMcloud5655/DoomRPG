@@ -38,7 +38,7 @@ NamedScript KeyBind void OpenShop(bool OpenLocker)
     // If settings say no
     if (!CurrentLevel->UACBase && !GetCVar("drpg_shoptype"))
     {
-        PlaySound(0, "menu/invalid", CHAN_AUTO);
+        ActivatorSound("menu/invalid", 127);
         SetFont("BIGFONT");
         PrintError("This is only accessible within the UAC Outpost");
         return;
@@ -52,50 +52,70 @@ NamedScript KeyBind void OpenShop(bool OpenLocker)
 
     if (Player.InShop)
     {
-        PlaySound(0, "menu/leave", CHAN_AUTO);
+        ActivatorSound("menu/leave", 127);
         SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
         Player.InShop = false;
     }
     else
     {
-        PlaySound(0, "menu/shop", CHAN_AUTO);
+        ActivatorSound("menu/shop", 127);
         Player.InShop = true;
         if (OpenLocker)
             Player.LockerMode = true;
     }
 }
 
+// Auto-Sell & Auto-Store
 NamedScript void UpdateShopAutoList()
 {
-    ArrayCreate(&Player.AutoSellList,  "Auto-Sell", 128, sizeof(ItemInfoPtr));
-    ArrayCreate(&Player.AutoStoreList, "Auto-Store", 128, sizeof(ItemInfoPtr));
-
     for (int i = 0; i < ItemCategories; i++)
     {
         for (int j = 0; j < ItemMax[i]; j++)
         {
-            if (Player.AutoSellList.Position == Player.AutoSellList.Size)
-                ArrayResize(&Player.AutoSellList);
-            if (Player.AutoStoreList.Position == Player.AutoStoreList.Size)
-                ArrayResize(&Player.AutoStoreList);
+            // Remove AT_NONE items that exist in the Auto-Sell or Auto-Store arrays
+            if (Player.ItemAutoMode[i][j] == AT_NONE)
+            {
+                ItemInfoPtr Item = &ItemData[i][j];
 
+                zsDynArrayUtils("Auto-Sell", 4, (int)Item, PlayerNumber());
+                zsDynArrayUtils("Auto-Store", 4, (int)Item, PlayerNumber());
+            }
+
+            // Auto-Sell
             if (Player.ItemAutoMode[i][j] == AT_SELL)
             {
                 ItemInfoPtr Item = &ItemData[i][j];
-                LogMessage(StrParam("Sell List Position: %i Sell List Size: %i", Player.AutoSellList.Position, Player.AutoSellList.Size), LOG_DEBUG);
+
+                // Get array size
+                int arraySize = zsDynArrayUtils("Auto-Sell", 3, NULL, PlayerNumber());
+
+                LogMessage(StrParam("Sell List Population: %i", arraySize), LOG_DEBUG);
                 LogMessage(StrParam("Adding %S to auto-sell @ %p", ItemData[i][j].Name, Item), LOG_DEBUG);
-                ((ItemInfoPtr *)Player.AutoSellList.Data)[Player.AutoSellList.Position++] = Item;
+
+                // Add item to array
+                zsDynArrayUtils("Auto-Sell", 1, (int)Item, PlayerNumber());
             }
+
+            // Auto-Store
             else if (Player.ItemAutoMode[i][j] == AT_STORE)
             {
                 ItemInfoPtr Item = &ItemData[i][j];
-                LogMessage(StrParam("Store List Position: %i Store List Size: %i", Player.AutoStoreList.Position, Player.AutoStoreList.Size), LOG_DEBUG);
+
+                // Get array size
+                int arraySize = zsDynArrayUtils("Auto-Store", 3, NULL, PlayerNumber());
+
+                LogMessage(StrParam("Store List Population: %i", arraySize), LOG_DEBUG);
                 LogMessage(StrParam("Adding %S to auto-store @ %p", ItemData[i][j].Name, Item), LOG_DEBUG);
-                ((ItemInfoPtr *)Player.AutoStoreList.Data)[Player.AutoStoreList.Position++] = Item;
+
+                // Add item to array
+                zsDynArrayUtils("Auto-Store", 1, (int)Item, PlayerNumber());
             }
-            // LogMessage(StrParam("Completed Item #%i, %S", j, ItemData[i][j].Name), LOG_DEBUG);
+
+            // Commented out for console spam
+            //LogMessage(StrParam("Completed Item #%i, %S", j, ItemData[i][j].Name), LOG_DEBUG);
         }
     }
+
     LogMessage("Completed AutoUpdateShopList", LOG_DEBUG);
 }
 
@@ -113,7 +133,7 @@ void ShopItemTryAutoDeposit(ItemInfoPtr Item)
     }
 
     if (deposited)
-        PlaySound(0, "shop/autostore", CHAN_AUTO);
+        ActivatorSound("shop/autostore", 127);
 }
 
 NamedScript void ShopItemAutoHandler()
@@ -131,13 +151,16 @@ NamedScript void ShopItemAutoHandler()
         // Auto-Sell/Store doesn't need to run constantly like run-pickup does.
         if (!GetActivatorCVar("drpg_pickup_behavior")) Delay(5);
 
-        // Auto-Sell
         bool CanSellItems = Player.RankLevel > 0 || CurrentLevel->UACBase;
         bool UseAutoDepositFallback = GetActivatorCVar("drpg_autosell_lockerfallback");
+        int sellArraySize = zsDynArrayUtils("Auto-Sell", 3, NULL, PlayerNumber());
+        int storeArraySize = zsDynArrayUtils("Auto-Store", 3, NULL, PlayerNumber());
+
+        // Auto-Sell
         if (CanSellItems || UseAutoDepositFallback)
-            for (int i = 0; i < Player.AutoSellList.Position; i++)
+            for (int i = 0; i < sellArraySize; i++) // Process each item in Auto-Sell array for selling
             {
-                ItemInfoPtr Item = ((ItemInfoPtr *)Player.AutoSellList.Data)[i];
+                ItemInfoPtr Item = (ItemInfoPtr)zsDynArrayUtils("Auto-Sell", 2, i, PlayerNumber()); // Get Item from array, where i is the array position
                 int Quantity = CheckInventory(Item->Actor);
 
                 // Keep
@@ -155,9 +178,9 @@ NamedScript void ShopItemAutoHandler()
 
         // Auto-Store
         if (Player.EP >= LOCKER_EPRATE || CurrentLevel->UACBase)
-            for (int i = 0; i < Player.AutoStoreList.Position; i++)
+            for (int i = 0; i < storeArraySize; i++)
             {
-                ItemInfoPtr Item = ((ItemInfoPtr *)Player.AutoStoreList.Data)[i];
+                ItemInfoPtr Item = (ItemInfoPtr)zsDynArrayUtils("Auto-Store", 2, i, PlayerNumber()); // Get Item from array
 
                 if (CheckInventory(Item->Actor) > 0)
                     ShopItemTryAutoDeposit(Item);
@@ -243,7 +266,7 @@ void ShopLoop()
     if (Player.LockerMode)
     {
         // Title and Page
-        HudMessage("\ChLocker \C-- %S\C- \Cd(%d/%d)", ItemCategoryNames[Player.ShopPage], Player.ShopPage + 1, CompatMode == COMPAT_STARFOX ? ItemCategories - 1 : ItemCategories);
+        HudMessage("\ChLocker \C-- %S\C- \Cd(%d/%d)", ItemCategoryNames[Player.ShopPage], Player.ShopPage + 1, ItemCategories);
         EndHudMessage(HUDMSG_PLAIN, 0, "White", 24.1, 24.0, 0.05);
 
         // EP Cost/Inventory Count
@@ -261,7 +284,7 @@ void ShopLoop()
     else
     {
         // Title and Page
-        HudMessage("\CfShop \C-- %S\C- \Cd(%d/%d)", ItemCategoryNames[Player.ShopPage], Player.ShopPage + 1, CompatMode == COMPAT_STARFOX ? ItemCategories - 1 : ItemCategories);
+        HudMessage("\CfShop \C-- %S\C- \Cd(%d/%d)", ItemCategoryNames[Player.ShopPage], Player.ShopPage + 1, ItemCategories);
         EndHudMessage(HUDMSG_PLAIN, 0, "White", 24.1, 24.0, 0.05);
 
         // Price
@@ -333,7 +356,7 @@ void ShopLoop()
     // Check Input
     if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()))
     {
-        PlaySound(0, "menu/move", CHAN_AUTO);
+        ActivatorSound("menu/move", 127);
         if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
             Player.ShopIndex -= 54;
         else
@@ -342,7 +365,7 @@ void ShopLoop()
     };
     if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()))
     {
-        PlaySound(0, "menu/move", CHAN_AUTO);
+        ActivatorSound("menu/move", 127);
         if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
             Player.ShopIndex += 54;
         else
@@ -352,32 +375,28 @@ void ShopLoop()
     if (CheckInput(BT_MOVELEFT, KEY_REPEAT, false, PlayerNumber()))
         if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
         {
-            PlaySound(0, "menu/move", CHAN_AUTO);
+            ActivatorSound("menu/move", 127);
             Player.ShopPage--;
             Player.ShopIndex = 0;
-            if (Player.ShopPage < 0)
-                if (CompatMode == COMPAT_STARFOX)
-                    Player.ShopPage = (DebugLog ? ItemCategories : ItemCategories - 2);
-                else
-                    Player.ShopPage = (DebugLog ? ItemCategories : ItemCategories - 1);
+            if (Player.ShopPage < 0) Player.ShopPage = (DebugLog ? ItemCategories : ItemCategories - 1);
         }
         else
         {
-            PlaySound(0, "menu/move", CHAN_AUTO);
+            ActivatorSound("menu/move", 127);
             Player.ShopIndex--;
             if (Player.ShopIndex < 0) Player.ShopIndex = 0;
         }
     if (CheckInput(BT_MOVERIGHT, KEY_REPEAT, false, PlayerNumber()))
         if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
         {
-            PlaySound(0, "menu/move", CHAN_AUTO);
+            ActivatorSound("menu/move", 127);
             Player.ShopPage++;
             Player.ShopIndex = 0;
-            if (Player.ShopPage > (DebugLog ? ItemCategories : CompatMode == COMPAT_STARFOX ? ItemCategories - 2 : ItemCategories - 1)) Player.ShopPage = 0;
+            if (Player.ShopPage > (DebugLog ? ItemCategories : ItemCategories - 1)) Player.ShopPage = 0;
         }
         else
         {
-            PlaySound(0, "menu/move", CHAN_AUTO);
+            ActivatorSound("menu/move", 127);
             Player.ShopIndex++;
             if (Player.ShopIndex > ItemMax[Player.ShopPage] - 1) Player.ShopIndex = ItemMax[Player.ShopPage] - 1;
         }
@@ -400,7 +419,7 @@ void ShopLoop()
     if (CheckInput(BT_JUMP, KEY_PRESSED, false, PlayerNumber()) && (GetCVar("drpg_shoptype") == 2 || CurrentLevel->UACBase))
     {
         Player.LockerMode = !Player.LockerMode;
-        PlaySound(0, "menu/move", CHAN_AUTO);
+        ActivatorSound("menu/move", 127);
     }
     if (CheckInput(BT_ZOOM, KEY_PRESSED, false, PlayerNumber()))
         if (!(ItemCategoryFlags[Player.ShopPage] & CF_NODROP) && CheckInventory(ItemPtr->Actor) > 0 && !(CompatMode == COMPAT_DRLA && (Player.ShopPage == 0 || Player.ShopPage == 3 || Player.ShopPage == 8 || Player.ShopPage == 9)))
@@ -411,7 +430,7 @@ void ShopLoop()
             else
             {
                 PrintError("You cannot drop this item here");
-                PlaySound(0, "menu/error", CHAN_AUTO);
+                ActivatorSound("menu/error", 127);
             }
         }
     if (CheckInput(BT_ATTACK, KEY_PRESSED, false, PlayerNumber()))
@@ -419,7 +438,7 @@ void ShopLoop()
         if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
         {
             Player.ItemKeep[Player.ShopPage][Player.ShopIndex] = !Player.ItemKeep[Player.ShopPage][Player.ShopIndex];
-            PlaySound(0, "menu/move", CHAN_AUTO);
+            ActivatorSound("menu/move", 127);
         }
         else
         {
@@ -429,7 +448,7 @@ void ShopLoop()
                     Player.ItemAutoMode[Player.ShopPage][Player.ShopIndex] = AT_STORE;
                 else
                     Player.ItemAutoMode[Player.ShopPage][Player.ShopIndex] = AT_NONE;
-                PlaySound(0, "menu/move", CHAN_AUTO);
+                ActivatorSound("menu/move", 127);
             }
             else if (!(ItemCategoryFlags[Player.ShopPage] & CF_NOSELL))
             {
@@ -437,7 +456,7 @@ void ShopLoop()
                     Player.ItemAutoMode[Player.ShopPage][Player.ShopIndex] = AT_SELL;
                 else
                     Player.ItemAutoMode[Player.ShopPage][Player.ShopIndex] = AT_NONE;
-                PlaySound(0, "menu/move", CHAN_AUTO);
+                ActivatorSound("menu/move", 127);
             }
         }
 
@@ -455,7 +474,7 @@ void ShopLoop()
         else
         {
             PrintError("You can only bulk withdraw while in the Outpost");
-            PlaySound(0, "menu/error", CHAN_AUTO);
+            ActivatorSound("menu/error", 127);
         }
     }
 
@@ -473,7 +492,7 @@ void BuyItem(str Item)
     if (ItemPtr->Rank > Player.RankLevel)
     {
         PrintError(StrParam("You need Rank %d (%S) to buy this item", ItemPtr->Rank, LongRanks[ItemPtr->Rank]));
-        PlaySound(0, "menu/error", CHAN_AUTO);
+        ActivatorSound("menu/error", 127);
 
         return;
     }
@@ -482,7 +501,7 @@ void BuyItem(str Item)
     if (ItemPtr->Rank == -1 || ItemCategoryFlags[Player.ShopPage] & CF_NOBUY)
     {
         PrintError("You cannot buy this item");
-        PlaySound(0, "menu/error", CHAN_AUTO);
+        ActivatorSound("menu/error", 127);
 
         return;
     }
@@ -491,7 +510,7 @@ void BuyItem(str Item)
     if (CheckInventory("DRPGCredits") < ItemPtr->Price - ItemPtr->Price * Player.ShopDiscount / 100)
     {
         PrintError("You don't have enough Credits to buy this item");
-        PlaySound(0, "menu/error", CHAN_AUTO);
+        ActivatorSound("menu/error", 127);
 
         return;
     }
@@ -499,7 +518,7 @@ void BuyItem(str Item)
     // If the item has no cost, return
     if (Cost == 0)
     {
-        PlaySound(0, "menu/error", CHAN_AUTO);
+        ActivatorSound("menu/error", 127);
 
         return;
     }
@@ -515,13 +534,13 @@ void BuyItem(str Item)
 
     if (Spawned > 0)
     {
-        PlaySound(0, "menu/buy", CHAN_AUTO);
+        ActivatorSound("menu/buy", 127);
         TakeInventory("DRPGCredits", Cost);
     }
     else
     {
         PrintError("Could not teleport the requested item to your location");
-        PlaySound(0, "menu/error", CHAN_AUTO);
+        ActivatorSound("menu/error", 127);
     }
 }
 
@@ -567,7 +586,7 @@ int SellItem(str Item, int SellAmount, bool AutoSold)
     if (Player.RankLevel == 0 && !CurrentLevel->UACBase)
     {
         PrintError("You cannot sell items outside the Outpost until you reach the first rank");
-        PlaySound(0, "menu/error", CHAN_AUTO);
+        ActivatorSound("menu/error", 127);
 
         return 0;
     }
@@ -576,7 +595,7 @@ int SellItem(str Item, int SellAmount, bool AutoSold)
     if (!AutoSold && (CheckInventory(Item) == 0 || ItemCategoryFlags[Player.ShopPage] & CF_NOSELL))
     {
         PrintError("You cannot sell these items");
-        PlaySound(0, "menu/error", CHAN_AUTO);
+        ActivatorSound("menu/error", 127);
 
         return 0;
     }
@@ -593,9 +612,9 @@ int SellItem(str Item, int SellAmount, bool AutoSold)
     if (CheckInventory(Item) >= SellAmount)
     {
         if (AutoSold)
-            PlaySound(0, "shop/autosell", CHAN_AUTO);
+            ActivatorSound("shop/autosell", 127);
         else
-            PlaySound(0, "menu/sell", CHAN_AUTO);
+            ActivatorSound("menu/sell", 127);
         TakeInventory(Item, SellAmount);
 
         // DoomRL Compatibility
@@ -608,7 +627,7 @@ int SellItem(str Item, int SellAmount, bool AutoSold)
     else
     {
         PrintError("You are not carrying any of the specified item");
-        PlaySound(0, "menu/error", CHAN_AUTO);
+        ActivatorSound("menu/error", 127);
     }
 
     return SellCost;
@@ -633,7 +652,7 @@ void DepositItem(int Page, int Index, bool CharSave, bool NoSound)
                 if (*LockerAmount > 0 && !CharSave)
                 {
                     PrintError("You can only store one of a weapon type in the Locker");
-                    PlaySound(0, "menu/error", CHAN_AUTO);
+                    ActivatorSound("menu/error", 127);
                     return;
                 }
 
@@ -670,7 +689,7 @@ void DepositItem(int Page, int Index, bool CharSave, bool NoSound)
         if (CharSave && CompatMode == COMPAT_DRLA && Page == 0 && *LockerAmount > 1) // Prevent dumping multiple weapons in the locker in DRLA saves
             *LockerAmount = 1;
         if (!NoSound)
-            PlaySound(0, "menu/move", CHAN_AUTO);
+            ActivatorSound("menu/move", 127);
     }
     else if (!NoSound)
     {
@@ -678,7 +697,7 @@ void DepositItem(int Page, int Index, bool CharSave, bool NoSound)
             PrintError("Not enough EP to deposit this item");
         else
             PrintError("You're not carrying any of the specified item");
-        PlaySound(0, "menu/error", CHAN_AUTO);
+        ActivatorSound("menu/error", 127);
     }
 }
 
@@ -703,7 +722,7 @@ int WithdrawItem(int Page, int Index)
             if (CheckInventory(ItemPtr->Actor))
             {
                 PrintError("You are already carrying this type of weapon");
-                PlaySound(0, "menu/error", CHAN_AUTO);
+                ActivatorSound("menu/error", 127);
                 return 0;
             }
 
@@ -745,7 +764,8 @@ int WithdrawItem(int Page, int Index)
         (*LockerAmount)--;
         if (!CurrentLevel->UACBase)
             Player.EP -= LOCKER_EPRATE;
-        PlaySound(0, "menu/move", CHAN_BODY);
+
+        ActivatorSound("menu/move", 127);
     }
     else
     {
@@ -753,7 +773,8 @@ int WithdrawItem(int Page, int Index)
             PrintError("Not enough EP to withdraw this item");
         else
             PrintError("Locker does not contain any of the specified item");
-        PlaySound(0, "menu/error", CHAN_AUTO);
+
+        ActivatorSound("menu/error", 127);
     }
 
     return 1;

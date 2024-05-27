@@ -27,35 +27,6 @@ int const AuraTID = 20000;
 // Skill levels stuff
 int SkillLevelsMax;
 
-// ----------------------
-// Input
-//
-
-// Used with bindingStates in order
-int const bindingValues[13] =
-{
-    BT_FORWARD,
-    BT_BACK,
-    BT_MOVELEFT,
-    BT_MOVERIGHT,
-    BT_CROUCH,
-    BT_SPEED,
-    BT_USE,
-    BT_ATTACK,
-    BT_ALTATTACK,
-    BT_ZOOM,
-    BT_JUMP,
-    BT_USER1,
-    BT_USER2
-};
-
-// Keep track of KeyDown for multiple keys (requried for key combos, such as switching pages)
-bool bindingStates[13];
-// Currently pressed key
-int keyCurrent;
-// Determines whether certain held down keys can repeat themselves
-bool keyRepetition = false;
-
 str const ColorNames[26] =
 {
     "Brick",
@@ -209,7 +180,7 @@ NamedScript DECORATE void DestroyImmunity()
 // Return the Skill Level (for DECORATE)
 NamedScript DECORATE int GetSkillLevel()
 {
-    return SKILL_LEVEL;
+    return GameSkill();
 }
 
 // Return the Global shop card rank between all players (for DECORATE)
@@ -336,22 +307,7 @@ NamedScript DECORATE int CheckCapacity()
         for (int i = 0; ItemListRL[i] != NULL; i++)
             if (CheckInventory(ItemListRL[i]) > 0)
                 Items += CheckInventory(ItemListRL[i]);
-    }
-
-    if (CompatMode == COMPAT_STARFOX)
-    {
-        str const ItemListSF[] =
-        {
-            // Starfox - Armors
-            "SFArmorGiver",
-            "SFArmorGiver2",
-            NULL
-        };
-
-        for (int i = 0; ItemListSF[i] != NULL; i++)
-            if (CheckInventory(ItemListSF[i]) > 0)
-                Items += CheckInventory(ItemListSF[i]);
-    }
+    };
 
     Player.InvItems = Items;
 
@@ -529,21 +485,31 @@ NamedScript DECORATE void TeleportMonster()
     str Type = GetActorClass(0);
     int TID = UniqueTID();
     bool Success = false;
-    Position *ChosenPosition = NULL;
+    MonsterStatsPtr ChosenPosition;
+    int validMonsterCount = 0;
+
+    for (int i = 1; i < MonsterID; i++)
+    {
+        if (!Monsters[i].Init)
+            continue;
+        else
+            validMonsterCount++;
+    }
 
     // Check the position
     while (!Success)
     {
-        ChosenPosition = &((Position *)CurrentLevel->MonsterPositions.Data)[Random(0, CurrentLevel->MonsterPositions.Position)];
-        Success = Spawn(Type, ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z, TID, ChosenPosition->Angle);
+        ChosenPosition = &Monsters[Random(1, validMonsterCount)];
+        //ChosenPosition = &((Position *)CurrentLevel->MonsterPositions.Data)[Random(0, CurrentLevel->MonsterPositions.Position)];
+        Success = Spawn(Type, ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z, TID, ChosenPosition->spawnPos.Angle);
         Thing_Remove(TID);
         Delay(1);
     }
 
     // Teleport to this position
-    SetActorPosition(0, ChosenPosition->X, ChosenPosition->Y, ChosenPosition->Z, true);
-    SetActorAngle(0, ChosenPosition->Angle);
-    SetActorPitch(0, ChosenPosition->Pitch);
+    SetActorPosition(0, ChosenPosition->spawnPos.X, ChosenPosition->spawnPos.Y, ChosenPosition->spawnPos.Z, true);
+    SetActorAngle(0, ChosenPosition->spawnPos.Angle);
+    SetActorPitch(0, ChosenPosition->spawnPos.Pitch);
 }
 
 void DropMoney(int Killer, int TID, int Amount)
@@ -614,12 +580,10 @@ int DropMonsterItem(int Killer, int TID, str Item, int Chance, fixed XAdd, fixed
         if (Players(Killer).Stim.PowerupTimer[STIM_MAGNETIC] <= 0) // Don't toss the item if we're Magnetic, it'll just confuse things
             SetActorVelocity(ItemTID, RandomFixed(-XSpeed, XSpeed), RandomFixed(-YSpeed, YSpeed), ZSpeed, false, false);
 
-        // Array has grown too big, resize it
-        if (Players(Killer).DropTID.Position == Players(Killer).DropTID.Size)
-            ArrayResize(&Players(Killer).DropTID);
+        //LogMessage(StrParam("Adding %S to Player %i's Drop array", Item, Players(Killer).TID));
 
         // Add item's TID to drop array
-        ((int *)Players(Killer).DropTID.Data)[Players(Killer).DropTID.Position++] = ItemTID;
+        zsDynArrayUtils("PlayerDrops", 1, ItemTID, Killer);
     }
 
     return ItemTID;
@@ -632,7 +596,7 @@ int DropMonsterItem(int Killer, int TID, str Item, int Chance, fixed XAdd, fixed
 // Used by the RegenSphere to temporarily increase regen rates
 NamedScript DECORATE void RegenBoost()
 {
-    Player.RegenBoostTimer += (35 * 5) + ((Player.RegenerationTotal / 5.0) * 35);
+    Player.RegenBoostTimer += (35 * 5) + ((Player.RegenerationTotal / 13.33) * 35);
 }
 
 // Set Skill Level during the game
@@ -648,7 +612,7 @@ NamedScript KeyBind void SetSkill(int NewSkill)
     FadeRange(255, 255, 255, 0.5, 255, 255, 255, 0.0, 0.5);
     ChangeSkill(NewSkill);
     CurrentSkill = NewSkill;
-    PlaySound(0, "misc/skillchange", CHAN_AUTO);
+    ActivatorSound("misc/skillchange", 127);
     SetFont("BIGFONT");
     if (CompatMonMode == COMPAT_DRLA)
         HudMessage("\CjSkill Level has been changed to\n\n%S", SkillLevelsDRLA[NewSkill]);
@@ -748,7 +712,7 @@ NamedScript KeyBind void Respec(bool DoStats, bool DoSkills)
     SetFont("BIGFONT");
     HudMessage("Respec Complete");
     EndHudMessage(HUDMSG_FADEOUT, 0, "White", 0.5, 0.5, 2.5, 2.5);
-    PlaySound(0, "misc/secret", CHAN_AUTO);
+    ActivatorSound("misc/secret", 127);
 }
 
 NamedScript DECORATE int GetAugBattery()
@@ -796,7 +760,7 @@ NamedScript DECORATE void AddToxicity(int Amount)
     if ((PrevToxicity < 25 && Player.Toxicity >= 25) ||
             (PrevToxicity < 50 && Player.Toxicity >= 50) ||
             (PrevToxicity < 75 && Player.Toxicity >= 75))
-        PlaySound(0, "misc/toxic", CHAN_AUTO);
+        ActivatorSound("misc/toxic", 127);
 }
 
 // Add Stim Immunity to the Player
@@ -814,17 +778,21 @@ NamedScript DECORATE void ClearBurnout()
 
 NamedScript KeyBind void PurgeDrops()
 {
-    int *TID = (int *)Player.DropTID.Data;
-    for (int i = 0; i < Player.DropTID.Position; i++)
+    int pArraySize = zsDynArrayUtils("PlayerDrops", 3, NULL, PlayerNumber());
+
+    for (int i = 0; i < pArraySize; i++)
     {
-        if (ClassifyActor(TID[i]) == ACTOR_NONE)
+        int TID = zsDynArrayUtils("PlayerDrops", 2, i, PlayerNumber());
+
+        if (ClassifyActor(TID) == ACTOR_NONE)
             continue;
 
-        SpawnSpot("TeleportFog", TID[i], 0, 0);
-        Thing_Remove(TID[i]);
+        SpawnSpot("TeleportFog", TID, 0, 0);
+        Thing_Remove(TID);
     }
 
     CleanDropTIDArray();
+
     Print("\CdRemoved \Cgall\Cd monster-dropped items");
 }
 
@@ -1017,7 +985,7 @@ bool IsTimeFrozen()
     for (int i = 0; i < MAX_PLAYERS; i++)
         if (CheckActorInventory(Players(i).TID, "PowerTimeFreezer") ||
                 CheckActorInventory(Players(i).TID, "PowerShieldTimeFreezer") ||
-                (CompatMode == COMPAT_DRLA && CheckActorInventory(Players(i).TID, "PowerRLChronotrooperFreeze"))) // DoomRL
+                CheckActorInventory(Players(i).TID, "PowerRLChronotrooperFreeze")) // DoomRL
             return true;
 
     return false;
@@ -1273,7 +1241,7 @@ NamedScript KeyBind void PlayerTeleport(int PlayerNum)
     if (PlayerNum == PlayerNumber() || !PlayerInGame(PlayerNum))
     {
         PrintError("Not a valid player");
-        PlaySound(0, "menu/error", CHAN_AUTO);
+        ActivatorSound("menu/error", 127);
         return;
     }
 
@@ -2428,7 +2396,7 @@ NamedScript Console void Cheat(int StatBoost)
     if (StatBoost == 0)
     {
         Player.ActualHealth = 0;
-        PlaySound(0, "mission/gottarget2", CHAN_AUTO);
+        ActivatorSound("mission/gottarget2", 127);
         return;
     }
 
@@ -2580,7 +2548,7 @@ NamedScript Console void GiveCredits(int Amount)
 {
     if (Amount == 0) Amount = 1000000000;
     GiveInventory("DRPGCredits", Amount);
-    PlaySound(0, "credits/payout", CHAN_AUTO);
+    ActivatorSound("credits/payout", 127);
 }
 
 // Shuffle the Shop Special
@@ -2712,226 +2680,239 @@ void CreateTranslations()
     CreateTranslationEnd();
 }
 
-bool CheckInput(int Key, int State, bool ModInput, int PlayerNumber)
+bool CheckInputHelper(int Buttons, int OldButtons, int Key, int Function)
 {
-    if (InMultiplayer)
-        return CheckInputACS(Key, State, ModInput, PlayerNumber);
-    else
+    bool rValue = false;
+
+    static int const acsKeys[25] =
     {
-        int i = State;
+        BT_FORWARD,
+        BT_BACK,
+        BT_LEFT,
+        BT_RIGHT,
+        BT_MOVELEFT,
+        BT_MOVERIGHT,
+        BT_ATTACK,
+        BT_ALTATTACK,
+        BT_USE,
+        BT_JUMP,
+        BT_CROUCH,
+        BT_TURN180,
+        BT_RELOAD,
+        BT_ZOOM,
+        BT_SPEED,
+        //BT_RUN,
+        BT_STRAFE,
+        BT_LOOKUP,
+        BT_LOOKDOWN,
+        BT_MOVEUP,
+        BT_MOVEDOWN,
+        BT_SHOWSCORES,
+        BT_USER1,
+        BT_USER2,
+        BT_USER3,
+        BT_USER4
+    };
 
-        if (Key == (BT_FORWARD | BT_BACK | BT_MOVELEFT | BT_MOVERIGHT))
-            i = KEY_ANYMOVEMENT;
-
-        return CheckInputZS(Key, i);
-    }
-}
-
-// Singleplayer Input is managed by ZScript and updated via this function
-NamedScript DECORATE void UpdateInput(int Key, bool KeyDown, bool KeyRepeat)
-{
-    // ACS lags behind a tick, so it must wait
-    Delay(1);
-
-    // Misc
-    keyRepetition = KeyRepeat;
-
-    // Check binding states
-    for (int i = 0; i < sizeof (bindingValues); i++)
-        if (Key == bindingValues[i])
-            bindingStates[i] = KeyDown;
-
-    // Single Key Processing
-    if (KeyDown)
+    switch(Function)
     {
-        keyCurrent = Key;
-        Delay(1);
-        keyCurrent = 0;
-    }
-}
-
-// New
-bool CheckInputZS(int Key, int State)
-{
-    switch (State)
-    {
-    case KEY_PRESSED:
-    {
-        if (Key == keyCurrent)
-            return true;
-    }
-    break;
     case KEY_ONLYPRESSED:
     {
-        if (Key == keyCurrent)
-        {
-            // Check if any other keys are being used
-            for (int i = 0; i < sizeof (bindingValues); i++)
-                if (Key != bindingValues[i] && bindingStates[i])
-                    return false;
+        int keyActiveCount = 0;
 
-            // Yay
-            return true;
+        // If more than one key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
+        {
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount == 2)
+                break;
         }
-    }
-    break;
-    case KEY_HELD:
-    {
-        // Check binding states
-        for (int i = 0; i < sizeof (bindingValues); i++)
-            if (Key == bindingValues[i] && bindingStates[i])
-                return true;
+
+        // Only one key active, check it
+        if (keyActiveCount == 1 && Buttons & Key && !(OldButtons & Key))
+            rValue = true;
     }
     break;
     case KEY_ONLYHELD:
     {
-        // Check binding states
-        for (int i = 0; i < sizeof (bindingValues); i++)
-            if (Key != bindingValues[i] && bindingStates[i])
-                return false;
+        int keyActiveCount = 0;
 
-        // Check binding states
-        for (int i = 0; i < sizeof (bindingValues); i++)
-            if (Key == bindingValues[i] && bindingStates[i])
-                return true;
+        // If more than one key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
+        {
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount == 2)
+                break;
+        }
+
+        // Only one key active, check it
+        if (keyActiveCount == 1 && Buttons & Key)
+            rValue = true;
     }
     break;
     case KEY_ANYIDLE:
     {
-        // Check binding states
-        for (int i = 0; i < sizeof (bindingValues); i++)
-            if (bindingStates[i])
-                return false;
+        int keyActiveCount = 0;
 
-        return true;
+        // If any key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
+        {
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount > 0)
+                break;
+        }
+
+        // If no keys are active, set return value
+        if (keyActiveCount < 1)
+            rValue = true;
     }
     break;
     case KEY_ANYNOTIDLE:
     {
-        // Check binding states
-        for (int i = 0; i < sizeof (bindingValues); i++)
-            if (bindingStates[i])
-                return true;
+        int keyActiveCount = 0;
 
-        return false;
-    }
-    break;
-    case KEY_ANYMOVEMENT:
-    {
-        // Check binding states
-        // bindingStates values 0 - 3 are movement keys
-        for (int i = 0; i < 4; i++)
-            if (bindingStates[i])
-                return true;
-
-        return false;
-    }
-    break;
-    case KEY_REPEAT:
-    {
-        if (keyRepetition)
+        // If any key is active, break
+        for (int i = 0; i < sizeof (acsKeys); i++)
         {
-            // Limit repetition
-            if ((Timer() % 5) == 0)
-                // Check binding states
-                for (int i = 0; i < sizeof (bindingValues); i++)
-                    if (Key == bindingValues[i] && bindingStates[i])
-                        return true;
+            if (Buttons & acsKeys[i])
+                keyActiveCount++;
+
+            // Save ACS time
+            if (keyActiveCount > 0)
+                break;
         }
-        else
-        {
-            // No repetition
-            if (Key == keyCurrent)
-                return true;
-        }
+
+        // If any key is active, set return value
+        if (keyActiveCount > 1)
+            rValue = true;
     }
     break;
     }
 
-    return false;
+    return rValue;
 }
 
-// Original
-bool CheckInputACS(int Key, int State, bool ModInput, int PlayerNumber)
+bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
 {
-    int Input;
-    int InputOld;
-    int Buttons;
-    int OldButtons;
+    bool rValue = false;
+    int Input = INPUT_BUTTONS;
+    int InputOld = INPUT_OLDBUTTONS;
+    int Buttons, OldButtons;
 
-    if (!ModInput)
+    double AxisY, AxisX;
+
+    // Static, so values aren't lost at function exit
+    static bool axesMode = false;
+    static fixed axesTic = 7.0;
+
+    // These don't need updated constantly
+    if ((Timer() % 35) == 0)
     {
-        Input = INPUT_BUTTONS;
-        InputOld = INPUT_OLDBUTTONS;
+        axesMode = GetUserCVar(PlayerNum, "drpg_menu_input_axes");
+        axesTic = GetUserCVarFixed(PlayerNum, "drpg_menu_input_axes_tic");
     }
-    else
+
+    if (ModInput)
     {
         Input = MODINPUT_BUTTONS;
         InputOld = MODINPUT_OLDBUTTONS;
     }
 
-    Buttons = GetPlayerInput(-1, Input);
-    OldButtons = GetPlayerInput(-1, InputOld);
+    Buttons = GetPlayerInput(PlayerNum, Input);
+    OldButtons = GetPlayerInput(PlayerNum, InputOld);
 
-    // Hacky workaround for the new buttons (specifically auto-run) introduced in GZDoom 4.5.0
-    if (Buttons & 33554432)
+    // Regulate Axes
+    if (Key & BT_FORWARD || Key & BT_BACK || Key & BT_MOVELEFT || Key & BT_MOVERIGHT)
     {
-        Buttons = Buttons - 33554432;
-    }
+        // Prevent input skipping
+        if (axesMode)
+        {
+            Buttons = 0;
+            OldButtons = 0;
 
-    if (OldButtons & 33554432)
-    {
-        OldButtons = OldButtons - 33554432;
+            if (Timer() % axesTic == 0)
+            {
+                AxisY = GetPlayerInput(PlayerNum, INPUT_FORWARDMOVE);
+                AxisX = GetPlayerInput(PlayerNum, INPUT_SIDEMOVE);
+
+                // Simplify
+                if (AxisY > 1.0) AxisY = 1.0;
+                if (AxisY < -1.0) AxisY = -1.0;
+                if (AxisX > 1.0) AxisX = 1.0;
+                if (AxisX < -1.0) AxisX = -1.0;
+
+                // Illegal input hacks
+                if (Key & BT_FORWARD && AxisY == 1.0)
+                {
+                    Buttons |= Key;
+                    OldButtons = 0;
+                }
+                else if (Key & BT_BACK && AxisY == -1.0)
+                {
+                    Buttons |= Key;
+                    OldButtons = 0;
+                }
+                else if (Key & BT_MOVELEFT && AxisX == -1.0)
+                {
+                    Buttons |= Key;
+                    OldButtons = 0;
+                }
+                else if (Key & BT_MOVERIGHT && AxisX == 1.0)
+                {
+                    Buttons |= Key;
+                    OldButtons = 0;
+                }
+            }
+        }
     }
 
     switch (State)
     {
     case KEY_PRESSED:
+    case KEY_REPEAT:
     {
         if (Buttons & Key && !(OldButtons & Key))
-            return true;
+            rValue = true;
     }
     break;
     case KEY_ONLYPRESSED:
     {
-        if (Buttons & Key && !(OldButtons & Key))
-            return true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ONLYPRESSED);
     }
     break;
     case KEY_HELD:
     {
         if (Buttons & Key)
-            return true;
+            rValue = true;
     }
     break;
     case KEY_ONLYHELD:
     {
-        if (Buttons & Key)
-            return true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ONLYHELD);
     }
     break;
     case KEY_ANYIDLE:
     {
-        if (Buttons & Key && !(OldButtons & Key))
-            return true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ANYIDLE);
     }
     break;
     case KEY_ANYNOTIDLE:
     {
-        if (Buttons > 0)
-            return true;
-    }
-    break;
-    // Originally not compatible with multiplayer, so it is now KEY_PRESSED
-    case KEY_REPEAT:
-    {
-        if (Buttons & Key && !(OldButtons & Key))
-            return true;
+        rValue = CheckInputHelper(Buttons, OldButtons, Key, KEY_ANYNOTIDLE);
     }
     break;
     }
 
-    return false;
+    return rValue;
 }
 
 NamedScript MenuEntry void SetHUDPreset(int Preset)
@@ -2943,7 +2924,7 @@ NamedScript MenuEntry void ResetToDefaults()
 {
     if (InMultiplayer)
     {
-        PlaySound(0, "menu/error", CHAN_AUTO);
+        ActivatorSound("menu/error", 127);
         HudMessage("'Reset to Defaults' can only be done in singleplayer due to potential desync.");
         EndHudMessage(HUDMSG_FADEOUT, 0, "Orange", 0.5, 0.5, 8.0, 1.0);
         return;
@@ -3046,130 +3027,13 @@ void ClearInfo(CharSaveInfo *Info)
 // Dynamic Arrays
 //
 
-void ArrayCreate(DynamicArray *Array, str Name, int InitSize, int ItemSize)
+int zsDynArrayUtils(str arrayName, int Function, int Data, int OwnerID)
 {
-    if (DebugLog)
-    {
-        Log("acArgName: %S", Name);
-        Log("acArgInitSize: %i", InitSize);
-        Log("acArgItemSize: %i", ItemSize);
-
-        Log("Array: %i", Array);
-        Log("Array->Name: %S", Array->Name);
-        Log("Array->Position: %i", Array->Position);
-        Log("Array->Size: %i", Array->Size);
-        Log("Array->ItemSize: %i", Array->ItemSize);
-        Log("Array->Data: %i", Array->Data);
-    }
-
-    bool Recreate = false;
-    if (Array && Array->Data != NULL)
-        Recreate = true;
-
-    Array->Name = Name;
-    Array->Position = 0;
-
-    if (DebugLog)
-        Log("\CdDynamicArray: Allocating \Cj%S", Array->Name);
-
-    if (Recreate)
-    {
-        if(Array->Size != InitSize || Array->ItemSize != ItemSize)
-        {
-            LogMessage("Reallocating Array",LOG_DEBUG);
-            LogMessage(StrParam("Previously: @ %p Size: %i", Array->Data, Array->Size),LOG_DEBUG);
-            LogMessage(StrParam("To size: %i",Array->Size * Array->ItemSize),LOG_DEBUG);
-            Array->Size = InitSize;
-            Array->ItemSize = ItemSize;
-            Array->Data = realloc(Array->Data, Array->Size * Array->ItemSize);
-        }
-
-        LogMessage("Erasing Leftover data",LOG_DEBUG);
-        memset(Array->Data, NULL, Array->Size * Array->ItemSize);
-    }
+    if (OwnerID == -1)
+        return ScriptCall("DRPGZDataSt", "DynArrayUtils", arrayName, Function, Data);
     else
-    {
-        Array->Size = InitSize;
-        Array->ItemSize = ItemSize;
-        LogMessage("Creating Array",LOG_DEBUG);
-        Array->Data = calloc(Array->Size, Array->ItemSize);
-    }
-
-    if (Array->Data == NULL)
-    {
-        Log("\CgERROR: \C-Could not allocate space for array \Cj%S", Array->Name);
-        return;
-    }
-
-    if (DebugLog)
-        Log("\CdDynamicArray: \Cj%S\Cd @ %p", Array->Name, Array->Data);
-
-    //memset(Array->Data, 0xAAAAAAAA, Array->Size * Array->ItemSize);
+        return ScriptCall("DRPGZData", "DynArrayUtils", arrayName, Function, Data, OwnerID);
 }
-
-void ArrayResize(DynamicArray *Array)
-{
-    if (Array->Data == NULL)
-    {
-        Log("\CgERROR: \C-Tried to resize destroyed array \Cj%S", Array->Name);
-        return;
-    }
-
-    int OldSize = Array->Size;
-    Array->Size *= 2;
-
-    if (DebugLog)
-        Log("\CdAttempting to resize DynamicArray: \Cj%S\Cd @ %p", Array->Name, Array->Data);
-
-    void *tmp = realloc(Array->Data, Array->ItemSize * Array->Size);
-
-    if (tmp == NULL)
-    {
-        free(Array->Data);
-        Log("\CgERROR: \C-Cannot resize dynamic array \Cj%S", Array->Name);
-        return;
-    }
-
-    if (DebugLog)
-        Log("\CdDynamicArray: Resizing array \Cj%S\Cd @ %p to \Cj%d\Cd elements", Array->Name, Array->Data, Array->Size);
-
-    Array->Data = tmp;
-
-    memset((char *)Array->Data + (Array->ItemSize * OldSize), 0x00000000, (Array->Size * Array->ItemSize) - (Array->ItemSize * OldSize));
-}
-
-void ArrayDestroy(DynamicArray *Array)
-{
-    if (DebugLog)
-        Log("\CdDynamicArray: Destroying array \Cj%S\Cd @ %p", Array->Name, Array->Data);
-
-    free(Array->Data);
-
-    Array->Name = "";
-    Array->Position = 0;
-    Array->Size = 0;
-    Array->ItemSize = 0;
-    Array->Data = NULL;
-}
-
-/*void ArrayDump(DynamicArray *Array)
-{
-    Log("\CiDynamicArray \Cj%S\C- @ %p", Array->Name, Array->Data);
-    Log("\Cd* Array size: \Cj%d", Array->Size);
-    Log("\Cd* Item bytesize: \Cj%d", Array->ItemSize);
-    Log("\Cd* End Position: \Cj%d", Array->Position);
-    Log("");
-    Log("\CiItem data:");
-    for (int i = 0; i < Array->Size; i++)
-    {
-        str DataString = StrParam("  %X: ", i);
-        for (int b = 0; b < Array->ItemSize; b++)
-            DataString = StrParam("%S%X ", DataString, (char)((char *)Array->Data)[Array->ItemSize * i + b]);
-        if (i >= Array->Position)
-            DataString = StrParam("%s\Cj(\CgUnused\Cj)", DataString);
-        Log("%s", DataString);
-    }
-}*/
 
 NamedScript DECORATE void SetDebugMode()
 {
@@ -3181,12 +3045,16 @@ NamedScript void Silly()
     SetMusic("Credits2");
 }
 
-NamedScript Console void Test()
+NamedScript Console void DumpDrops()
 {
-    int *TID = (int *)Player.DropTID.Data;
-    for (int i = 0; i < Player.DropTID.Position; i++)
+    int pArraySize = zsDynArrayUtils("PlayerDrops", 3, NULL, PlayerNumber());
+
+    for (int i = 0; i < pArraySize; i++)
     {
-        Log("%d: ID:%d, %S", i, TID[i], GetActorClass(TID[i]));
+        int TID = zsDynArrayUtils("PlayerDrops", 2, i, PlayerNumber());
+
+        Log("%d: ID:%d, %S", i, TID, GetActorClass(TID));
     }
+
     return;
 }

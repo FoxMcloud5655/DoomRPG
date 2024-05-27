@@ -3,21 +3,26 @@
 
 #include "Defs.h"
 
-extern DynamicArray WSMapPacks[MAX_WSMAPPACKS];
-extern DynamicArray *KnownLevels;
+extern LevelInfo KnownLevels[MAX_WAD_LEVELS][MAX_WADS];
 extern LevelInfo *CurrentLevel;
 extern LevelInfo *PreviousLevel;
 extern LevelInfo *TransporterLevel;
 extern LevelInfo *DefaultOutpost;
-extern int PreviousLevelNum;
-extern int PreviousPrimaryLevelNum;
+
+extern int CurrentWAD;
+extern int PreviousLevelNum[MAX_WADS];
+extern int PreviousPrimaryLevelNum[MAX_WADS];
+
 extern bool UsedSecretExit;
 extern bool PreviousLevelSecret;
 extern bool WaitingForReplacements;
+
+extern bool ExtraWadActive;
+extern bool ExtraWadHasHub;
+extern int KnownWadCount;
+
 extern int AllBonusMaps;
 extern int CurrentSkill;
-
-extern bool MapPackActive[MAX_WSMAPPACKS];
 
 NamedScript Type_OPEN void MapInit();
 NamedScript Type_UNLOADING void MapExiting();
@@ -114,6 +119,11 @@ void MapEventReward();
 OptionalArgs(1) LevelInfo *FindLevelInfo(str);
 OptionalArgs(1) int FindLevelInfoIndex(str);
 
-NamedScript void InitWadSmoosh();
+NamedScript void InitExtraWad();
+void SetCurrentWadWithString(str);
+
+// Level array stuff
+LevelInfo *klArrayUtils(int, int, int);
+int GetKnownLevelCount(int);
 
 #endif

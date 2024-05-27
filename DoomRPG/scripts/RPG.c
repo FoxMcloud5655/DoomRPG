@@ -25,7 +25,6 @@ bool Transported;
 bool GlobalsInitialized;
 int CompatMode;
 int CompatMonMode;
-bool WadSmoosh;
 
 // Arrays
 str PlayerWeapon[MAX_PLAYERS];
@@ -289,9 +288,6 @@ NamedScript Type_ENTER void Init()
     for (int i = 0; i < MAX_SUMMONS; i++)
         Player.SummonTID[i] = 0;
     Player.Summons = 0;
-
-    // Initialize DropTID Array
-    ArrayCreate(&Player.DropTID, "Drops", 64, sizeof(int));
 
     // Mission Initialization
     InitMission();
@@ -1158,51 +1154,53 @@ NamedScript void ItemHandler()
                 SetActorInventory(ItemTIDs[i], "DRPGItemNoClipOff", 1);
         }
 
-        for (int i = 0; i < MAX_PLAYERS; i++)
-        {
-            // Skip this player if they aren't in the game
-            if (!PlayerInGame(i)) continue;
+        // Redundant since MonsterDeath is called by ZScript? This function does not seem to do anything.
+        // ItemTID is always the same? Seems to send the below into an endless loop as monsters are killed.
+        // Disabled until further notice. No effects on monster drops with magnetic stim in singleplayer and multiplayer. Am I missing something?
+        /*         for (int i = 0; i < MAX_PLAYERS; i++)
+                {
+                    // Skip this player if they aren't in the game
+                    if (!PlayerInGame(i)) continue;
 
-            // Skip this player if they aren't Magnetic
-            if (Players(i).Stim.PowerupTimer[STIM_MAGNETIC] <= 0) continue;
+                    // Skip this player if they aren't Magnetic
+                    if (Players(i).Stim.PowerupTimer[STIM_MAGNETIC] <= 0) continue;
 
-            // Skip this player if they are dead
-            if (GetActorProperty(Players(i).TID, APROP_Health) <= 0) continue;
+                    // Skip this player if they are dead
+                    if (GetActorProperty(Players(i).TID, APROP_Health) <= 0) continue;
 
+                    int *ItemTID = (int *)Player.DropTID.Data;
 
-            int *ItemTID = (int *)Player.DropTID.Data;
+                    for (int j = 0; j < Players(i).DropTID.Position; j++)
+                    {
+                        NoClip = false;
+                        if (ClassifyActor(ItemTID[j]) == ACTOR_NONE || ClassifyActor(ItemTID[j]) == ACTOR_WORLD) continue;
 
-            for (int j = 0; j < Players(i).DropTID.Position; j++)
-            {
-                NoClip = false;
-                if (ClassifyActor(ItemTID[j]) == ACTOR_NONE || ClassifyActor(ItemTID[j]) == ACTOR_WORLD) continue;
+                        Dist = Distance(ItemTID[j], Players(i).TID);
+                        Height = GetActorPropertyFixed(Players(i).TID, APROP_Height);
+                        Divisor = (Dist - 16.0) + Dist;
+                        Angle = VectorAngle (GetActorX(Players(i).TID) - GetActorX(ItemTID[j]), GetActorY(Players(i).TID) - GetActorY(ItemTID[j]));
+                        Pitch = VectorAngle (Dist, GetActorZ(Players(i).TID) - GetActorZ(ItemTID[j]));
 
-                Dist = Distance(ItemTID[j], Players(i).TID);
-                Height = GetActorPropertyFixed(Players(i).TID, APROP_Height);
-                Divisor = (Dist - 16.0) + Dist;
-                Angle = VectorAngle (GetActorX(Players(i).TID) - GetActorX(ItemTID[j]), GetActorY(Players(i).TID) - GetActorY(ItemTID[j]));
-                Pitch = VectorAngle (Dist, GetActorZ(Players(i).TID) - GetActorZ(ItemTID[j]));
+                        // Calculate the amount based on close versus far distance
+                        if (Dist < 16.0)
+                            Amount = 1.0;
+                        else
+                            Amount = 16.0 / Divisor;
 
-                // Calculate the amount based on close versus far distance
-                if (Dist < 16.0)
-                    Amount = 1.0;
-                else
-                    Amount = 16.0 / Divisor;
+                        // Calculate the lerped positions
+                        X = (Amount * 16.0) * Cos(Angle) * Cos(Pitch);
+                        Y = (Amount * 16.0) * Sin(Angle) * Cos(Pitch);
+                        Z = (Amount * 16.0) * Sin(Pitch);
 
-                // Calculate the lerped positions
-                X = (Amount * 16.0) * Cos(Angle) * Cos(Pitch);
-                Y = (Amount * 16.0) * Sin(Angle) * Cos(Pitch);
-                Z = (Amount * 16.0) * Sin(Pitch);
+                        SetActorVelocity(ItemTID[j], X, Y, Z, true, false);
+                        NoClip = true;
 
-                SetActorVelocity(ItemTID[j], X, Y, Z, true, false);
-                NoClip = true;
-
-                if (NoClip)
-                    SetActorInventory(ItemTID[j], "DRPGItemNoClip", 1);
-                else
-                    SetActorInventory(ItemTID[j], "DRPGItemNoClipOff", 1);
-            }
-        }
+                        if (NoClip)
+                            SetActorInventory(ItemTID[j], "DRPGItemNoClip", 1);
+                        else
+                            SetActorInventory(ItemTID[j], "DRPGItemNoClipOff", 1);
+                    }
+                } */
 
         Delay(4);
     }
@@ -2293,18 +2291,6 @@ void CheckCompatibility()
     MegaBosses = MegaBossesDF;
     MegaBossesAmount = MAX_MEGABOSSES_DF;
 
-    WadSmoosh = false;
-
-    // WadSmoosh
-    Success = SpawnForced("DRPGWadSmooshActive", 0, 0, 0, TID, 0);
-    if (Success)
-    {
-        if (DebugLog)
-            Log("\CdDEBUG: \CaWadSmoosh\C- detected");
-        WadSmoosh = true;
-        Thing_Remove(TID);
-    }
-
     // Extras
     Success = SpawnForced("DRPGExtrasIsLoaded", 0, 0, 0, TID, 0);
     if (Success)
@@ -2381,7 +2367,7 @@ void CheckCompatibility()
         Thing_Remove(TID);
     }
 
-    if (DebugLog && CompatMode == COMPAT_NONE && CompatMonMode == COMPAT_NONE && !WadSmoosh)
+    if (DebugLog && CompatMode == COMPAT_NONE && CompatMonMode == COMPAT_NONE)
         Log("\CdDEBUG: \C-No compatible mods found");
 }
 

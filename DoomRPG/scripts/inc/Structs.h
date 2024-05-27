@@ -488,7 +488,6 @@ struct LevelInfo_S
     bool Init;
 
     // Event stuff
-    struct DynamicArray_S MonsterPositions;
     unsigned int Event;
     bool EventCompleted;
 
@@ -687,9 +686,6 @@ struct PlayerData_S
     int ShopIndex;
     int ShopPage;
 
-    // WadSmoosh
-    int SelectedMapPack;
-
     // Skill Info
     struct SkillLevelInfo_S SkillLevel[MAX_CATEGORIES][MAX_SKILLS];
     struct AuraInfo_S Aura;
@@ -755,8 +751,6 @@ struct PlayerData_S
     // Auto-Sell/Auto-Store
     int ItemAutoMode[ITEM_CATEGORIES][ITEM_MAX];
     bool ItemKeep[ITEM_CATEGORIES][ITEM_MAX];
-    struct DynamicArray_S AutoSellList;
-    struct DynamicArray_S AutoStoreList;
 
     // Toxicity Meter
     int ToxicTimer;
@@ -778,9 +772,6 @@ struct PlayerData_S
     int ShopCard;
     bool AutosaveTimerReset;
     bool SeenEventTip[MAPEVENT_MAX];
-
-    // Associated Drops
-    struct DynamicArray_S DropTID;
 
     // Structception
     struct
@@ -902,7 +893,7 @@ struct PlayerData_S
     struct MissionInfo_S Mission;
 };
 
-//LegenDoom
+// LegenDoom
 struct LegendaryDef_S
 {
     str Effect;

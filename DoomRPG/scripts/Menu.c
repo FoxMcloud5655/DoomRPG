@@ -2685,7 +2685,7 @@ void MenuHelp()
         switch (Player.OutpostMenu)
         {
         case OMENU_LEVELTRANSPORT:
-            if (WadSmoosh)
+            if (ExtraWadActive)
             {
                 HudMessage("Select Level: \Cd%jS/%jS/%jS/%jS\C-\nSelect IWAD: \Cd%jS+%jS/%jS+%jS\C-\nTeleport to Level: \Cd%jS\C-\nExit: \Cd%jS\C-",
                            "+forward", "+back", "+moveleft", "+moveright", "+speed", "+moveleft", "+speed", "+moveright", "+use", "drpg_menu");
