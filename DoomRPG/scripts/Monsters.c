@@ -3049,3 +3049,44 @@ NamedScript DECORATE int GetMonsterLevel()
     MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
     return Stats->Level;
 }
+
+NamedScript DECORATE int GetMonsterStat(int statNum)
+{
+    MonsterStatsPtr Stats = &Monsters[GetMonsterID(0)];
+    if (statNum == STAT_STRENGTH)
+    {
+        return Stats->Strength;
+    }
+    else if (statNum == STAT_DEFENSE)
+    {
+        return Stats->Defense;
+    }
+    else if (statNum == STAT_VITALITY)
+    {
+        return Stats->Vitality;
+    }
+    else if (statNum == STAT_ENERGY)
+    {
+        return Stats->Energy;
+    }
+    else if (statNum == STAT_REGENERATION)
+    {
+        return Stats->Regeneration;
+    }
+    else if (statNum == STAT_AGILITY)
+    {
+        return Stats->Agility;
+    }
+    else if (statNum == STAT_CAPACITY)
+    {
+        return Stats->Capacity;
+    }
+    else if (statNum == STAT_LUCK)
+    {
+        return Stats->Luck;
+    }
+    else
+    {
+        return 0;
+    }
+}
