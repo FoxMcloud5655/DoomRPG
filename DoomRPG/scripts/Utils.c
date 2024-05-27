@@ -180,7 +180,7 @@ NamedScript DECORATE void DestroyImmunity()
 // Return the Skill Level (for DECORATE)
 NamedScript DECORATE int GetSkillLevel()
 {
-    return GameSkill();
+    return SKILL_LEVEL;
 }
 
 // Return the Global shop card rank between all players (for DECORATE)
@@ -307,7 +307,22 @@ NamedScript DECORATE int CheckCapacity()
         for (int i = 0; ItemListRL[i] != NULL; i++)
             if (CheckInventory(ItemListRL[i]) > 0)
                 Items += CheckInventory(ItemListRL[i]);
-    };
+    }
+
+    if (CompatMode == COMPAT_STARFOX)
+    {
+        str const ItemListSF[] =
+        {
+            // Starfox - Armors
+            "SFArmorGiver",
+            "SFArmorGiver2",
+            NULL
+        };
+
+        for (int i = 0; ItemListSF[i] != NULL; i++)
+            if (CheckInventory(ItemListSF[i]) > 0)
+                Items += CheckInventory(ItemListSF[i]);
+    }
 
     Player.InvItems = Items;
 
@@ -596,7 +611,7 @@ int DropMonsterItem(int Killer, int TID, str Item, int Chance, fixed XAdd, fixed
 // Used by the RegenSphere to temporarily increase regen rates
 NamedScript DECORATE void RegenBoost()
 {
-    Player.RegenBoostTimer += (35 * 5) + ((Player.RegenerationTotal / 13.33) * 35);
+    Player.RegenBoostTimer += (35 * 5) + ((Player.RegenerationTotal / 5.0) * 35);
 }
 
 // Set Skill Level during the game
@@ -612,7 +627,7 @@ NamedScript KeyBind void SetSkill(int NewSkill)
     FadeRange(255, 255, 255, 0.5, 255, 255, 255, 0.0, 0.5);
     ChangeSkill(NewSkill);
     CurrentSkill = NewSkill;
-    ActivatorSound("misc/skillchange", 127);
+    PlaySound(0, "misc/skillchange", CHAN_AUTO);
     SetFont("BIGFONT");
     if (CompatMonMode == COMPAT_DRLA)
         HudMessage("\CjSkill Level has been changed to\n\n%S", SkillLevelsDRLA[NewSkill]);
@@ -712,7 +727,7 @@ NamedScript KeyBind void Respec(bool DoStats, bool DoSkills)
     SetFont("BIGFONT");
     HudMessage("Respec Complete");
     EndHudMessage(HUDMSG_FADEOUT, 0, "White", 0.5, 0.5, 2.5, 2.5);
-    ActivatorSound("misc/secret", 127);
+    PlaySound(0, "misc/secret", CHAN_AUTO);
 }
 
 NamedScript DECORATE int GetAugBattery()
@@ -760,7 +775,7 @@ NamedScript DECORATE void AddToxicity(int Amount)
     if ((PrevToxicity < 25 && Player.Toxicity >= 25) ||
             (PrevToxicity < 50 && Player.Toxicity >= 50) ||
             (PrevToxicity < 75 && Player.Toxicity >= 75))
-        ActivatorSound("misc/toxic", 127);
+        PlaySound(0, "misc/toxic", CHAN_AUTO);
 }
 
 // Add Stim Immunity to the Player
@@ -985,7 +1000,7 @@ bool IsTimeFrozen()
     for (int i = 0; i < MAX_PLAYERS; i++)
         if (CheckActorInventory(Players(i).TID, "PowerTimeFreezer") ||
                 CheckActorInventory(Players(i).TID, "PowerShieldTimeFreezer") ||
-                CheckActorInventory(Players(i).TID, "PowerRLChronotrooperFreeze")) // DoomRL
+                (CompatMode == COMPAT_DRLA && CheckActorInventory(Players(i).TID, "PowerRLChronotrooperFreeze"))) // DoomRL
             return true;
 
     return false;
@@ -1241,7 +1256,7 @@ NamedScript KeyBind void PlayerTeleport(int PlayerNum)
     if (PlayerNum == PlayerNumber() || !PlayerInGame(PlayerNum))
     {
         PrintError("Not a valid player");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
@@ -2396,7 +2411,7 @@ NamedScript Console void Cheat(int StatBoost)
     if (StatBoost == 0)
     {
         Player.ActualHealth = 0;
-        ActivatorSound("mission/gottarget2", 127);
+        PlaySound(0, "mission/gottarget2", CHAN_AUTO);
         return;
     }
 
@@ -2548,7 +2563,7 @@ NamedScript Console void GiveCredits(int Amount)
 {
     if (Amount == 0) Amount = 1000000000;
     GiveInventory("DRPGCredits", Amount);
-    ActivatorSound("credits/payout", 127);
+    PlaySound(0, "credits/payout", CHAN_AUTO);
 }
 
 // Shuffle the Shop Special
@@ -2821,7 +2836,12 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
         axesTic = GetUserCVarFixed(PlayerNum, "drpg_menu_input_axes_tic");
     }
 
-    if (ModInput)
+    if (!ModInput)
+    {
+        Input = INPUT_BUTTONS;
+        InputOld = INPUT_OLDBUTTONS;
+    }
+    else
     {
         Input = MODINPUT_BUTTONS;
         InputOld = MODINPUT_OLDBUTTONS;
@@ -2924,7 +2944,7 @@ NamedScript MenuEntry void ResetToDefaults()
 {
     if (InMultiplayer)
     {
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         HudMessage("'Reset to Defaults' can only be done in singleplayer due to potential desync.");
         EndHudMessage(HUDMSG_FADEOUT, 0, "Orange", 0.5, 0.5, 8.0, 1.0);
         return;

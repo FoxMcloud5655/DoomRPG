@@ -53,7 +53,7 @@ bool RPGMap Invasion = false;
 
 NamedScript MapSpecial void EnterOutpost()
 {
-    ForcefieldTimer = 35 * 60 * GameSkill(); // 1 Minute per skill level
+    ForcefieldTimer = 35 * 60 * 5;
 
     SetHudSize(320, 240, true);
 
@@ -83,7 +83,7 @@ NamedScript MapSpecial void EnterOutpost()
         Delay(35 * Random(3, 5));
         PissOffMarines(false);
 
-        ActivatorSound("misc/skillchange", 127);
+        PlaySound(0, "misc/skillchange", CHAN_AUTO);
         if (CompatMonMode == COMPAT_DRLA)
             AmbientSound("nightmarecyberdemon/sight", 127);
 
@@ -158,7 +158,7 @@ NamedScript MapSpecial void RegenArea(int ID)
             HudMessage("Health restored");
             EndHudMessage(HUDMSG_FADEOUT, 0, "Brick", 0.5, 0.33, 2.0, 0.5);
             FadeRange(255, 0, 0, 0.5, 255, 0, 0, 0.0, 1.0);
-            ActivatorSound("regen/health", 127);
+            PlaySound(0, "regen/health", CHAN_AUTO);
         }
     }
 
@@ -178,7 +178,7 @@ NamedScript MapSpecial void RegenArea(int ID)
             SetFont("BIGFONT");
             HudMessage("You need %d credits to repair armor", ArmorFee);
             EndHudMessage(HUDMSG_FADEOUT, 1, "Red", 0.5, 0.33, 2.0, 0.5);
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
             return;
         }
 
@@ -189,7 +189,7 @@ NamedScript MapSpecial void RegenArea(int ID)
         HudMessage("Armor repaired");
         EndHudMessage(HUDMSG_FADEOUT, 0, "Green", 0.5, 0.33, 2.0, 0.5);
         FadeRange(0, 255, 0, 0.5, 0, 255, 0, 0.0, 1.0);
-        ActivatorSound("regen/armor", 127);
+        PlaySound(0, "regen/armor", CHAN_AUTO);
     }
 
     // EP (and Shields)
@@ -219,7 +219,7 @@ NamedScript MapSpecial void RegenArea(int ID)
             HudMessage("Shield restored");
             EndHudMessage(HUDMSG_FADEOUT, 0, "Cyan", 0.5, 0.33, 2.0, 0.5);
             FadeRange(0, 255, 255, 0.5, 0, 255, 255, 0.0, 1.0);
-            ActivatorSound("regen/shield", 127);
+            PlaySound(0, "regen/shield", CHAN_AUTO);
         }
         else
         {
@@ -269,7 +269,7 @@ NamedScript MapSpecial void RegenArea(int ID)
             HudMessage("EP restored");
             EndHudMessage(HUDMSG_FADEOUT, 0, "LightBlue", 0.5, 0.33, 2.0, 0.5);
             FadeRange(0, 255, 255, 0.5, 0, 255, 255, 0.0, 1.0);
-            ActivatorSound("regen/ep", 127);
+            PlaySound(0, "regen/ep", CHAN_AUTO);
         }
     }
 
@@ -292,7 +292,7 @@ NamedScript MapSpecial void RegenArea(int ID)
         HudMessage("Augmentation Battery Recharged");
         EndHudMessage(HUDMSG_FADEOUT, 0, "Yellow", 0.5, 0.33, 2.0, 0.5);
         FadeRange(255, 255, 0, 0.5, 255, 255, 0, 0.0, 1.0);
-        ActivatorSound("regen/battery", 127);
+        PlaySound(0, "regen/battery", CHAN_AUTO);
     }
 }
 
@@ -563,7 +563,7 @@ NamedScript MapSpecial void LevelTransport()
         // Level Input
         if (CheckInput(BT_FORWARD, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             if (LevelChoice < GetKnownLevelCount(CurrentWAD) - 1)
                 LevelChoice++;
             else
@@ -571,7 +571,7 @@ NamedScript MapSpecial void LevelTransport()
         }
         if (CheckInput(BT_BACK, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             if (LevelChoice > 0)
                 LevelChoice--;
             else
@@ -583,23 +583,23 @@ NamedScript MapSpecial void LevelTransport()
         {
             if ((CheckInput(BT_MOVELEFT, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 CurrentWAD--;
             }
             else if (CheckInput(BT_MOVELEFT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice > 0)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 LevelChoice -= 10;
             }
 
             if ((CheckInput(BT_MOVERIGHT, KEY_PRESSED, false, PlayerNumber())) && (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber())))
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 CurrentWAD++;
             }
             else if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < GetKnownLevelCount(CurrentWAD) - 1)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 LevelChoice += 10;
             }
         }
@@ -607,13 +607,13 @@ NamedScript MapSpecial void LevelTransport()
         {
             if (CheckInput(BT_MOVELEFT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice > 0)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 LevelChoice -= 10;
             }
 
             if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()) && LevelChoice < GetKnownLevelCount(CurrentWAD) - 1)
             {
-                ActivatorSound("menu/move", 127);
+                PlaySound(0, "menu/move", CHAN_AUTO);
                 LevelChoice += 10;
             }
         }
@@ -624,7 +624,7 @@ NamedScript MapSpecial void LevelTransport()
             if (CurrentLevel == TeleDest)
             {
                 PrintError("You are already at this location.");
-                ActivatorSound("menu/error", 127);
+                PlaySound(0, "menu/error", CHAN_AUTO);
                 SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
                 Player.OutpostMenu = 0;
                 return;
@@ -634,14 +634,14 @@ NamedScript MapSpecial void LevelTransport()
             if (MarinesHostile || PowerOut)
             {
                 bool IsTechnician = (CompatMode == COMPAT_DRLA && PlayerClass(PlayerNumber()) == 2);
-                int TransportTimerMax = (35 * (5 + GameSkill() + PlayerCount())) / (IsTechnician ? 2 : 1);
+                int TransportTimerMax = (35 * (10 + PlayerCount() * 2)) / (IsTechnician ? 2 : 1);
                 int TransportTimer = TransportTimerMax;
 
                 // Setup power transfer
                 SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
                 SetPlayerProperty(0, 1, PROP_FROZEN);
                 Player.OutpostMenu = 0;
-                PlaySound(0, "transfer/loop", CHAN_BODY, 1.0, true, ATTN_NORM);
+                PlaySound(0, "transfer/loop", CHAN_AUTO, 1.0, true, ATTN_NORM);
 
                 // Power transfer loop
                 while (TransportTimer > 0)
@@ -652,7 +652,7 @@ NamedScript MapSpecial void LevelTransport()
                     // Transfer is cancelled either by death or input
                     if (GetActorProperty(0, APROP_Health) <= 0 || CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
                     {
-                        PlaySound(0, "transfer/fail", CHAN_BODY, 1.0, false, ATTN_NORM);
+                        PlaySound(0, "transfer/fail", CHAN_AUTO, 1.0, false, ATTN_NORM);
                         SetPlayerProperty(0, 0, PROP_FROZEN);
                         return;
                     }
@@ -665,7 +665,7 @@ NamedScript MapSpecial void LevelTransport()
                     Delay(1);
                 }
 
-                PlaySound(0, "transfer/complete", CHAN_BODY, 1.0, false, ATTN_NORM);
+                PlaySound(0, "transfer/complete", CHAN_AUTO, 1.0, false, ATTN_NORM);
                 Delay(10);
             }
 
@@ -711,7 +711,7 @@ NamedScript MapSpecial void SkillComputer()
     // if you're already in a menu, terminate
     if (Player.InMenu || Player.InShop || Player.OutpostMenu == OMENU_SKILLCOMPUTER) return;
 
-    ActivatorSound("misc/edgar", 127);
+    PlaySound(0, "misc/edgar", CHAN_AUTO);
 
     Player.OutpostMenu = OMENU_SKILLCOMPUTER;
     SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
@@ -744,12 +744,12 @@ NamedScript MapSpecial void SkillComputer()
         // Input
         if (CheckInput(BT_FORWARD, KEY_ONLYPRESSED, false, PlayerNumber()) && SkillChoice > 0)
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             SkillChoice--;
         }
         if (CheckInput(BT_BACK, KEY_ONLYPRESSED, false, PlayerNumber()) && SkillChoice < SkillLevelsMax - 1)
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             SkillChoice++;
         }
         if (CheckInput(BT_USE, KEY_ONLYPRESSED, false, PlayerNumber()))
@@ -784,7 +784,7 @@ NamedScript MapSpecial void ToggleArena()
 
     if (ArenaActive)
     {
-        ActivatorSound("arena/activate", 127);
+        PlaySound(0, "arena/activate", CHAN_AUTO);
         HudMessage("Arena Active");
         EndHudMessage(HUDMSG_FADEOUT, MENU_ID, "Green", 0.5, 0.5, 2.0, 1.0);
         ArenaPlayerNumber = PlayerNumber();
@@ -792,7 +792,7 @@ NamedScript MapSpecial void ToggleArena()
     }
     else
     {
-        ActivatorSound("arena/deactivate", 127);
+        PlaySound(0, "arena/deactivate", CHAN_AUTO);
         HudMessage("Arena Inactive");
         EndHudMessage(HUDMSG_FADEOUT, MENU_ID, "Red", 0.5, 0.5, 2.0, 1.0);
         ArenaPlayerNumber = -1;
@@ -824,7 +824,7 @@ NamedScript MapSpecial void SelectArenaWave()
 
     if (InMultiplayer && (ArenaPlayerNumber >= 0 && PlayerNumber() != ArenaPlayerNumber)) return;
 
-    ActivatorSound("menu/move", 127);
+    PlaySound(0, "menu/move", CHAN_AUTO);
     Player.OutpostMenu = OMENU_WAVESELECTOR;
 
     WaveChoice = ArenaMaxWave;
@@ -856,23 +856,23 @@ NamedScript MapSpecial void SelectArenaWave()
         // Input
         if (CheckInput(BT_FORWARD, KEY_ONLYPRESSED, false, PlayerNumber()) && WaveChoice > 1)
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             WaveChoice--;
         }
         if (CheckInput(BT_BACK, KEY_ONLYPRESSED, false, PlayerNumber()) && WaveChoice < ArenaMaxWave)
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             WaveChoice++;
         }
         if (CheckInput(BT_MOVELEFT, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             WaveChoice -= 10;
             if (WaveChoice <= 0) WaveChoice = 1;
         }
         if (CheckInput(BT_MOVERIGHT, KEY_ONLYPRESSED, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             WaveChoice += 10;
             if (WaveChoice > ArenaMaxWave) WaveChoice = ArenaMaxWave;
         }
@@ -883,7 +883,7 @@ NamedScript MapSpecial void SelectArenaWave()
             else
                 ArenaWave = 1;
 
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
             Player.OutpostMenu = 0;
             return;
@@ -1042,7 +1042,7 @@ NamedScript MapSpecial void PissOffMarines(bool Steal)
         if (ForcefieldTimer > 0 && OutpostNotoriety == 2)
         {
             // Set completion state on the Shield Generator
-            SetActorState(GeneratorTID, StrParam("%dPowerLoop", ForcefieldTimer / ((35 * 60 * GameSkill()) / 7)), false);
+            SetActorState(GeneratorTID, StrParam("%dPowerLoop", ForcefieldTimer / ((35 * 60 * 5) / 7)), false);
 
             // Decrement timer
             ForcefieldTimer--;
@@ -1104,7 +1104,7 @@ NamedScript MapSpecial void CreditRoom(int ID)
 
         int RealCredits = CheckInventory("DRPGCredits");
 
-        ActivatorSound("credits/payout", 127);
+        PlaySound(0, "credits/payout", CHAN_AUTO);
         Log("\CkYou have been paid -2147483648 by the UAC!");
         TakeInventory("DRPGCredits", RealCredits);
         Delay(35 * 10);
@@ -1142,7 +1142,7 @@ NamedScript MapSpecial void CreditRoom(int ID)
 
         for (int i = 0; i < 10; i++)
         {
-            ActivatorSound("weapons/rocklx", 127);
+            PlaySound(0, "weapons/rocklx", CHAN_AUTO);
             Delay(Random(5, 10));
         }
 
@@ -1225,7 +1225,7 @@ NamedScript MapSpecial void ShopSpecial()
     // If there is no shop special
     if (ShopSpecialItem == GetBlankItem())
     {
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         PrintError(StrParam("There is currently no Shop Special item.\n\nNext restock will be in \Cj%S\C-.", FormatTime(ShopSpecialTimer)));
         return;
     }
@@ -1233,12 +1233,12 @@ NamedScript MapSpecial void ShopSpecial()
     // If the shop special was already bought
     if (ShopSpecialBought)
     {
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         PrintError(StrParam("Shop Special is currently out of stock.\n\nNext restock will be in \Cj%S\C-.", FormatTime(ShopSpecialTimer)));
         return;
     }
 
-    ActivatorSound("menu/move", 127);
+    PlaySound(0, "menu/move", CHAN_AUTO);
     SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
     Player.OutpostMenu = OMENU_SHOPSPECIAL;
 
@@ -1282,7 +1282,7 @@ NamedScript MapSpecial void ShopSpecial()
                 SetActorVelocity(Player.TID, 0.01, 0.01, 0, true, false);
                 ShopSpecialBought = true;
 
-                ActivatorSound("credits/payout", 127);
+                PlaySound(0, "credits/payout", CHAN_AUTO);
                 Delay(1);
                 SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
                 Player.OutpostMenu = 0;
@@ -1291,7 +1291,7 @@ NamedScript MapSpecial void ShopSpecial()
             else
             {
                 PrintError("You don't have enough Credits to buy this item");
-                ActivatorSound("menu/error", 127);
+                PlaySound(0, "menu/error", CHAN_AUTO);
             }
         }
 
@@ -1322,7 +1322,7 @@ NamedScript MapSpecial void MissionBBS()
     if (Player.RankLevel == 0)
     {
         PrintError("You cannot accept any missions until you reach the first rank");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
@@ -1330,7 +1330,7 @@ NamedScript MapSpecial void MissionBBS()
     if (!RewardsInit || !MissionInit)
     {
         PrintError("The Mission BBS is currently processing requests...");
-        ActivatorSound("menu/error", 127);
+        PlaySound(0, "menu/error", CHAN_AUTO);
         return;
     }
 
@@ -1339,7 +1339,10 @@ NamedScript MapSpecial void MissionBBS()
 
     Player.OutpostMenu = OMENU_BBS;
 
-    ActivatorSound("menu/move", 127);
+    PlaySound(0, "menu/move", CHAN_AUTO);
+
+    // So the player's initial interaction is not processed as a menu action
+    Delay(1);
 
     // So the player's initial interaction is not processed as a menu action
     Delay(1);
@@ -1383,21 +1386,21 @@ NamedScript MapSpecial void MissionBBS()
         // Input
         if (CheckInput(BT_FORWARD, KEY_REPEAT, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             Index -= MAX_MISSIONS / 3;
             if (Index < 0)
                 Index = 0;
         };
         if (CheckInput(BT_BACK, KEY_REPEAT, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             Index += MAX_MISSIONS / 3;
             if (Index > MAX_MISSIONS - 1)
                 Index = MAX_MISSIONS - 1;
         };
         if (CheckInput(BT_MOVELEFT, KEY_REPEAT, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
             {
                 if (Difficulty > 0)
@@ -1412,7 +1415,7 @@ NamedScript MapSpecial void MissionBBS()
         };
         if (CheckInput(BT_MOVERIGHT, KEY_REPEAT, false, PlayerNumber()))
         {
-            ActivatorSound("menu/move", 127);
+            PlaySound(0, "menu/move", CHAN_AUTO);
             if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
             {
                 if (Difficulty < Player.RankLevel - 1)
@@ -1423,7 +1426,7 @@ NamedScript MapSpecial void MissionBBS()
                         Difficulty++;
                 }
                 else
-                    ActivatorSound("menu/error", 127);
+                    PlaySound(0, "menu/error", CHAN_AUTO);
             }
             else
             {
@@ -1434,7 +1437,7 @@ NamedScript MapSpecial void MissionBBS()
         };
         if (CheckInput(BT_USE, KEY_ONLYPRESSED, false, PlayerNumber()) && !Player.Mission.Active)
         {
-            ActivatorSound("mission/get", 127);
+            PlaySound(0, "mission/get", CHAN_AUTO);
             Mission->Active = true;
             Player.Mission = *Mission;
             CreateMissionAt(Difficulty, Index);
@@ -1442,7 +1445,7 @@ NamedScript MapSpecial void MissionBBS()
 
         if (CheckInput(BT_ATTACK, KEY_ONLYPRESSED, false, PlayerNumber()) && Player.Mission.Active)
         {
-            ActivatorSound("mission/fail", 127);
+            PlaySound(0, "mission/fail", CHAN_AUTO);
             SetFont("BIGFONT");
             SetHudSize(640, 480, false);
             HudMessage("Mission Aborted!");
@@ -1476,7 +1479,7 @@ NamedScript MapSpecial void MinigameHandler()
         else
         {
             PrintError("You need a \CjPlatinum Chip\C- to use the Rare Item Roulette");
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
             SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
         }
     }
@@ -1494,7 +1497,7 @@ NamedScript MapSpecial void MinigameHandler()
         {
             SetFont("BIGFONT");
             PrintError("You need a \CfGold Chip\C- to use the Item Roulette");
-            ActivatorSound("menu/error", 127);
+            PlaySound(0, "menu/error", CHAN_AUTO);
             SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
         }
     }
@@ -1506,7 +1509,7 @@ NamedScript MapSpecial void OutpostSecret()
     if (CheckInventory("DRPGRedCard") && CheckInventory("DRPGYellowCard") && CheckInventory("DRPGBlueCard") &&
             CheckInventory("DRPGRedSkull") && CheckInventory("DRPGYellowSkull") && CheckInventory("DRPGBlueSkull"))
     {
-        ActivatorSound("misc/secret", 127);
+        PlaySound(0, "misc/secret", CHAN_AUTO);
         Teleport(SecretTeleportTID + PlayerNumber(), false);
     }
 }
@@ -1524,7 +1527,7 @@ NamedScript MapSpecial void PowerOutage()
     if (!MarinesHostile)
     {
         SetMusic("");
-        ActivatorSound("misc/poweroff", 127);
+        PlaySound(0, "misc/poweroff", CHAN_AUTO);
         for (int i = 0; i < MAX_OUTPOST_ID; i++)
             Light_Fade(i, 0, 10);
     }
@@ -1540,7 +1543,7 @@ NamedScript MapSpecial void PowerOutage()
     if (!MarinesHostile)
     {
         SetOutpostMusic(OUTPOST_MUSIC_LOWPOWER);
-        ActivatorSound("misc/poweron", 127);
+        PlaySound(0, "misc/poweron", CHAN_AUTO);
 
         for (int i = 0; i < MAX_OUTPOST_ID; i++)
         {
