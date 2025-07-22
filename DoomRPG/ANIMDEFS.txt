@@ -124,7 +124,7 @@ texture CRG1A0
     pic CRG1C0 tics 2
 
 // Megasphere
-texture MEGAA0
+texture optional MEGAA0
     pic MEGAA0 tics 6
     pic MEGAB0 tics 6
     pic MEGAC0 tics 6
