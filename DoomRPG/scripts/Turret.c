@@ -656,7 +656,7 @@ Start:
                 Player.Turret.Battery += 10;
                 MaintCost++;
                 // Done
-                if (Player.Turret.Battery >= Player.Turret.BatteryMax)
+                if (Player.Turret.Battery >= Player.Turret.BatteryMax - 9)
                     PlaySound(0, "turret/chargedone", CHAN_AUTO);
             }
 
@@ -687,7 +687,7 @@ Start:
                 }
 
                 // Done
-                if (Player.Turret.Health >= Player.Turret.HealthMax)
+                if (Player.Turret.Health >= Player.Turret.HealthMax - 9)
                 {
                     PlaySound(0, "turret/repairdone", CHAN_AUTO);
                     Player.Turret.Destroyed = false;
