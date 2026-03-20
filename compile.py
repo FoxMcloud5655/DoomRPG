@@ -25,18 +25,6 @@ TERMCAP_YELLOW = ""
 TERMCAP_GREEN  = ""
 TERMCAP_RESET  = ""
 
-if not sys.platform.startswith("win32"):
-    op = subprocess.STDOUT
-    TERMCAP_BOLD   = subprocess.check_output(("tput", "bold"),       stderr=op)
-    TERMCAP_WHITE  = subprocess.check_output(("tput", "setaf", "7"), stderr=op)
-    TERMCAP_BLUE   = subprocess.check_output(("tput", "setaf", "4"), stderr=op)
-    TERMCAP_RED    = subprocess.check_output(("tput", "setaf", "1"), stderr=op)
-    TERMCAP_YELLOW = subprocess.check_output(("tput", "setaf", "3"), stderr=op)
-    TERMCAP_GREEN  = subprocess.check_output(("tput", "setaf", "2"), stderr=op)
-    TERMCAP_RESET  = subprocess.check_output(("tput", "sgr0"),       stderr=op)
-else:
-    subprocess.call(("color", "1F"), shell=True)
-
 STD_COMPILER = "gdcc-makelib"
 C_COMPILER   = "gdcc-cc"
 ASM_COMPILER = "gdcc-as"
