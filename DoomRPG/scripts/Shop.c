@@ -404,7 +404,7 @@ void ShopLoop()
             Player.ShopIndex++;
             if (Player.ShopIndex > ItemMax[Player.ShopPage] - 1) Player.ShopIndex = ItemMax[Player.ShopPage] - 1;
         }
-    if (CheckInput(BT_USE, KEY_PRESSED, false, PlayerNumber()) && !Player.MenuBlock)
+    if (CheckInput(BT_USE, KEY_REPEAT, false, PlayerNumber()) && !Player.MenuBlock)
         if (CheckInput(BT_SPEED, KEY_HELD, false, PlayerNumber()))
         {
             if (Player.LockerMode)

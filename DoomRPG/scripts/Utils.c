@@ -22,6 +22,20 @@
 //
 
 bool DebugLog;
+
+// Previously inputted buttons up to 1 second
+int ButtonHistory[MAX_PLAYERS][35] =
+{
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+};
+
 int const AuraTID = 20000;
 
 // Skill levels stuff
@@ -195,7 +209,7 @@ NamedScript DECORATE void SetDamageType(int Type)
     Player.DamageType = Type;
 }
 
-// Return whether your Aug Battery is full or not1
+// Return whether your Aug Battery is full or not
 NamedScript DECORATE int CheckAugBatteryMax()
 {
     return (Player.Augs.Battery >= Player.Augs.BatteryMax);
@@ -2695,6 +2709,29 @@ void CreateTranslations()
     CreateTranslationEnd();
 }
 
+// Run this once per tick to update ButtonHistory
+void UpdateInput()
+{
+    for (int p = 0; p < PlayerCount(); p++)
+    {
+        for (int i = 33; i >= 0; i--)
+        {
+            ButtonHistory[p][i + 1] = ButtonHistory[p][i];
+        }
+        ButtonHistory[p][0] = GetPlayerInput(p, INPUT_BUTTONS);
+    }
+}
+
+NamedScript Console void DumpButtonHistory(int playerNum)
+{
+    Log("\C[Orange]Player %i%'s Button History", playerNum);
+    for (int i = 0; i < 34; i++)
+    {
+        Log("\C[Green]%d\C[Orange]: \C[Green]%d\C[Orange],", i, ButtonHistory[playerNum][i]);
+    }
+    Log("\C[Green]%d\C[Orange]: \C[Green]%d", 34, ButtonHistory[playerNum][34]);
+}
+
 bool CheckInputHelper(int Buttons, int OldButtons, int Key, int Function)
 {
     bool rValue = false;
@@ -2898,10 +2935,28 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     switch (State)
     {
     case KEY_PRESSED:
-    case KEY_REPEAT:
     {
         if (Buttons & Key && !(OldButtons & Key))
             rValue = true;
+    }
+    break;
+    case KEY_REPEAT:
+    {
+        if (ButtonHistory[PlayerNum][0] & Key)
+        {
+            rValue = true;
+            if (ButtonHistory[PlayerNum][1] & Key)
+            {
+                for (int i = 2; i < GetActivatorCVar("drpg_menu_repeat"); i++)
+                {
+                    if ((ButtonHistory[PlayerNum][1] & Key) != (ButtonHistory[PlayerNum][i] & Key))
+                    {
+                        rValue = false;
+                        break;
+                    }
+                }
+            }
+        }
     }
     break;
     case KEY_ONLYPRESSED:

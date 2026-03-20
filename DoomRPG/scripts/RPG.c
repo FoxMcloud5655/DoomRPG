@@ -330,6 +330,7 @@ Start:
     if (GetActorProperty(0, APROP_Health) <= 0) return;
 
     // Update Functions
+    UpdateInput();
     CheckCombo();
     CheckStats();
     CheckHardStatCaps();
@@ -1626,7 +1627,7 @@ NamedScript Type_RESPAWN void Respawn()
             Player.XP -= XPPenalty;
             Player.Rank -= RankPenalty;
             SetFont("BIGFONT");
-            HudMessage("\CjXP -%d\n\CkRank -%d", XPPenalty, RankPenalty);
+            HudMessage("\CjXP -%d\n\CkRank -%d", (int)XPPenalty, (int)RankPenalty);
             EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 0, "White", 1.5, 0.75, 2.0, 2.0);
         }
     }

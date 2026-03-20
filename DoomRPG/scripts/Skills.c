@@ -2732,13 +2732,13 @@ NamedScript Console bool Transport(SkillLevelInfo *SkillLevel, void *Data)
                 // Skip input checks if you've already voted
                 if (Voted[i]) continue;
 
-                if (CheckInput(BT_USE, KEY_ONLYHELD, false, PlayerNumber()))
+                if (CheckInput(BT_USE, KEY_ONLYHELD, false, i))
                 {
                     PlaySound(0, "menu/move", CHAN_AUTO);
                     PlayersApprove++;
                     Voted[i] = true;
                 }
-                if (CheckInput(BT_SPEED, KEY_ONLYHELD, false, PlayerNumber()))
+                if (CheckInput(BT_SPEED, KEY_ONLYHELD, false, i))
                 {
                     PlaySound(0, "menu/move", CHAN_AUTO);
                     PlayersDeny++;

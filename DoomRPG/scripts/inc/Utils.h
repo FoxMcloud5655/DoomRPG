@@ -4,6 +4,7 @@
 #include "Defs.h"
 
 extern bool DebugLog;
+extern int ButtonHistory[MAX_PLAYERS][35];
 extern int const AuraTID;
 extern str const AuraIcons[AURA_MAX + 1];
 extern str const ColorNames[26];
@@ -178,9 +179,10 @@ NamedScript Console void GiveCompounds(int);
 
 // System
 void CreateTranslations();
-NamedScript DECORATE void UpdateInput(int, bool, bool);
-bool CheckInput(int, int /* = KEY_PRESSED */, bool, int);
+void UpdateInput();
+NamedScript Console void DumpButtonHistory(int);
 bool CheckInputHelper(int, int, int /* = KEY_PRESSED */, int);
+bool CheckInput(int, int /* = KEY_PRESSED */, bool, int);
 OptionalArgs(1) void LogMessage(str, int /* = LOG_NORMAL */);
 void ClearInfo(CharSaveInfo *);
 
