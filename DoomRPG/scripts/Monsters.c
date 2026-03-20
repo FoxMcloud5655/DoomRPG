@@ -40,7 +40,7 @@ MonsterInfo const MonsterDataDF[MAX_DEF_MONSTERS_DF] =
     { "Fatso",                              "Mancubus",                         60,     0, false, "You hear deep, guttural noises!" },
     { "Arachnotron",                        "Arachnotron",                      60,     0, false, "Leg servos squeak and whirr nearby!" },
     { "Archvile",                           "Arch-Vile",                        70,     0, false, "You hear crackling flames!" },
-    { "Cyberdemon",                         "Cyberdemon",                       85,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
+    { "Cyberdemon",                         "Cyberdemon",                       85,     0, true,  "Suddenly, you have a great urge to turn back!" },
     { "SpiderMastermind",                   "Spider Mastermind",                95,     0, true,  "You've stumbled into a hive of the deadliest kind!" }
 };
 
@@ -61,7 +61,7 @@ MonsterInfo const MonsterDataLD[MAX_DEF_MONSTERS_DF] =
     { "LDFatso",                              "Mancubus",                         60,     0, false, "You hear deep, guttural noises!" },
     { "LDArachnotron",                        "Arachnotron",                      60,     0, false, "Leg servos squeak and whirr nearby!" },
     { "LDArchvile",                           "Arch-Vile",                        70,     0, false, "You hear crackling flames!" },
-    { "LDCyberdemon",                         "Cyberdemon",                       85,     0, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
+    { "LDCyberdemon",                         "Cyberdemon",                       85,     0, true,  "Suddenly, you have a great urge to turn back!" },
     { "LDSpiderMastermind",                   "Spider Mastermind",                95,     0, true,  "You've stumbled into a hive of the deadliest kind!" }
 };
 
@@ -89,7 +89,7 @@ MonsterInfo const MonsterDataDRLA[MAX_DEF_MONSTERS_DRLA] =
     { "RLRevenant",                         "Revenant",                         50,     0, false, "Bones clatter all around you!" },
     { "RLMancubus",                         "Mancubus",                         60,     0, false, "You hear deep, guttural noises!" },
     { "RLArchvile",                         "Arch-Vile",                        70,     0, false, "You hear crackling flames!" },
-    { "RLCyberdemon",                       "Cyberdemon",                       87,     0, true,  "Suddenly you have a great urge to turn back!\nYou scream in TERROR!" },
+    { "RLCyberdemon",                       "Cyberdemon",                       87,     0, true,  "Suddenly, you have a great urge to turn back!" },
     { "RLSpiderMastermind",                 "Spider Mastermind",                95,     0, true,  "The smell of sulfur and gunpowder hangs in the air, the war machine is close." },
     { "RLSpiderMastermindMortar",           "Spider Disastermind",              95,     0, true,  "Looks like this is where all the local invasions are planned!" },
 
@@ -331,14 +331,14 @@ MonsterInfo const MonsterDataCH[MAX_DEF_MONSTERS_CH] =
     { "Whitevile",                            "Godly Archvile",                   98,     5, true,  "You hear crackling flames!" },
 
     // Cyberdemon
-    { "CommonCybie",                          "Cyberdemon",                       85,     1, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
-    { "GreenCybie",                           "Uncommon Cyberdemon",              88,     2, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
-    { "BlueCybie",                            "Rare Cyberdemon",                  92,     3, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
-    { "PurpleCybie",                          "Epic Cyberdemon",                  94,     4, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
-    { "YellowCybie",                          "Legendary Cyberdemon",             96,     4, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
-    { "RedCybie",                             "Moloch",                           98,     5, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
-    { "BlackCybie2",                          "Cybersmith",                       99,     5, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
-    { "WhiteCybie2",                          "DOOM.EXE",                         100,    5, true,  "Suddenly you have a great urge to turn back! You scream in TERROR!" },
+    { "CommonCybie",                          "Cyberdemon",                       85,     1, true,  "Suddenly, you have a great urge to turn back!" },
+    { "GreenCybie",                           "Uncommon Cyberdemon",              88,     2, true,  "Suddenly, you have a great urge to turn back!" },
+    { "BlueCybie",                            "Rare Cyberdemon",                  92,     3, true,  "Suddenly, you have a great urge to turn back!" },
+    { "PurpleCybie",                          "Epic Cyberdemon",                  94,     4, true,  "Suddenly, you have a great urge to turn back!" },
+    { "YellowCybie",                          "Legendary Cyberdemon",             96,     4, true,  "Suddenly, you have a great urge to turn back!" },
+    { "RedCybie",                             "Moloch",                           98,     5, true,  "Suddenly, you have a great urge to turn back!" },
+    { "BlackCybie2",                          "Cybersmith",                       99,     5, true,  "Suddenly, you have a great urge to turn back!" },
+    { "WhiteCybie2",                          "DOOM.EXE",                         100,    5, true,  "Suddenly, you have a great urge to turn back!" },
 
     // Mastermind
     { "CommonMind",                           "Spider Mastermind",                93,     1, true,  "You've stumbled into a hive of the deadliest kind!" },
