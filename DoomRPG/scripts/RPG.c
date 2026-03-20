@@ -1627,7 +1627,7 @@ NamedScript Type_RESPAWN void Respawn()
             Player.XP -= XPPenalty;
             Player.Rank -= RankPenalty;
             SetFont("BIGFONT");
-            HudMessage("\CjXP -%d\n\CkRank -%d", (int)XPPenalty, (int)RankPenalty);
+            HudMessage("\CjXP -%ld\n\CkRank -%ld", XPPenalty, RankPenalty);
             EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 0, "White", 1.5, 0.75, 2.0, 2.0);
         }
     }
