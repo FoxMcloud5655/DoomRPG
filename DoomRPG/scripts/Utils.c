@@ -2567,9 +2567,19 @@ NamedScript Console void ModStatXP(int Stat, long int Value)
 }
 
 // Look up a value on the XP Table
-NamedScript Console void LookupXPTable(int index)
+NamedScript Console void LookupXPTable(int index, int maximum)
 {
-    Log("%ld", XPTable[index]);
+    if (maximum > 0 && index < maximum)
+    {
+        while (index <= maximum)
+        {
+            Log("Level %d: Required XP = %ld, XP to Level = %ld", index, XPTable[index], XPTable[index] - (index == 0 ? index++ : XPTable[index++ - 1]));
+        }
+    }
+    else
+    {
+        Log("%ld", XPTable[index]);
+    }
 }
 
 // Give Credits

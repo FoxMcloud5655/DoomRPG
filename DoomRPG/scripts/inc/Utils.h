@@ -169,7 +169,7 @@ NamedScript Console void Cheat(int);
 NamedScript Console void ModStat(int, int);
 NamedScript Console void ModStatXP(int, long int);
 NamedScript Console void AllSkills();
-NamedScript Console void LookupXPTable(int index);
+NamedScript Console void LookupXPTable(int index, int maximum);
 NamedScript Console void GiveCredits(int);
 NamedScript Console void ShopSpecialShuffle();
 NamedScript Console void GiveAugs(int, int, int);
