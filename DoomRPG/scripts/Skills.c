@@ -2264,7 +2264,7 @@ NamedScript Console bool Summon(SkillLevelInfo *SkillLevel, void *Data)
         // Setup Stats
         Delay(4); // We need this initial delay to make sure the ID is valid
         MonsterStatsPtr Stats = &Monsters[GetMonsterID(NewID)];
-        int Modifier = Player.Level * Random(10, 20);
+        int Modifier = Player.Level + Random(1, 20);
         Stats->LevelAdd += Modifier;
         Stats->Strength += Random(0, Modifier / 5);
         Stats->Defense += Random(0, Modifier / 5);
