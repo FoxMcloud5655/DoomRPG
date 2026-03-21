@@ -1568,7 +1568,7 @@ NamedScript Type_DEATH void Dead()
         }
     }
 
-    if (GetCVar("drpg_multi_revives"))
+    if (GetCVar("drpg_multi_revives") && InMultiplayer)
     {
         // Remember body location
         Player.BodyTID = GetUniqueTID();
@@ -1590,19 +1590,20 @@ NamedScript Type_DEATH void Dead()
         }
         else
         {
-            HudMessage("All players have died\nReturning to outpost");
+            HudMessage("All players have died\nTeleporting remains to outpost");
             EndHudMessageBold(HUDMSG_FADEOUT, 0, "Brick", 160.0, 140.0, 1.5, 1.0);
             for (int i = 0; i < MAX_PLAYERS; i++)
             {
                 if (!PlayerInGame(i)) continue;
-                SpawnForced("DRPGTransportEffect", GetActorX(Players(i).TID), GetActorY(Players(i).TID), GetActorZ(Players(i).TID), 0, 0);
-                TransportOutFX(Players(i).TID);
-                ThingSound(Players(i).TID, "misc/transport", 96);
+                SpawnForced("DRPGTransportEffect", GetActorX(Players(i).BodyTID), GetActorY(Players(i).BodyTID), GetActorZ(Players(i).BodyTID), 0, 0);
+                TransportOutFX(Players(i).BodyTID);
+                ThingSound(Players(i).BodyTID, "misc/transport", 96);
             }
             Delay(105);
             for (int i = 0; i < MAX_PLAYERS; i++)
             {
                 if (!PlayerInGame(i)) continue;
+                Players(i).ActualHealth = 1;
                 ScriptCall("DRPGZUtilities", "ForceRespawn", i);
             }
             Delay(1);
@@ -1624,20 +1625,8 @@ NamedScript Type_RESPAWN void Respawn()
         Delay(4);
     AssignTIDs();
 
-    // Heal to max health if revives are disabled or revive at the body's location
-    if (!GetCVar("drpg_multi_revives"))
-        Player.ActualHealth = Player.HealthMax;
-    else if (Player.BodyTID != 0)
-    {
-        SetActorPosition(Player.TID, GetActorX(Player.BodyTID), GetActorY(Player.BodyTID), GetActorZ(Player.BodyTID), 0);
-        SetActorAngle(Player.TID, GetActorAngle(Player.BodyTID));
-        Thing_Remove(Player.BodyTID);
-        Player.BodyTID = 0;
-    }
-    SetActorProperty(0, APROP_Health, Player.ActualHealth);
-
     // XP/Rank Penalty
-    if (GetCVar("drpg_multi_takexp") && (!GetCVar("drpg_multi_revives") || Player.BodyTID == 0))
+    if (GetCVar("drpg_multi_takexp") && (!(GetCVar("drpg_multi_revives") && InMultiplayer) || Player.ActualHealth > 0))
     {
         long int XPPenalty = (long int)(XPTable[Player.Level] * GetCVar("drpg_multi_takexp_percent") / 100);
         long int RankPenalty = (long int)(RankTable[Player.RankLevel] * GetCVar("drpg_multi_takexp_percent") / 100);
@@ -1651,6 +1640,18 @@ NamedScript Type_RESPAWN void Respawn()
             EndHudMessage(HUDMSG_FADEOUT | HUDMSG_LOG, 0, "White", 1.5, 0.75, 2.0, 2.0);
         }
     }
+
+    // Heal to max health if revives are disabled or revive at the body's location
+    if (!GetCVar("drpg_multi_revives"))
+        Player.ActualHealth = Player.HealthMax;
+    else if (Player.BodyTID != 0)
+    {
+        SetActorPosition(Player.TID, GetActorX(Player.BodyTID), GetActorY(Player.BodyTID), GetActorZ(Player.BodyTID), 0);
+        SetActorAngle(Player.TID, GetActorAngle(Player.BodyTID));
+        Thing_Remove(Player.BodyTID);
+        Player.BodyTID = 0;
+    }
+    SetActorProperty(0, APROP_Health, Player.ActualHealth);
 
     // Restore EP if CVAR is set
     if (GetCVar("drpg_multi_restoreep"))

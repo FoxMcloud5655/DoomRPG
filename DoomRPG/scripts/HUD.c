@@ -163,11 +163,6 @@ Start:
                 DrawProgressBar("Receiving treatment", Percent);
             }
         }
-        else
-        {
-            HudMessage("YOU ARE DEAD");
-            EndHudMessage(HUDMSG_PLAIN, 0, "Brick", 1.5, 0.5, 0.05);
-        }
     }
 
     Delay(1);
