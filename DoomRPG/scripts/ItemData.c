@@ -164,7 +164,7 @@ NamedScript void BuildItemData()
     ITEMDATA_CATEGORY(4, "\CqPowerups", CF_NONE);
     ITEMDATA_DEF("DRPGInvulnerabilityCharge",   "Invulnerability Charge",           25000, 2, 5, "CRG2A0",  6, 22);
     ITEMDATA_DEF("DRPGInvisibilityCharge",      "Invisibility Charge",              2500, 1, 1, "CRG1A0",  6, 22);
-    ITEMDATA_DEF("DRPGTimeSphere",              "Time Sphere",                      1000, 4, 1, "TIMEA0", 16, 45);
+    ITEMDATA_DEF("DRPGTimeSphere",              "Time Sphere",                      7500, 4, 1, "TIMEA0", 16, 45);
     ITEMDATA_DEF("DRPGRegenSphere",             "Regeneration Sphere",              3500, 2, 1, "REGNA0", 12, 38);
     ITEMDATA_DEF("DRPGRadSuit",                 "Radiation Suit",                   250, 0, 0, "SUITA0", 11, 51);
     ITEMDATA_DEF("DRPGInfrared",                "IR Goggles",                       500, 0, 0, "PVISA0", 11,  9);
@@ -326,27 +326,27 @@ NamedScript void BuildItemData()
     ITEMDATA_DEF("DRPGStimXL",              "Extra-Large Stim",                  10000, 8, 6, "STIMB0", 16, 29);
     ITEMDATA_DEF("DRPGStimDetox",           "\CdDetox\C- Hypospray",              2500, 1, 2, "STIMC0",  6, 31);
 
-    ITEMDATA_DEF("DRPGVialStrength",        "\CgStrength\C- Vial",                 500, 4, 0, "STVLA0",  4, 16);
-    ITEMDATA_DEF("DRPGVialDefense",         "\CdDefense\C- Vial",                  500, 4, 0, "STVLB0",  4, 16);
-    ITEMDATA_DEF("DRPGVialVitality",        "\CaVitality\C- Vial",                 500, 4, 0, "STVLC0",  4, 16);
-    ITEMDATA_DEF("DRPGVialEnergy",          "\CnEnergy\C- Vial",                   500, 4, 0, "STVLD0",  4, 16);
-    ITEMDATA_DEF("DRPGVialRegeneration",    "\CtRegeneration\C- Vial",             500, 4, 0, "STVLE0",  4, 16);
-    ITEMDATA_DEF("DRPGVialAgility",         "\CiAgility\C- Vial",                  500, 4, 0, "STVLF0",  4, 16);
-    ITEMDATA_DEF("DRPGVialCapacity",        "\ChCapacity\C- Vial",                 500, 4, 0, "STVLG0",  4, 16);
-    ITEMDATA_DEF("DRPGVialLuck",            "\CfLuck\C- Vial",                     500, 4, 0, "STVLH0",  4, 16);
-    ITEMDATA_DEF("DRPGVialPurifier",        "\CcPurifier\C- Vial",                1000, 4, 1, "STVLI0",  4, 16);
-    ITEMDATA_DEF("DRPGVialPotency",         "\CjPotency\C- Vial",                 1000, 4, 1, "STVLJ0",  4, 16);
-    ITEMDATA_DEF("DRPGVialIndestructible",  "\CqIndestructible\C- Vial",          1000, 4, 1, "STVLK0",  4, 16);
-    ITEMDATA_DEF("DRPGVialShadow",          "\CrShadow\C- Vial",                  1000, 4, 1, "STVLL0",  4, 16);
-    ITEMDATA_DEF("DRPGVialInfinity",        "\CkInfinity\C- Vial",                1000, 4, 1, "STVLM0",  4, 16);
-    ITEMDATA_DEF("DRPGVialChrono",          "\CdChrono\C- Vial",                  1000, 4, 1, "STVLN0",  4, 16);
-    ITEMDATA_DEF("DRPGVialAdrenaline",      "\CtAdrenaline\C- Vial",              1000, 4, 1, "STVLO0",  4, 16);
-    ITEMDATA_DEF("DRPGVialGravity",         "\CiGravity\C- Vial",                 1000, 4, 1, "STVLP0",  4, 16);
-    ITEMDATA_DEF("DRPGVialVampire",         "\CaVampire\C- Vial",                 1000, 4, 1, "STVLQ0",  4, 16);
-    ITEMDATA_DEF("DRPGVialRage",            "\CmRage\C- Vial",                    1000, 4, 1, "STVLR0",  4, 16);
-    ITEMDATA_DEF("DRPGVialMagnetic",        "\CcMagnetic\C- Vial",                1000, 4, 1, "STVLS0",  4, 16);
-    ITEMDATA_DEF("DRPGStimPackageStat",     "Stat Stim Package",                  5000, 4, 5, "STPAA0", 30, 16);
-    ITEMDATA_DEF("DRPGStimPackagePowerup",  "Powerup Stim Package",              10000, 4, 7, "STPAB0", 27, 16);
+    ITEMDATA_DEF("DRPGVialStrength",        "\CgStrength\C- Vial",                 200, 4, 0, "STVLA0",  4, 16);
+    ITEMDATA_DEF("DRPGVialDefense",         "\CdDefense\C- Vial",                  200, 4, 0, "STVLB0",  4, 16);
+    ITEMDATA_DEF("DRPGVialVitality",        "\CaVitality\C- Vial",                 200, 4, 0, "STVLC0",  4, 16);
+    ITEMDATA_DEF("DRPGVialEnergy",          "\CnEnergy\C- Vial",                   200, 4, 0, "STVLD0",  4, 16);
+    ITEMDATA_DEF("DRPGVialRegeneration",    "\CtRegeneration\C- Vial",             200, 4, 0, "STVLE0",  4, 16);
+    ITEMDATA_DEF("DRPGVialAgility",         "\CiAgility\C- Vial",                  200, 4, 0, "STVLF0",  4, 16);
+    ITEMDATA_DEF("DRPGVialCapacity",        "\ChCapacity\C- Vial",                 200, 4, 0, "STVLG0",  4, 16);
+    ITEMDATA_DEF("DRPGVialLuck",            "\CfLuck\C- Vial",                     200, 4, 0, "STVLH0",  4, 16);
+    ITEMDATA_DEF("DRPGVialPurifier",        "\CcPurifier\C- Vial",                 800, 4, 1, "STVLI0",  4, 16);
+    ITEMDATA_DEF("DRPGVialPotency",         "\CjPotency\C- Vial",                  800, 4, 1, "STVLJ0",  4, 16);
+    ITEMDATA_DEF("DRPGVialIndestructible",  "\CqIndestructible\C- Vial",           800, 4, 1, "STVLK0",  4, 16);
+    ITEMDATA_DEF("DRPGVialShadow",          "\CrShadow\C- Vial",                   800, 4, 1, "STVLL0",  4, 16);
+    ITEMDATA_DEF("DRPGVialInfinity",        "\CkInfinity\C- Vial",                 800, 4, 1, "STVLM0",  4, 16);
+    ITEMDATA_DEF("DRPGVialChrono",          "\CdChrono\C- Vial",                   800, 4, 1, "STVLN0",  4, 16);
+    ITEMDATA_DEF("DRPGVialAdrenaline",      "\CtAdrenaline\C- Vial",               800, 4, 1, "STVLO0",  4, 16);
+    ITEMDATA_DEF("DRPGVialGravity",         "\CiGravity\C- Vial",                  800, 4, 1, "STVLP0",  4, 16);
+    ITEMDATA_DEF("DRPGVialVampire",         "\CaVampire\C- Vial",                  800, 4, 1, "STVLQ0",  4, 16);
+    ITEMDATA_DEF("DRPGVialRage",            "\CmRage\C- Vial",                     800, 4, 1, "STVLR0",  4, 16);
+    ITEMDATA_DEF("DRPGVialMagnetic",        "\CcMagnetic\C- Vial",                 800, 4, 1, "STVLS0",  4, 16);
+    ITEMDATA_DEF("DRPGStimPackageStat",     "Stat Stim Package",                  1500, 4, 5, "STPAA0", 30, 16);
+    ITEMDATA_DEF("DRPGStimPackagePowerup",  "Powerup Stim Package",               7000, 4, 7, "STPAB0", 27, 16);
 
     ITEMDATA_DEF("DRPGAugCanister",         "Augmentation Canister",            100000, 4, 8, "AUGCA0", 12, 24);
     ITEMDATA_DEF("DRPGAugUpgradeCanister",  "Augmentation Upgrade Canister",    100000, 4, 8, "AUGUA0", 12, 24);
@@ -354,8 +354,8 @@ NamedScript void BuildItemData()
     ITEMDATA_DEF("DRPGBatterySmall",        "Small Battery",                      1000, 4, 1, "BATTA0",  5, 13);
     ITEMDATA_DEF("DRPGBatteryLarge",        "Large Battery",                      2500, 8, 2, "BATTB0", 14, 21);
 
-    ITEMDATA_DEF("DRPGTurretPart",          "Turret Part",                        1000, 1, 1, "TPRTA0", 29, 21);
-    ITEMDATA_DEF("DRPGTurretPartCrate",     "Turret Parts Crate",                50000, 4, 4, "TCRTA0", 29, 26);
+    ITEMDATA_DEF("DRPGTurretPart",          "Turret Part",                         250, 1, 1, "TPRTA0", 29, 21);
+    ITEMDATA_DEF("DRPGTurretPartCrate",     "Turret Parts Crate",                12500, 4, 4, "TCRTA0", 29, 26);
     ITEMDATA_CATEGORY_END;
 
     // Generic Loot
@@ -417,45 +417,45 @@ NamedScript void BuildItemData()
         ItemCategories = 11;
 
         ITEMDATA_CATEGORY(8, "\CgStarfox Weapons", CF_NONE);
-        ITEMDATA_DEF("SFFoxClass1Weapon",    "Fox's Blaster",    500, 2, 0, "FFPSA0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass1Weapon",  "Falco's Blaster",  500, 2, 0, "FFPSA0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass1Weapon", "Slippy's Blaster", 500, 2, 0, "FFPSA0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass1Weapon",    "Fox's Blaster",    500, 1, 0, "FFPSA0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass1Weapon",  "Falco's Blaster",  500, 1, 0, "FFPSA0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass1Weapon", "Slippy's Blaster", 500, 1, 0, "FFPSA0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClass2Weapon",    "Laser Rifle",                            1000, 3, 1, "ZXASA0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass2Weapon",  "Laser Rifle",                            1000, 3, 1, "ZXASA0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass2Weapon", "Starfox Labs Prototype Blaster Rifle",   1000, 3, 1, "PHRIA0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass2Weapon",    "Laser Rifle",                            1000, 2, 1, "ZXASA0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass2Weapon",  "Laser Rifle",                            1000, 2, 1, "ZXASA0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass2Weapon", "Starfox Labs Prototype Blaster Rifle",   1000, 2, 1, "PHRIA0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClass3Weapon",    "Starfox Labs SR-33 Laser Carbine",       2000, 4, 2, "LCANX0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass3Weapon",  "Falco's Dual Laser Rifles",              2000, 4, 2, "6XAPA0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass3Weapon", "Starfox Labs SR-73 SP Rifle",            2000, 4, 2, "PRDCX0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass3Weapon",    "Starfox Labs SR-33 Laser Carbine",       2000, 3, 2, "LCANX0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass3Weapon",  "Falco's Dual Laser Rifles",              2000, 3, 2, "6XAPA0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass3Weapon", "Starfox Labs SR-73 SP Rifle",            2000, 3, 2, "PRDCX0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClass4Weapon",    "Starfox Labs LR-42 HL Rifle",            4000, 5, 3, "GAUSX0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass4Weapon",  "Dual Laser SMG's",                       4000, 5, 3, "PSMPA0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass4Weapon", "Starfox Labs HOPR",                      4000, 5, 3, "QNPLX0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass4Weapon",    "Starfox Labs LR-42 HL Rifle",            4000, 4, 3, "GAUSX0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass4Weapon",  "Dual Laser SMG's",                       4000, 4, 3, "PSMPA0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass4Weapon", "Starfox Labs HOPR",                      4000, 4, 3, "QNPLX0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClass5Weapon",    "Phasic Plasma Torpedo Launcher",         8000, 6, 4, "5AUNA0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass5Weapon",  "Plasma Cannon",                          8000, 6, 4, "RFLGA0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass5Weapon", "Starfox Labs C-117 CD Weapon",           8000, 6, 4, "PRCWA0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass5Weapon",    "Phasic Plasma Torpedo Launcher",         8000, 5, 4, "5AUNA0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass5Weapon",  "Plasma Cannon",                          8000, 5, 4, "RFLGA0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass5Weapon", "Starfox Labs C-117 CD Weapon",           8000, 5, 4, "PRCWA0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClass6Weapon",    "Laser Minigun",                         16000, 7, 5, "LMINX0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass6Weapon",  "Gattling Laser",                        16000, 7, 5, "MINIA0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass6Weapon", "Starfox Labs T-504 PG Cannon",          16000, 7, 5, "8BGPA0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass6Weapon",    "Laser Minigun",                         16000, 6, 5, "LMINX0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass6Weapon",  "Gattling Laser",                        16000, 6, 5, "MINIA0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass6Weapon", "Starfox Labs T-504 PG Cannon",          16000, 6, 5, "8BGPA0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClass7Weapon",    "Devastator",                            32000, 8, 6, "WDEVA0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClass7Weapon",  "StarFox Labs R-58 Experimental TRC",    32000, 8, 6, "8GUNA0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClass7Weapon", "Starfox Labs Experimental UAC",         32000, 8, 6, "DEBFA0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass7Weapon",    "Devastator",                            32000, 7, 6, "WDEVA0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass7Weapon",  "StarFox Labs R-58 Experimental TRC",    32000, 7, 6, "8GUNA0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClass7Weapon", "Starfox Labs Experimental UAC",         32000, 7, 6, "DEBFA0", 26, 30);
 
-        ITEMDATA_DEF("SFFalcoClass8Weapon",  "StarFox Labs Experimental HD-LOC",      64000, 9, 7, "PLASA0", 26, 30);
-        ITEMDATA_DEF("SFFoxClass8Weapon",    "Vulcan Cannon",                         64000, 9, 7, "W001H0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClass8Weapon",  "StarFox Labs Experimental HD-LOC",      64000, 8, 7, "PLASA0", 26, 30);
+        ITEMDATA_DEF("SFFoxClass8Weapon",    "Vulcan Cannon",                         64000, 8, 7, "W001H0", 26, 30);
 
-        //ITEMDATA_DEF("SFFalcoClass9Weapon", "Falco's Zero Laser Cannon",             128000, 10, 8, "BOX9A0", 26, 30);
+        //ITEMDATA_DEF("SFFalcoClass9Weapon", "Falco's Zero Laser Cannon",             128000, 9, 8, "BOX9A0", 26, 30);
 
-        ITEMDATA_DEF("SFFoxClassXWeapon",    "Yamato Cannon",                        256000, 11, 9, "YAMAX0", 26, 30);
-        ITEMDATA_DEF("SFFalcoClassXWeapon",  "Blue Wave Cannon",                     256000, 11, 9, "FRZWA0", 26, 30);
-        ITEMDATA_DEF("SFSlippyClassXWeapon", "StarFox Labs END-GAME Cannon",         256000, 11, 9, "BOXXA0", 26, 30);
+        ITEMDATA_DEF("SFFoxClassXWeapon",    "Yamato Cannon",                        256000, 10, 9, "YAMAX0", 26, 30);
+        ITEMDATA_DEF("SFFalcoClassXWeapon",  "Blue Wave Cannon",                     256000, 10, 9, "FRZWA0", 26, 30);
+        ITEMDATA_DEF("SFSlippyClassXWeapon", "StarFox Labs END-GAME Cannon",         256000, 10, 9, "BOXXA0", 26, 30);
 
-        ITEMDATA_DEF("SFSpellbookFire",      "Spell Tome: Fire",       8000, 6, 4, "SPELY0", 14, 24);
-        ITEMDATA_DEF("SFSpellbookLightning", "Spell Tome: Lightning", 32000, 8, 6, "SPELY0", 14, 24);
+        ITEMDATA_DEF("SFSpellbookFire",      "Spell Tome: Fire",       8000, 5, 3, "SPELY0", 14, 24);
+        ITEMDATA_DEF("SFSpellbookLightning", "Spell Tome: Lightning", 32000, 6, 5, "SPELY0", 14, 24);
 
         ITEMDATA_CATEGORY_END;
 
@@ -995,7 +995,7 @@ NamedScript void BuildItemData()
         ITEMDATA_CATEGORY(4, "\CqPowerups", CF_NONE);
         ITEMDATA_DEF("InvulnerabilityCharge2",      "Invulnerability Charge",       25000, 2, 7, "CRG2A0",  6, 22);
         ITEMDATA_DEF("InvisibilityCharge2",         "Invisibility Charge",           2500, 1, 2, "CRG1A0",  6, 22);
-        ITEMDATA_DEF("DRPGTimeSphere",              "Time Sphere",                   1000, 4, 1, "TIMEA0", 16, 45);
+        ITEMDATA_DEF("DRPGTimeSphere",              "Time Sphere",                   7500, 4, 1, "TIMEA0", 16, 45);
         ITEMDATA_DEF("DRPGRegenSphere",             "Regeneration Sphere",           3500, 2, 1, "REGNA0", 12, 38);
         ITEMDATA_DEF("RadSuit2",                    "Radiation Suit",                 250, 0, 0, "SUITA0", 11, 51);
         ITEMDATA_DEF("Infrared2",                   "IR Goggles",                     500, 0, 0, "PVISA0", 11,  9);
