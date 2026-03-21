@@ -2952,14 +2952,14 @@ bool CheckInput(int Key, int State, bool ModInput, int PlayerNum)
     break;
     case KEY_REPEAT:
     {
-        if (ButtonHistory[PlayerNum][0] & Key)
+        if (Buttons & Key)
         {
             rValue = true;
-            if (ButtonHistory[PlayerNum][1] & Key)
+            if (OldButtons & Key)
             {
                 for (int i = 2; i < GetActivatorCVar("drpg_menu_repeat"); i++)
                 {
-                    if ((ButtonHistory[PlayerNum][1] & Key) != (ButtonHistory[PlayerNum][i] & Key))
+                    if ((OldButtons & Key) != (ButtonHistory[PlayerNum][i] & Key))
                     {
                         rValue = false;
                         break;
