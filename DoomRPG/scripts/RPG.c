@@ -1570,15 +1570,6 @@ NamedScript Type_DEATH void Dead()
 
     if (GetCVar("drpg_multi_revives"))
     {
-        // Incapacitation announcement
-        SetHudSize(320, 200, false);
-        SetFont("SMALLFONT");
-        if (AlivePlayers() >= 1)
-            HudMessage("%tS was incapacitated", PlayerNumber() + 1);
-        else
-            HudMessage("%tS has died", PlayerNumber() + 1);
-        EndHudMessageBold(HUDMSG_FADEOUT, 0, "Brick", 160.0, 140.0, 1.5, 1.0);
-
         // Remember body location
         Player.BodyTID = GetUniqueTID();
 
@@ -1588,6 +1579,35 @@ NamedScript Type_DEATH void Dead()
 
         // Actualize the actual health
         Player.ActualHealth = GetActorProperty(0, APROP_Health);
+
+        // Incapacitation announcement
+        SetHudSize(320, 200, false);
+        SetFont("SMALLFONT");
+        if (AlivePlayers() >= 1)
+        {
+            HudMessage("%tS was incapacitated", PlayerNumber() + 1);
+            EndHudMessageBold(HUDMSG_FADEOUT, 0, "Brick", 160.0, 140.0, 1.5, 1.0);
+        }
+        else
+        {
+            HudMessage("All players have died\nReturning to outpost");
+            EndHudMessageBold(HUDMSG_FADEOUT, 0, "Brick", 160.0, 140.0, 1.5, 1.0);
+            for (int i = 0; i < MAX_PLAYERS; i++)
+            {
+                if (!PlayerInGame(i)) continue;
+                SpawnForced("DRPGTransportEffect", GetActorX(Players(i).TID), GetActorY(Players(i).TID), GetActorZ(Players(i).TID), 0, 0);
+                TransportOutFX(Players(i).TID);
+                ThingSound(Players(i).TID, "misc/transport", 96);
+            }
+            Delay(105);
+            for (int i = 0; i < MAX_PLAYERS; i++)
+            {
+                if (!PlayerInGame(i)) continue;
+                ScriptCall("DRPGZUtilities", "ForceRespawn", i);
+            }
+            Delay(1);
+            ChangeLevel(DefaultOutpost->LumpName, 0, CHANGELEVEL_NOINTERMISSION, CurrentSkill);
+        }
     }
     else
     {
@@ -1617,7 +1637,7 @@ NamedScript Type_RESPAWN void Respawn()
     SetActorProperty(0, APROP_Health, Player.ActualHealth);
 
     // XP/Rank Penalty
-    if (GetCVar("drpg_multi_takexp"))
+    if (GetCVar("drpg_multi_takexp") && (!GetCVar("drpg_multi_revives") || Player.BodyTID == 0))
     {
         long int XPPenalty = (long int)(XPTable[Player.Level] * GetCVar("drpg_multi_takexp_percent") / 100);
         long int RankPenalty = (long int)(RankTable[Player.RankLevel] * GetCVar("drpg_multi_takexp_percent") / 100);
