@@ -1598,12 +1598,13 @@ NamedScript Type_DEATH void Dead()
                 SpawnForced("DRPGTransportEffect", GetActorX(Players(i).BodyTID), GetActorY(Players(i).BodyTID), GetActorZ(Players(i).BodyTID), 0, 0);
                 TransportOutFX(Players(i).BodyTID);
                 ThingSound(Players(i).BodyTID, "misc/transport", 96);
+                Players(i).ActualHealth = 1;
+                SetActorProperty(0, APROP_Health, Player.ActualHealth);
             }
             Delay(105);
             for (int i = 0; i < MAX_PLAYERS; i++)
             {
                 if (!PlayerInGame(i)) continue;
-                Players(i).ActualHealth = 1;
                 ScriptCall("DRPGZUtilities", "ForceRespawn", i);
             }
             Delay(1);
